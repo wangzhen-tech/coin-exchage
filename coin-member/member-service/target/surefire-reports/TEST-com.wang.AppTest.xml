@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.wang.AppTest" time="0.007" tests="1" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="sun.desktop" value="windows"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="GBK"/>
+    <property name="java.class.path" value="D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-member\member-service\target\test-classes;D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-member\member-service\target\classes;c:\repo\junit\junit\3.8.1\junit-3.8.1.jar;D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-member\member-api\target\member-api-1.0.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="user.timezone" value="Asia/Shanghai"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="user.country" value="CN"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\bin"/>
+    <property name="sun.java.command" value="C:\Users\a\AppData\Local\Temp\surefire3324984580059587917\surefirebooter3850078092338923477.jar C:\Users\a\AppData\Local\Temp\surefire3324984580059587917 2025-02-05T11-21-22_513-jvmRun1 surefire6346199990593130866tmp surefire_65011859687432738680tmp"/>
+    <property name="surefire.test.class.path" value="D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-member\member-service\target\test-classes;D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-member\member-service\target\classes;c:\repo\junit\junit\3.8.1\junit-3.8.1.jar;D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-member\member-api\target\member-api-1.0.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\a"/>
+    <property name="user.language" value="zh"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.home" value="D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre"/>
+    <property name="basedir" value="D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-member\member-service"/>
+    <property name="file.separator" value="\"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="surefire.real.class.path" value="C:\Users\a\AppData\Local\Temp\surefire3324984580059587917\surefirebooter3850078092338923477.jar"/>
+    <property name="sun.boot.class.path" value="D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\resources.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\rt.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\jsse.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\jce.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\charsets.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\jfr.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\classes"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="1.8.0_411-b09"/>
+    <property name="user.name" value="a"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.endorsed.dirs" value="D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\endorsed"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="GBK"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="c:\repo"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\a\AppData\Local\Temp\"/>
+    <property name="java.version" value="1.8.0_411"/>
+    <property name="user.dir" value="D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-member\member-service"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.library.path" value="D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\bin;D:\AriaknFile\Maven3.5.3\apache-maven-3.5.3\bin;D:\AriaknFile\VMware\VMware Workstation\bin\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\java8path;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;D:\mySql\installDir\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files\Azure Data Studio\bin;D:\AriaknFile\AndroidStudio\AndroidStudio_3.4.0\gradle-5.1.1\bin;C:\Program Files\Google\Chrome\Application;D:\AriaknFile\AndroidStudio\gradle-5.1.1\bin;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;D:\AriaknFile\Git2.44.0\Git\cmd;D:\AriaknFile\Redis5.0.14\Redis-x64-5.0.14.1\;D:\AriaknFile\ffmpeg\bin;C:\ProgramData\chocolatey\bin;D:\AriaknFile\Node-V20.14.0\;D:\AriaknFile\Node-V20.14.0\node_modules\corepack\shims;D:\AriaknFile\XShell7.0.0164\sys\;D:\AriaknFile\XFTP7.0.0162\sys\;D:\AriaknFile\Jmeter5.6.3\apache-jmeter-5.6.3\bin;D:\AriaknFile\Python\python3.9.0file\Scripts\;D:\AriaknFile\Python\python3.9.0file\;D:\AriaknFile\Python\Scripts\;D:\AriaknFile\Python\;D:\AriaknFile\Python\Python_3.11.3\Scripts\;D:\AriaknFile\Python\Python_3.11.3\;C:\Users\a\AppData\Local\Microsoft\WindowsApps;%IntelliJ IDEA Community Edition%;D:\AriaknFile\VSCode\Vscode\Microsoft VS Code\bin;D:\AriaknFile\Ideal Ultimate\IntelliJ IDEA 2022.3.2\bin;;%JAVA_HONE%\bin;D:\AriaknFile\Python\PyCharm Community Edition 2023.1\bin;;D:\AriaknFile\Python\PyCharm_Ultimate\PyCharmSystemFiles\PyCharm 2023.1.3\bin;;C:\Program Files\Azure Data Studio\bin;C:\Users\a\.dotnet\tools;C:\Users\a\AppData\Local\GitHubDesktop\bin;C:\Users\a\AppData\Roaming\npm;D:\AriaknFile\WebStorm2024\WebStorm 2024.1.5\bin;;."/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="25.411-b09"/>
+    <property name="java.specification.maintenance.version" value="5"/>
+    <property name="java.ext.dirs" value="D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\ext;C:\Windows\Sun\Java\lib\ext"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="52.0"/>
+  </properties>
+  <testcase name="testApp" classname="com.wang.AppTest" time="0.001"/>
+</testsuite>
