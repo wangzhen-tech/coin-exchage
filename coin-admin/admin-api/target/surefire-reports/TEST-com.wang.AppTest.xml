@@ -18,7 +18,7 @@
     <property name="user.country" value="CN"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\bin"/>
-    <property name="sun.java.command" value="C:\Users\a\AppData\Local\Temp\surefire6110437908732514122\surefirebooter2114860488690547545.jar C:\Users\a\AppData\Local\Temp\surefire6110437908732514122 2025-02-05T11-21-22_513-jvmRun1 surefire7285640890850165254tmp surefire_3594769174207395570tmp"/>
+    <property name="sun.java.command" value="C:\Users\a\AppData\Local\Temp\surefire7074011509184949208\surefirebooter4445870556362691330.jar C:\Users\a\AppData\Local\Temp\surefire7074011509184949208 2025-02-27T11-06-12_109-jvmRun1 surefire617675027036966324tmp surefire_32768239549660717937tmp"/>
     <property name="surefire.test.class.path" value="D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-admin\admin-api\target\test-classes;D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-admin\admin-api\target\classes;c:\repo\junit\junit\3.8.1\junit-3.8.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\a"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\a\AppData\Local\Temp\surefire6110437908732514122\surefirebooter2114860488690547545.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\a\AppData\Local\Temp\surefire7074011509184949208\surefirebooter4445870556362691330.jar"/>
     <property name="sun.boot.class.path" value="D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\resources.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\rt.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\jsse.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\jce.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\charsets.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\lib\jfr.jar;D:\AriaknFile\JDK\JDK1.8\jdk-1.8\jre\classes"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -61,5 +61,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="52.0"/>
   </properties>
-  <testcase name="testApp" classname="com.wang.AppTest" time="0.002"/>
+  <testcase name="testApp" classname="com.wang.AppTest" time="0.001"/>
 </testsuite>
