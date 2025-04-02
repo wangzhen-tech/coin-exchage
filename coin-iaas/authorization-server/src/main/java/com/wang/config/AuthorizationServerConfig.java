@@ -50,15 +50,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("coin-api") // 第三方客户端的名称
                 .secret(passwordEncoder.encode("coin-secret")) //  第三方客户端的密钥
                 .scopes("all") //第三方客户端的授权范围
-                .authorizedGrantTypes("password","refresh_token")
-                .accessTokenValiditySeconds(7 * 24 *3600) // 获取到的token的有效期
-                .refreshTokenValiditySeconds(30 * 24 * 3600)// refresh_token的有效期
-//                .and()
-//                .withClient("inside-app")
-//                .secret(passwordEncoder.encode("inside-secret"))
-//                .authorizedGrantTypes("client_credentials")
-//                .scopes("all")
-//                .accessTokenValiditySeconds(7 * 24 *3600)
+                .authorizedGrantTypes("password","refresh_token") // 允许两种授权机制
+                .accessTokenValiditySeconds(7 * 24 *3600) // 获取到的token的有效期 1周
+                .refreshTokenValiditySeconds(30 * 24 * 3600)// refresh_token的有效期 1个月
+                // 应用之间内部token的传递和获取  (因为不同的服务之间通信可能需要校验token，而token只在登录时会被获取，其他间接类型的请求就需要自己去请求的上下文提取token)
+                .and()
+                .withClient("inside-app")
+                .secret(passwordEncoder.encode("inside-secret"))
+                .authorizedGrantTypes("client_credentials")
+                .scopes("all")
+                .accessTokenValiditySeconds(7 * 24 *3600)
         ;
         super.configure(clients);
     }

@@ -30,17 +30,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean // 密码加密器
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();// 测试期间为了简单，返回空的密码加密器
-//        return new BCryptPasswordEncoder();
+//        return NoOpPasswordEncoder.getInstance();// 测试期间为了简单，返回空的密码加密器
+        return new BCryptPasswordEncoder();
+        // BCryptPassxxx SpringSecurity实现的非常强的加密器，密码不能被逆向，同一个密码多次加密的结果不同。
     }
 
-    @Bean // 在内存中伪造一个用户样例：用户名admin，密码123456，角色为admin
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
-        User user = new User("admin", "123456", Arrays.asList(new SimpleGrantedAuthority("Role_Admin")));
-        inMemoryUserDetailsManager.createUser(user);
-        return inMemoryUserDetailsManager;
-    }
+//    @Bean // 在内存中伪造一个用户样例：用户名admin，密码123456，角色为admin
+//    public UserDetailsService userDetailsService() {
+//        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+//        User user = new User("admin", "123456", Arrays.asList(new SimpleGrantedAuthority("Role_Admin")));
+//        inMemoryUserDetailsManager.createUser(user);
+//        return inMemoryUserDetailsManager;
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
