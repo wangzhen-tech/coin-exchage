@@ -1,0 +1,43 @@
+server:
+ port: 80
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos-server:8848 # 不直接绑定ip地址，修改时直接修改本机的host文件即可 120.27.122.37 nacos-server
+    gateway:
+      discovery:
+       locator:
+         enabled: true
+         lower-case-service-id: true # 小驼峰规则， admin-service -> ADMIN-SERVICE
+      routes:
+        - id: admin-service_router  # 代表后台管理服务的网关
+          uri: lb://admin-service # 转发到那个目的地  lb loadblance 负载均衡
+          predicates:
+            - Path=/admin/**  # 匹配/admin前缀的所有路径
+          filters:
+            - StripPrefix=1 #实际访问时，去掉/admin/**路径中的的/admin前缀
+        - id: test_router  # 测试网关
+          uri: http://www.aliyun.com
+          predicates:
+            - Path=/product
+    sentinel: # 网关集成Sentinel
+       transport:
+         dashboard: sentinel-server:8858 #sentinel-dashboard 位于
+       datasource: # 配置sentinel的数据源
+         # com.alibaba.csp.sentinel.datasource.nacos.NacosDataSource 使用Nacos持久化我的sentinel 数据时，需要添加nacos-datasource的依赖
+         ds1:
+          nacos:
+            serverAddr: nacos-server:8848 # nacos地址
+            dataId: gw-flow # 数据id，也就是nacos中限流规则对应的id
+            ruleType: gw_flow
+         ds2:
+          nacos:
+            serverAddr: nacos-server:8848 # nacos地址
+            dataId: api-group # 数据id，也就是nacos中限流规则对应的id
+            ruleType: gw_api_group
+  redis:
+    host: redis-server
+    port: 6380
