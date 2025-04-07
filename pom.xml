@@ -63,7 +63,42 @@
     <swagger2.version>2.9.2</swagger2.version>
   </properties>
 
+  <!--一些常用的注解依赖，放在coin-exchange ，即可传递到所有的子项目，提高复用-->
+  <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+    <!--  https://mvnrepository.com/artifact/io.swagger/swagger-annotations  -->
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-annotation</artifactId>
+    </dependency>
+    <!--  https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations  -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-dependencies</artifactId>  <!--SpringCloud依赖管理-->
+      <version>${spring-cloud.version}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
 
+    <dependency>
+      <groupId>com.alibaba.cloud</groupId>
+      <artifactId>spring-cloud-alibaba-dependencies</artifactId> <!--SpringCloudAlibaba依赖管理-->
+      <version>${com-alibaba-cloud.version}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
 
   <dependencyManagement>
     <dependencies>
@@ -214,29 +249,6 @@
         <groupId>com.aliyun</groupId>
         <artifactId>aliyun-java-sdk-dm</artifactId>
         <version>${aliyun-java-sdk-dm.version}</version>
-      </dependency>
-
-      <!--一些常用的注解依赖，放在coin-exchange ，即可传递到所有的子项目，提高复用-->
-      <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-      </dependency>
-
-      <!-- https://mvnrepository.com/artifact/io.swagger/swagger-annotations -->
-      <dependency>
-        <groupId>io.swagger</groupId>
-        <artifactId>swagger-annotations</artifactId>
-      </dependency>
-
-      <dependency>
-        <groupId>com.baomidou</groupId>
-        <artifactId>mybatis-plus-annotation</artifactId>
-      </dependency>
-
-      <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-annotations</artifactId>
       </dependency>
 
       <!--hutool工具包-->
