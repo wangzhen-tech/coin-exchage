@@ -86,4 +86,12 @@ public class SysPrivilege {
     @TableField(value = "last_update_time", fill= FieldFill.INSERT_UPDATE) // 在insert和update都填充该字段
     @ApiModelProperty(value="修改时间")
     private Date lastUpdateTime;
+
+    /**
+     * 标记当前的角色是否有该权限
+     */
+    @TableField(exist = false)
+    @ApiModelProperty(value="当前角色是否拥有这个权限")
+    private int own ;
+
 }

@@ -7,9 +7,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
+import java.util.Collections;
 
 /**
  * @Author wangzhen
@@ -116,4 +119,38 @@ public class SysMenu {
     @TableField(value = "last_update_time")
     @ApiModelProperty(value="修改时间")
     private Date lastUpdateTime;
+
+    /**
+     * 一个菜单下包含多个权限。 如：角色菜单，有搜索，新建，删除权限等
+     */
+    @TableField(exist = false)
+    @ApiModelProperty("该菜单下的所有的权限")
+    private List<SysPrivilege>  privileges = Collections.emptyList(); ;
+
+    /**
+     * 一个菜单可能对应多个子菜单
+     */
+    @TableField(exist = false)
+    @ApiModelProperty("该菜单的子菜单")
+    private List<SysMenu> childs = Collections.emptyList();
+
+
+    /**
+     * 前台显示按照key
+     */
+    @TableField(exist = false)
+    @ApiModelProperty("该菜单的唯一Key值")
+    private  String menuKey ;
+
+    /**
+     * 获取菜单的唯一Key凭证
+     * @return
+     */
+    public String getMenuKey() {
+        if (!StringUtils.isEmpty(parentKey)) {
+            return parentKey+"."+id;
+        }else {
+            return id.toString();
+        }
+    }
 }
