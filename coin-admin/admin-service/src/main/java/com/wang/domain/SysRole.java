@@ -11,6 +11,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.baomidou.mybatisplus.annotation.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
 /**
  * @Author wangzhen
  * @Description ${description}
@@ -33,11 +45,13 @@ public class SysRole {
     @ApiModelProperty(value="主键")
     private Long id;
 
+    // -------------------- 主体 begin----------------------
     /**
      * 名称
      */
     @TableField(value = "name")
     @ApiModelProperty(value="名称")
+    @NotNull // 在使用到的地方通过@Validated启用校验
     private String name;
 
     /**
@@ -45,6 +59,7 @@ public class SysRole {
      */
     @TableField(value = "code")
     @ApiModelProperty(value="代码")
+    @NotNull
     private String code;
 
     /**
@@ -54,10 +69,12 @@ public class SysRole {
     @ApiModelProperty(value="描述")
     private String description;
 
+    // -------------------- 主体 end----------------------
+
     /**
      * 创建人
      */
-    @TableField(value = "create_by")
+    @TableField(value = "create_by", fill=FieldFill.INSERT)
     @ApiModelProperty(value="创建人")
     private Long createBy;
 
@@ -78,14 +95,14 @@ public class SysRole {
     /**
      * 创建时间
      */
-    @TableField(value = "created")
+    @TableField(value = "created", fill=FieldFill.INSERT)
     @ApiModelProperty(value="创建时间")
     private Date created;
 
     /**
      * 修改时间
      */
-    @TableField(value = "last_update_time")
+    @TableField(value = "last_update_time",fill=FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value="修改时间")
     private Date lastUpdateTime;
 }

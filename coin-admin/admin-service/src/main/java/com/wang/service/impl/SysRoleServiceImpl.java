@@ -1,5 +1,7 @@
 package com.wang.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +30,15 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Page<SysRole> findByPage(Page<SysRole> page, String name) {
+
+        return page(page, new LambdaQueryWrapper<SysRole>().like(
+                !StringUtils.isEmpty(name), // 判断是否使用条件构造器，即名称不为空才启用
+                SysRole::getName, // 哪些列
+                name
+        ));
     }
 }
