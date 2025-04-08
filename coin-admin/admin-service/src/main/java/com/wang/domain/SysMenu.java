@@ -64,7 +64,7 @@ public class SysMenu {
     /**
      * 描述
      */
-    @TableField(value = "desc")
+    @TableField(value = "`desc`")//desc是关键字，必须使用转义符来表达，否则会报sql错误 转义符：与波浪号同位
     @ApiModelProperty(value="描述")
     private String desc;
 

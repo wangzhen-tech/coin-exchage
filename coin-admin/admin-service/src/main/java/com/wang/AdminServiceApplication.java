@@ -15,7 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 //@MapperScan("com.wang.mapper")  // 确保扫描到 Mapper 在该模块中等效于MybatisPlusConfig 文件的mappersacn注解
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients // 启用自定义的OAuth2Client(将该对象放入IOC容器中)
 public class AdminServiceApplication {
 
     public static void main(String[] args) {

@@ -2,7 +2,10 @@ package com.wang.service;
 
 import com.wang.domain.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
-    /**
+
+import java.util.List;
+
+/**
  * @Author wangzhen
  * @Description ${description}
  * @Date 2025/4/3 16:11
@@ -11,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface SysMenuService extends IService<SysMenu>{
 
 
-}
+        List<SysMenu> getMenusByUserId(Long userId);
+    }

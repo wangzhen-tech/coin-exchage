@@ -2,10 +2,10 @@ spring:
   application:
     name: admin-service
   cloud:  # nacos地址
-    nacos:
-      server-addr: nacos-server:8848
+    nacos: # 原来的配置
+      server-addr: nacos-server:8848 # 去该地址拉取配置
       config:
-        file-extension: yaml
+        file-extension: yaml #拉取哪个配置文件 name+active+extension
   profiles:
     active: dev #dev环境
 # 通过以上配置，拉取的配置文件的dataID =  admin-service-dev.yaml

@@ -1,5 +1,7 @@
 package com.wang.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
@@ -15,5 +17,16 @@ import com.wang.service.SysRoleService;
  */
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService{
-
+    @Autowired
+    private  SysRoleMapper sysRoleMapper;
+    @Override// 判断用户是否为超级管理员
+    public boolean isSuperAdmin(Long userId) {
+        // 当用户的角色码(ROLE_CODE)为role_admin时 为管理员
+        // 通过用户id查询用户角色
+        String roleCode = sysRoleMapper.getUserRoleCode(userId);
+        if(!StringUtils.isEmpty(roleCode) && roleCode.equals("ROLE_ADMIN")){
+            return true;
+        }
+        return false;
+    }
 }

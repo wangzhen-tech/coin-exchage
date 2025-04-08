@@ -8,7 +8,7 @@ spring:
       discovery:
         server-addr: nacos-server:8848
       config:
-        enabled: false
+        enabled: false #关闭配置中的功能
     sentinel:
       transport:
         dashboard: sentinel-dashboard:8858
@@ -34,7 +34,7 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 jetcache:
-  statIntervalMinutes: 15
+  statIntervalMinutes: 15 # 统计时间
   areaInCacheName: false
   local: # 本地缓存的实现
     default:

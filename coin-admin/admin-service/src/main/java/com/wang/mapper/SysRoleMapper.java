@@ -10,4 +10,10 @@ import com.wang.domain.SysRole;
  * @Version 1.0
  */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
+    /**
+     * 获取用户角色的code
+     * @param userId
+     * @return
+     */
+    String getUserRoleCode(Long userId);
 }
