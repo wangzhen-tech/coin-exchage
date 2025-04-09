@@ -36,7 +36,7 @@ public class SysUserLog {
     /**
      * 组
      */
-    @TableField(value = "group")
+    @TableField(value = "`group`")
     @ApiModelProperty(value="组")
     private String group;
 
