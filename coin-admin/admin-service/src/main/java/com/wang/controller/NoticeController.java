@@ -14,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-
 import java.util.Arrays;
 /**
  * @Author wangzhen
@@ -22,12 +21,10 @@ import java.util.Arrays;
  * @Date 2025/4/9 17:20
  * @Version 1.0
  */
-
 @RestController
 @RequestMapping("/notices")
 @Api(tags = "公告管理")
 public class NoticeController {
-
     @Autowired
     private NoticeService noticeService;
 
@@ -44,11 +41,12 @@ public class NoticeController {
             @ApiImplicitParam(name = "startTime", value = "公告的创建开始时间"),
             @ApiImplicitParam(name = "endTime", value = "公告的创建结束时间时间"),
     })
+    //                                           MP的Page对象        |其他的分页参数....
     public R<Page<Notice>> findByPage(@ApiIgnore Page<Notice> page, String title, String startTime, String endTime, Integer status) {
         page.addOrder(OrderItem.desc("last_update_time"));
+        // 传入分页对象和其他的分页参数
         return R.ok(noticeService.findByPage(page, title, startTime, endTime, status));
     }
-
 
     @PostMapping("/delete")
     @ApiOperation(value = "删除一个公告")
@@ -66,7 +64,6 @@ public class NoticeController {
         }
         return R.fail("删除失败");
     }
-
 
     @PostMapping("/updateStatus")
     @ApiOperation(value = "启用/禁用一个公告")
@@ -87,7 +84,6 @@ public class NoticeController {
         return R.fail("修改失败");
     }
 
-
     @PostMapping
     @ApiOperation(value = "新增一个公告")
     @ApiImplicitParams({
@@ -104,8 +100,6 @@ public class NoticeController {
 
     }
 
-
-
     @PatchMapping
     @ApiOperation(value = "修改一个公告")
     @ApiImplicitParams({
@@ -121,13 +115,10 @@ public class NoticeController {
 
     }
 
-
     /**
-     * simple 就是给用户/会员看的
+     * simple 面向普通用户的数据
      *
      */
-
-
     @GetMapping("/simple")
     @ApiOperation(value = "查询前台展示的notice")
     @ApiImplicitParams({
@@ -138,7 +129,6 @@ public class NoticeController {
         Page<Notice> pageData =   noticeService.findNoticeForSimple(page) ;
         return R.ok(pageData) ;
     }
-
 
     @GetMapping("/simple/{id}")
     @ApiOperation(value = "查询某条Notice的详情")
