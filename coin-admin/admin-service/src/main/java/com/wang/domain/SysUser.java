@@ -10,6 +10,9 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.*;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @Author wangzhen
@@ -38,6 +41,7 @@ public class SysUser {
      */
     @TableField(value = "username")
     @ApiModelProperty(value="账号")
+    @NotBlank
     private String username;
 
     /**
@@ -45,6 +49,7 @@ public class SysUser {
      */
     @TableField(value = "password")
     @ApiModelProperty(value="密码")
+    @NotBlank
     private String password;
 
     /**
@@ -59,6 +64,7 @@ public class SysUser {
      */
     @TableField(value = "mobile")
     @ApiModelProperty(value="手机号")
+    @NotBlank
     private String mobile;
 
     /**
@@ -66,6 +72,7 @@ public class SysUser {
      */
     @TableField(value = "email")
     @ApiModelProperty(value="邮箱")
+    @NotBlank
     private String email;
 
     /**
@@ -85,21 +92,26 @@ public class SysUser {
     /**
      * 修改人
      */
-    @TableField(value = "modify_by")
+    @TableField(value = "modify_by",fill = FieldFill.UPDATE)
     @ApiModelProperty(value="修改人")
     private Long modifyBy;
 
     /**
      * 创建时间
      */
-    @TableField(value = "created")
+    @TableField(value = "created",fill = FieldFill.INSERT)
     @ApiModelProperty(value="创建时间")
     private Date created;
 
     /**
      * 修改时间
      */
-    @TableField(value = "last_update_time")
+    @TableField(value = "last_update_time",fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value="修改时间")
     private Date lastUpdateTime;
+
+
+    @ApiModelProperty(value = "角色的IDS")
+    @TableField(exist = false)
+    private String role_strings ;
 }

@@ -11,6 +11,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.baomidou.mybatisplus.annotation.*;
+
+
+
 /**
  * @Author wangzhen
  * @Description ${description}
@@ -57,21 +61,21 @@ public class SysUserRole {
     /**
      * 修改人
      */
-    @TableField(value = "modify_by")
+    @TableField(value = "modify_by",fill = FieldFill.UPDATE)
     @ApiModelProperty(value="修改人")
     private Long modifyBy;
 
     /**
      * 创建时间
      */
-    @TableField(value = "created")
+    @TableField(value = "created",fill = FieldFill.INSERT)
     @ApiModelProperty(value="创建时间")
     private Date created;
 
     /**
      * 修改时间
      */
-    @TableField(value = "last_update_time")
+    @TableField(value = "last_update_time",fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value="修改时间")
     private Date lastUpdateTime;
 }
