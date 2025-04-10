@@ -38,17 +38,17 @@ public interface UserService extends IService<User> {
      * @return
      */
     Page<User> findDirectInvitePage(Page<User> page, Long userId);
-//
-//    /**
-//     * 修改用户的审核状态
-//     *
-//     * @param id
-//     * @param authStatus
-//     * @param authCode
-//     * @param remark     拒绝的原因
-//     */
-//    void updateUserAuthStatus(Long id, Byte authStatus, Long authCode, String remark);
-//
+
+    /**
+     * 修改用户的审核状态
+     *
+     * @param id         用户id
+     * @param authStatus 审核状态
+     * @param authCode   认证码
+     * @param remark     拒绝的原因
+     */
+    void updateUserAuthStatus(Long id, Byte authStatus, Long authCode, String remark);
+
 //    /**
 //     * 用户的实名认证
 //     *

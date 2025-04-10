@@ -104,39 +104,41 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public Page<User> findDirectInvitePage(Page<User> page, Long userId) {
-        return page(page, new LambdaQueryWrapper<User>().eq(User::getDirectInviteid, userId));
+        return page(page, new LambdaQueryWrapper<User>().eq(User::getDirectInviteid, userId));// eq也可不进行条件判断
     }
 
-//    /**
-//     * 修改用户的审核状态
-//     *
-//     * @param id
-//     * @param authStatus
-//     * @param authCode
-//     */
-//    @Override
-//    @Transactional
-//    public void updateUserAuthStatus(Long id, Byte authStatus, Long authCode, String remark) {
-//        log.info("开始修改用户的审核状态,当前用户{},用户的审核状态{},图片的唯一code{}", id, authStatus, authCode);
-//        User user = getById(id);
-//        if (user != null) {
-////            user.setAuthStatus(authStatus); // 认证的状态
-//            user.setReviewsStatus(authStatus.intValue()); // 审核的状态
-//            updateById(user); // 修改用户的状态
-//        }
-//        UserAuthAuditRecord userAuthAuditRecord = new UserAuthAuditRecord();
-//        userAuthAuditRecord.setUserId(id);
-//        userAuthAuditRecord.setStatus(authStatus);
-//        userAuthAuditRecord.setAuthCode(authCode);
-//
-//        String usrStr = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-//        userAuthAuditRecord.setAuditUserId(Long.valueOf(usrStr)); // 审核人的ID
-//        userAuthAuditRecord.setAuditUserName("---------------------------");// 审核人的名称 --> 远程调用admin-service ,没有事务
-//        userAuthAuditRecord.setRemark(remark);
-//
-//        userAuthAuditRecordService.save(userAuthAuditRecord);
-//    }
-//
+    /**
+     * 修改用户的审核状态
+     *
+     * @param id         用户id
+     * @param authStatus 审核状态
+     * @param authCode   认证码
+     * @param remark     拒绝的原因
+     */
+    @Override
+    @Transactional
+    public void updateUserAuthStatus(Long id, Byte authStatus, Long authCode, String remark) {
+        log.info("开始修改用户的审核状态,当前用户{},用户的审核状态{},图片的唯一code{}", id, authStatus, authCode);// 给该方法打印日志
+
+        User user = getById(id);
+        if (user != null) {
+            user.setReviewsStatus(authStatus.intValue()); // 审核的状态
+            updateById(user); // 修改用户的状态
+        }
+        UserAuthAuditRecord userAuthAuditRecord = new UserAuthAuditRecord();
+        userAuthAuditRecord.setUserId(id);
+        userAuthAuditRecord.setStatus(authStatus);
+        userAuthAuditRecord.setAuthCode(authCode);
+        // 从SpringSecurity的ContextHolder获取当前操作者的id
+        String usrStr = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        userAuthAuditRecord.setAuditUserId(Long.valueOf(usrStr)); // 审核人的id
+        userAuthAuditRecord.setAuditUserName("---------------------------");// 审核人的名称 --> 远程调用admin-service ,只是查询操作，不涉及事务问题
+        userAuthAuditRecord.setRemark(remark);
+
+        // 保存用户的审核记录
+        userAuthAuditRecordService.save(userAuthAuditRecord);
+    }
+
 //    /**
 //     * 用户的实名认证
 //     *

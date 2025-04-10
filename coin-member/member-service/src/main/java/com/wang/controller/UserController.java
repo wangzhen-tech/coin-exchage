@@ -11,7 +11,7 @@ import com.wang.model.*;
 import com.wang.service.UserAuthAuditRecordService;
 import com.wang.service.UserAuthInfoService;
 import com.wang.service.UserService;
-//import com.wang.vo.UseAuthInfoVo;
+import com.wang.vo.UseAuthInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -104,7 +104,6 @@ public class UserController  {
         return R.fail("更新失败");
     }
 
-
     @GetMapping("/info")
     @ApiOperation(value = "查询会员的详细信息")
     @ApiImplicitParams({
@@ -114,7 +113,6 @@ public class UserController  {
         User user = userService.getById(id);
         return R.ok(user);
     }
-
 
     @GetMapping("/directInvites")
     @ApiOperation(value = "分页查询查询该用户邀请的用户列表")
@@ -128,90 +126,91 @@ public class UserController  {
         Page<User> userPage = userService.findDirectInvitePage(page, userId);
         return R.ok(userPage);
     }
+    // ---------------------------------- 用户中心 高级实名认证 ----------------------------------
+    @GetMapping("/auths")
+    @ApiOperation(value = "查询用户的审核列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页"),
+            @ApiImplicitParam(name = "size", value = "每页显示的条数"),
+            @ApiImplicitParam(name = "mobile", value = "会员的手机号"),
+            @ApiImplicitParam(name = "userId", value = "会员的Id,精确查询"),
+            @ApiImplicitParam(name = "userName", value = "会员的名称"),
+            @ApiImplicitParam(name = "realName", value = "会员的真实名称"),
+            @ApiImplicitParam(name = "reviewsStatus", value = "会员的状态")
 
-//
-//    @GetMapping("/auths")
-//    @ApiOperation(value = "查询用户的审核列表")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "current", value = "当前页"),
-//            @ApiImplicitParam(name = "size", value = "每页显示的条数"),
-//            @ApiImplicitParam(name = "mobile", value = "会员的手机号"),
-//            @ApiImplicitParam(name = "userId", value = "会员的Id,精确查询"),
-//            @ApiImplicitParam(name = "userName", value = "会员的名称"),
-//            @ApiImplicitParam(name = "realName", value = "会员的真实名称"),
-//            @ApiImplicitParam(name = "reviewsStatus", value = "会员的状态")
-//
-//    })
-//    public R<Page<User>> findUserAuths(
-//            @ApiIgnore Page<User> page,
-//            String mobile,
-//            Long userId,
-//            String userName,
-//            String realName,
-//            Integer reviewsStatus
-//    ) {
-//        Page<User> userPage = userService.findByPage(page, mobile, userId, userName, realName, null, reviewsStatus);
-//        return R.ok(userPage);
-//    }
-//
-//    /**
-//     * 差询用户的认证详情
-//     * {
-//     * user:
-//     * userAuthInfoList:[]
-//     * userAuditRecordList:[]
-//     * }
-//     */
-//    @GetMapping("/auth/info")
-//    @ApiOperation(value = "查询用户的认证详情")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "id", value = "用户的Id")
-//    })
-//    public R<UseAuthInfoVo> getUseAuthInfo(Long id) {
-//
-//        User user = userService.getById(id);
-//        List<UserAuthAuditRecord> userAuthAuditRecordList = null;
-//        List<UserAuthInfo> userAuthInfoList = null;
-//        if (user != null) {
-//            // 用户的审核记录
-//            Integer reviewsStatus = user.getReviewsStatus();
-//            if (reviewsStatus == null || reviewsStatus == 0) { // 待审核
-//                userAuthAuditRecordList = Collections.emptyList(); // 用户没有审核记录
-//                //
-//                userAuthInfoList = userAuthInfoService.getUserAuthInfoByUserId(id);
-//            } else {
-//                userAuthAuditRecordList = userAuthAuditRecordService.getUserAuthAuditRecordList(id);
-//                // 查询用户的认证详情列表-> 用户的身份信息
-//                UserAuthAuditRecord userAuthAuditRecord = userAuthAuditRecordList.get(0);// 之前我们查询时,是按照认证的日志排序的,第0 个值,就是最近被认证的一个值
-//                Long authCode = userAuthAuditRecord.getAuthCode(); // 认证的唯一标识
-//                userAuthInfoList = userAuthInfoService.getUserAuthInfoByCode(authCode);
-//            }
-//        }
-//        return R.ok(new UseAuthInfoVo(user, userAuthInfoList, userAuthAuditRecordList));
-//    }
-//
-//
-//    /**
-//     * 审核的本质:
-//     * 在于对一组图片(唯一Code)的认可,符合条件,审核通过
-//     *
-//     * @return
-//     */
-//    @PostMapping("/auths/status")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "id", value = "用户的ID"),
-//            @ApiImplicitParam(name = "authStatus", value = "用户的审核状态"),
-//            @ApiImplicitParam(name = "authCode", value = "一组图片的唯一标识"),
-//            @ApiImplicitParam(name = "remark", value = "审核拒绝的原因"),
-//    })
-//    public R updateUserAuthStatus(@RequestParam(required = true) Long id, @RequestParam(required = true) Byte authStatus, @RequestParam(required = true) Long authCode, String remark) {
-//        // 审核: 1 修改user 里面的reviewStatus
-//        // 2 在authAuditRecord 里面添加一条记录
-//
-//        userService.updateUserAuthStatus(id, authStatus, authCode, remark);
-//
-//        return R.ok();
-//    }
+    })
+    public R<Page<User>> findUserAuths(
+            @ApiIgnore Page<User> page,
+            String mobile,
+            Long userId,
+            String userName,
+            String realName,
+            Integer reviewsStatus
+    ) {
+        Page<User> userPage = userService.findByPage(page, mobile, userId, userName, realName, null, reviewsStatus);
+        return R.ok(userPage);
+    }
+
+    /**
+     * 查询用户的认证详情:需要三部分信息组合
+     * {
+     *   user:
+     *   userAuthInfoList:[]
+     *   userAuditRecordList:[]
+     * }
+     */
+    @GetMapping("/auth/info")
+    @ApiOperation(value = "查询用户的认证详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户的Id")
+    })
+    public R<UseAuthInfoVo> getUseAuthInfo(Long id) {
+        User user = userService.getById(id);  // 1. user对象
+        List<UserAuthAuditRecord> userAuthAuditRecordList = null;// 2. 用户的审核记录列表
+        List<UserAuthInfo> userAuthInfoList = null; // 3. 查询认证信息
+
+        // 查询用户审核历史和认证信息
+        if (user != null) {
+            // 用户的审核记录
+            Integer reviewsStatus = user.getReviewsStatus();
+            if (reviewsStatus == null || reviewsStatus == 0) { // 如果用户的审核记录为空 或 审核状态是0，也就是待审核。
+                userAuthAuditRecordList = Collections.emptyList(); // 此时没有审核记录返回空的审核记录列表
+                // 认证未通过，也可能会存在认证信息。此时可以根据用户id去查询
+                userAuthInfoList = userAuthInfoService.getUserAuthInfoByUserId(id);
+            } else {
+                // 查询用户的审核历史记录
+                userAuthAuditRecordList = userAuthAuditRecordService.getUserAuthAuditRecordList(id);
+                // 查询用户的认证详情列表-> 用户的身份信息
+                UserAuthAuditRecord userAuthAuditRecord = userAuthAuditRecordList.get(0);// 之前我们查询时,是按照认证的日志排序的,第0 个值,就是最近被认证的一个值
+                Long authCode = userAuthAuditRecord.getAuthCode(); // 如果被认证过，就可以获取到这个认证码
+                userAuthInfoList = userAuthInfoService.getUserAuthInfoByCode(authCode); // 通过认证码获取用户的认证详情信息
+            }
+        }
+
+        UseAuthInfoVo useAuthInfoVo = new UseAuthInfoVo(user, userAuthInfoList, userAuthAuditRecordList);
+        return R.ok(useAuthInfoVo);
+    }
+
+
+    /**
+     * 审核用户提交的认证信息：
+     *   实际上是对一组图片(唯一Code)的认可,符合条件,审核通过
+     *
+     * @return
+     */
+    @PostMapping("/auths/status")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户的ID"),
+            @ApiImplicitParam(name = "authStatus", value = "用户的审核状态"),
+            @ApiImplicitParam(name = "authCode", value = "一组图片的唯一标识"),
+            @ApiImplicitParam(name = "remark", value = "审核拒绝的原因"),
+    })
+    public R updateUserAuthStatus(@RequestParam(required = true) Long id, @RequestParam(required = true) Byte authStatus, @RequestParam(required = true) Long authCode, String remark) {
+        // 审核: 1 修改user里面的reviewStatus：变更审核状态
+        //      2 在authAuditRecord里面添加一条记录：添加审核记录
+        userService.updateUserAuthStatus(id, authStatus, authCode, remark);
+        return R.ok();
+    }
 //
 //
 //    @GetMapping("/current/info")

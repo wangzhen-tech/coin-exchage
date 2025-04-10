@@ -10,6 +10,7 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.*;
 
 /**
  * @Author wangzhen
@@ -29,7 +30,7 @@ public class UserAuthAuditRecord {
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.ASSIGN_ID) // 采用MybatisPlus里面默认的ID生成器生成id-> 雪花算法
     @ApiModelProperty(value="主键")
     private Long id;
 
@@ -85,7 +86,7 @@ public class UserAuthAuditRecord {
     /**
      * 创建时间
      */
-    @TableField(value = "created")
+    @TableField(value = "created",fill = FieldFill.INSERT)
     @ApiModelProperty(value="创建时间")
     private Date created;
 }
