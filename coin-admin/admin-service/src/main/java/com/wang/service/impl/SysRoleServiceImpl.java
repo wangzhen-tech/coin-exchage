@@ -2,7 +2,7 @@ package com.wang.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wang.domain.SysRole;
 import com.wang.mapper.SysRoleMapper;
 import com.wang.service.SysRoleService;
+import org.springframework.util.StringUtils;
 /**
  * @Author wangzhen
  * @Description ${description}
