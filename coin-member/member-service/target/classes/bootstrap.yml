@@ -8,4 +8,8 @@ spring:
       server-addr: nacos-server:8848
       config:
         file-extension: yaml
+
+#geetest: # 上传到nacos中
+#  geetest-id: 3a01ffc01c1d63b37c3dbe8ee9555290 # liangtiandon老师提供的id和key
+#  geetest-key: 27c7b4a18124d5d649b9c58ca1830871
 #      去 nacos-server 里面拉取 member-service-dev.yaml

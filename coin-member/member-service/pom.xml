@@ -29,6 +29,14 @@
             <artifactId>coin-common</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <!--         json的依赖 -->
+        <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20171018</version>
+        </dependency>
+
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>

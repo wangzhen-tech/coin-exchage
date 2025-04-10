@@ -35,7 +35,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/users/setPassword" ,
                         "/users/register",
                         "/sms/sendTo",
-                        "/gt/register" ,
+                        "/gt/register" , // geetest极验的验证路径
                         "/login" ,
                         "/v2/api-docs",
                         "/swagger-resources/configuration/ui",//用来获取支持的动作

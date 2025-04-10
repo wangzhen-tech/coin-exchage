@@ -1,0 +1,24 @@
+{
+  "groups": [
+    {
+      "name": "geetest",
+      "type": "com.wang.config.GeetestProperties",
+      "sourceType": "com.wang.config.GeetestProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "geetest.geetest-id",
+      "type": "java.lang.String",
+      "description": "极验的ID",
+      "sourceType": "com.wang.config.GeetestProperties"
+    },
+    {
+      "name": "geetest.geetest-key",
+      "type": "java.lang.String",
+      "description": "极验的key",
+      "sourceType": "com.wang.config.GeetestProperties"
+    }
+  ],
+  "hints": []
+}
