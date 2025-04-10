@@ -13,12 +13,18 @@ spring:
          enabled: true
          lower-case-service-id: true # 小驼峰规则， admin-service -> ADMIN-SERVICE
       routes:
-        - id: admin-service_router  # 代表后台管理服务的网关
+        - id: admin-service_router  # 后台管理服务的网关
           uri: lb://admin-service # 转发到那个目的地  lb loadblance 负载均衡
           predicates:
             - Path=/admin/**  # 匹配/admin前缀的所有路径
           filters:
             - StripPrefix=1 #实际访问时，去掉/admin/**路径中的的/admin前缀
+        - id: member-service_router  # 会员系统网关
+          uri: lb://member-service
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix=1
         - id: test_router  # 测试网关
           uri: http://www.aliyun.com
           predicates:

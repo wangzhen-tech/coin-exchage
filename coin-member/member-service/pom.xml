@@ -29,6 +29,16 @@
             <artifactId>coin-common</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+        <!-- Bean Validation 的实现：Hibernate Validator 也就是说Bean的注解校验等等需要一个具体的实现去做 -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.1.7.Final</version> <!-- 推荐用于 Spring Boot 2.3.x -->
+        </dependency>
     </dependencies>
     <build>
         <plugins>

@@ -10,16 +10,14 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import com.baomidou.mybatisplus.annotation.*;
+import javax.validation.constraints.NotBlank;
 /**
  * @Author wangzhen
- * @Description ${description}
+ * @Description 用户表user
  * @Date 2025/4/10 14:48
  * @Version 1.0
  */
-/**
-    * 用户表
-    */
 @ApiModel(value="com-wang-domain-User")
 @Data
 @AllArgsConstructor
@@ -45,6 +43,7 @@ public class User {
      */
     @TableField(value = "username")
     @ApiModelProperty(value="用户名")
+    @NotBlank
     private String username;
 
     /**
@@ -59,6 +58,7 @@ public class User {
      */
     @TableField(value = "mobile")
     @ApiModelProperty(value="手机号")
+    @NotBlank
     private String mobile;
 
     /**
@@ -101,7 +101,7 @@ public class User {
      */
     @TableField(value = "id_card_type")
     @ApiModelProperty(value="证件类型:1，身份证；2，军官证；3，护照；4，台湾居民通行证；5，港澳居民通行证；9，其他；")
-    private Boolean idCardType;
+    private Integer idCardType;
 
     /**
      * 认证状态：0-未认证；1-初级实名认证；2-高级实名认证
@@ -225,14 +225,23 @@ public class User {
     /**
      * 修改时间
      */
-    @TableField(value = "last_update_time")
+    @TableField(value = "last_update_time" ,fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value="修改时间")
     private Date lastUpdateTime;
 
     /**
      * 创建时间
      */
-    @TableField(value = "created")
+    @TableField(value = "created",fill = FieldFill.INSERT)
     @ApiModelProperty(value="创建时间")
     private Date created;
+
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "会员的高级认证状态 0 : 审核中  1 :通过 2 : 拒绝--(拒绝的理由) 3 :未填写")
+    private Byte seniorAuthStatus ;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "拒绝--(拒绝的理由)")
+    private String seniorAuthDesc ;
 }
