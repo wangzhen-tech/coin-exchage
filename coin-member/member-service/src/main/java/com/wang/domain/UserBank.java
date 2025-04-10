@@ -10,16 +10,21 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.*;
+import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 /**
  * @Author wangzhen
- * @Description ${description}
+ * @Description 用户人民币提现地址
  * @Date 2025/4/10 14:48
  * @Version 1.0
  */
-/**
-    * 用户人民币提现地址
-    */
 @ApiModel(value="com-wang-domain-UserBank")
 @Data
 @AllArgsConstructor
@@ -52,6 +57,7 @@ public class UserBank {
      */
     @TableField(value = "real_name")
     @ApiModelProperty(value="开户人")
+    @NotBlank
     private String realName;
 
     /**
@@ -59,6 +65,7 @@ public class UserBank {
      */
     @TableField(value = "bank")
     @ApiModelProperty(value="开户行")
+    @NotBlank
     private String bank;
 
     /**
@@ -87,6 +94,7 @@ public class UserBank {
      */
     @TableField(value = "bank_card")
     @ApiModelProperty(value="开户账号")
+    @NotBlank
     private String bankCard;
 
     /**
@@ -99,14 +107,20 @@ public class UserBank {
     /**
      * 更新时间
      */
-    @TableField(value = "last_update_time")
+    @TableField(value = "last_update_time",fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value="更新时间")
     private Date lastUpdateTime;
 
     /**
      * 创建时间
      */
-    @TableField(value = "created")
+    @TableField(value = "created",fill = FieldFill.INSERT)
     @ApiModelProperty(value="创建时间")
     private Date created;
+
+
+    @ApiModelProperty(value = "交易密码")
+    @TableField(exist = false)
+    @NotBlank
+    private String payPassword ;
 }
