@@ -6,10 +6,10 @@
         <option name="generateService" value="true" />
         <option name="generateServiceInterface" value="true" />
         <option name="javaMapperPackage" value="com.wang.mapper" />
-        <option name="javaMapperPath" value="$PROJECT_DIR$/coin-admin/admin-service/src/main/java" />
+        <option name="javaMapperPath" value="$PROJECT_DIR$/coin-member/member-service/src/main/java" />
         <option name="javaModelPackage" value="com.wang.domain" />
-        <option name="javaModelPath" value="$PROJECT_DIR$/coin-admin/admin-service/src/main/java" />
-        <option name="lastDatabaseCrudChooseModuleName" value="admin-service" />
+        <option name="javaModelPath" value="$PROJECT_DIR$/coin-member/member-service/src/main/java" />
+        <option name="lastDatabaseCrudChooseModuleName" value="member-service" />
         <option name="lombokAllArgConstructor" value="true" />
         <option name="lombokDataAnnotation" value="true" />
         <option name="lombokNoArgsConstructor" value="true" />
@@ -30,6 +30,22 @@
                   <option name="javaServicePath" value="$PROJECT_DIR$/coin-admin/admin-service/src/main/java" />
                   <option name="xmlPackage" value="mappers" />
                   <option name="xmlPath" value="D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-admin\admin-service\src\main\resources" />
+                </UserPackageAndPathInfoByModule>
+              </value>
+            </entry>
+            <entry key="member-service">
+              <value>
+                <UserPackageAndPathInfoByModule>
+                  <option name="javaMapperPackage" value="com.wang.mapper" />
+                  <option name="javaMapperPath" value="$PROJECT_DIR$/coin-member/member-service/src/main/java" />
+                  <option name="javaModelPacakge" value="com.wang.domain" />
+                  <option name="javaModelPath" value="$PROJECT_DIR$/coin-member/member-service/src/main/java" />
+                  <option name="javaServiceInterfacePackage" value="com.wang.service" />
+                  <option name="javaServiceInterfacePath" value="$PROJECT_DIR$/coin-member/member-service/src/main/java" />
+                  <option name="javaServicePackage" value="com.wang.service.impl" />
+                  <option name="javaServicePath" value="$PROJECT_DIR$/coin-member/member-service/src/main/java" />
+                  <option name="xmlPackage" value="mappers" />
+                  <option name="xmlPath" value="$PROJECT_DIR$/coin-member/member-service/src/main/resources" />
                 </UserPackageAndPathInfoByModule>
               </value>
             </entry>
@@ -64,6 +80,16 @@
                   <option name="generatedKey" value="id" />
                   <option name="javaModelName" value="Notice" />
                   <option name="moduleName" value="admin-service" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:sms">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="Sms" />
+                  <option name="moduleName" value="member-service" />
                   <option name="useActualColumnName" value="false" />
                 </TableGenerateConfig>
               </value>
@@ -157,6 +183,75 @@
                 </TableGenerateConfig>
               </value>
             </entry>
+            <entry key="coin-exchange:user">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="User" />
+                  <option name="moduleName" value="member-service" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_address">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="UserAddress" />
+                  <option name="moduleName" value="member-service" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_auth_audit_record">
+              <value>
+                <TableGenerateConfig>
+                  <option name="javaModelName" value="UserAuthAuditRecord" />
+                  <option name="moduleName" value="member-service" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_auth_info">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="UserAuthInfo" />
+                  <option name="moduleName" value="member-service" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_bank">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="UserBank" />
+                  <option name="moduleName" value="member-service" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_login_log">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="UserLoginLog" />
+                  <option name="moduleName" value="member-service" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_wallet">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="UserWallet" />
+                  <option name="moduleName" value="member-service" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
             <entry key="coin-exchange:web_config">
               <value>
                 <TableGenerateConfig>
@@ -182,7 +277,7 @@
         <option name="useSwagger" value="true" />
         <option name="userMybatisPlus" value="true" />
         <option name="xmlMapperPackage" value="mappers" />
-        <option name="xmlMapperPath" value="D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-admin\admin-service\src\main\resources" />
+        <option name="xmlMapperPath" value="$PROJECT_DIR$/coin-member/member-service/src/main/resources" />
       </ProjectProfile>
     </option>
   </component>
