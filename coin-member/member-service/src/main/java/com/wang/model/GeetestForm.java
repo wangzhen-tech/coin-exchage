@@ -35,8 +35,10 @@ public class GeetestForm {
         String seccode = this.getGeetest_seccode();
         int status = 0;
         String userId = "";
-        // session必须取出值，若取不出值，直接当做异常退出
-        String statusStr = redisTemplate.opsForValue().get(GeetestLib.GEETEST_SERVER_STATUS_SESSION_KEY).toString();
+        // session必须取出值，若取不出值，直接当做异常退出 --这是极验的demo做法
+        // 我们从redis中取，取不出来按照异常退出
+        String key = GeetestLib.GEETEST_SERVER_STATUS_SESSION_KEY;
+        String statusStr = redisTemplate.opsForValue().get(key).toString();
         status = Integer.valueOf(statusStr).intValue();
         userId = redisTemplate.opsForValue().get(GeetestLib.GEETEST_SERVER_USER_KEY + ":" + this.getUuid()).toString();
         GeetestLibResult result = null;
@@ -58,7 +60,8 @@ public class GeetestForm {
         } else {
             result = geetestLib.failValidate(challenge, validate, seccode);
         }
-        if(result.getStatus()!=1){
+
+        if(result.getStatus()!=1){// result的status不为1，验也就是证失败
             log.error("验证异常",JSON.toJSONString(result,true));
             throw new IllegalArgumentException("验证码验证异常") ;
         }

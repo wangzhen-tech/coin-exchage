@@ -329,17 +329,17 @@ public class UserController  {
 //        return R.ok(users);
 //    }
 //
-//
-//    @PostMapping("/register")
-//    @ApiOperation(value = "用户的注册")
-//    public R register(@RequestBody RegisterParam registerParam) {
-//        boolean isOk = userService.register(registerParam);
-//        if (isOk) {
-//            return R.ok();
-//        }
-//        return R.fail("注册失败");
-//    }
-//
+
+    @PostMapping("/register")
+    @ApiOperation(value = "用户的注册")
+    public R register(@RequestBody RegisterParam registerParam) {
+        boolean isOk = userService.register(registerParam);
+        if (isOk) {
+            return R.ok();
+        }
+        return R.fail("注册失败");
+    }
+
 //
 //    @PostMapping("/setPassword")
 //    @ApiOperation(value = "用户重置密码")

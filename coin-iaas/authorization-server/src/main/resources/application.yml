@@ -8,10 +8,16 @@ spring:
       discovery:
         server-addr: nacos-server:8848
   datasource:
-    url: jdbc:mysql://mysql-server:3307/coin-exchange?useSSL=false&serverTimezon=GMT%28
+    url: jdbc:mysql://mysql-server:3307/coin-exchange?useSSL=false&serverTimezon=GMT%2B8
     username: root
     password: BUAA858216mysql
     driver-class-name: com.mysql.cj.jdbc.Driver
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 1000 * 60 * 5   # 连接超时（毫秒） 5分钟
+        readTimeout: 10000  * 60 * 5   # 读取超时（毫秒）
 #  redis:
 #    host: redis-server
 #    port: 6380

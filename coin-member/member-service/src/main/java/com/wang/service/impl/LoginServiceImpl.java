@@ -45,18 +45,17 @@ public class LoginServiceImpl implements LoginService {
      * 会员的登录
      *
      * @param loginForm 登录的表单参数
-     * @return 登录的结果
+     * @return 登录的结果：即返回给前端的对象
      */
     @Override
     public LoginUser login(LoginForm loginForm) {
         log.info("用户{}开始登录", loginForm.getUsername());
 
-
-        checkFormData(loginForm);// 校验数据
+        checkFormData(loginForm);// 校验登录表单数据
         // 登录就是使用用户名和密码换一个token--->远程调用->authorization-server
         LoginUser loginUser = null;
         ResponseEntity<JwtToken> tokenResponseEntity = oAuth2FeignClient.getToken("password", loginForm.getUsername(), loginForm.getPassword(), "member_type", basicToken);
-        if (tokenResponseEntity.getStatusCode() == HttpStatus.OK) {
+        if (tokenResponseEntity.getStatusCode() == HttpStatus.OK) {// 如果响应状态时OK，说明换区token成功了
             JwtToken jwtToken = tokenResponseEntity.getBody();
             log.info("远程调用成功,结果为", JSON.toJSONString(jwtToken, true));
             // jwtToken必须包含bearer,所以还需要额外拼接一下

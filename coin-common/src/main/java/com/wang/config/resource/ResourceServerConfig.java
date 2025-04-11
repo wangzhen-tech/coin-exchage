@@ -31,6 +31,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .disable()
                 .sessionManagement().disable()
                 .authorizeRequests()
+                // 资源服务器的路径是网关路由过来的，网关会去掉路径前缀
                 .antMatchers(
                         "/users/setPassword" ,
                         "/users/register",

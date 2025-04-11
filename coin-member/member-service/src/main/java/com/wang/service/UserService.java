@@ -127,14 +127,14 @@ public interface UserService extends IService<User> {
 //     */
 ////    List<UserDto> getBasicUsers(List<Long> ids);
 //    Map<Long, UserDto> getBasicUsers(List<Long> ids, String userName, String mobile);
-//
-//    /**
-//     * 用户的注册
-//     *
-//     * @param registerParam 注册的表单参数
-//     * @return
-//     */
-//    boolean register(RegisterParam registerParam);
+
+    /**
+     * 用户的注册
+     *
+     * @param registerParam 注册的表单参数
+     * @return
+     */
+    boolean register(RegisterParam registerParam);
 //
 //    /**
 //     * 重置登陆密码

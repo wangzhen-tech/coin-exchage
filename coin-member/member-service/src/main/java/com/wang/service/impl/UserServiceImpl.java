@@ -19,7 +19,7 @@ import com.wang.domain.User;
 import com.wang.domain.UserAuthAuditRecord;
 import com.wang.domain.UserAuthInfo;
 //import com.wang.dto.UserDto;
-//import com.wang.geetest.GeetestLib;
+import com.wang.geetest.GeetestLib;
 import com.wang.mapper.UserMapper;
 //import com.wang.mappers.UserDtoMapper;
 import com.wang.model.*;
@@ -56,8 +56,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private UserAuthInfoService userAuthInfoService;
 
-//    @Autowired
-//    private GeetestLib geetestLib;
+    @Autowired
+    private GeetestLib geetestLib;
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
@@ -442,60 +442,61 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 //        Map<Long, UserDto> userDtoIdMappings = userDtos.stream().collect(Collectors.toMap(UserDto::getId, userDto -> userDto));
 //        return userDtoIdMappings;
 //    }
-//
-//    /**
-//     * 用户的注册
-//     *
-//     * @param registerParam 注册的表单参数
-//     * @return
-//     */
-//    @Override
-//    public boolean register(RegisterParam registerParam) {
-//        log.info("用户开始注册{}", JSON.toJSONString(registerParam, true));
-//        String mobile = registerParam.getMobile();
-//        String email = registerParam.getEmail();
-//        // 1 简单的校验
-//        if (StringUtils.isEmpty(email) && StringUtils.isEmpty(mobile)) {
-//            throw new IllegalArgumentException("手机号或邮箱不能同时为空");
-//        }
-//        // 2 查询校验
-//        int count = count(new LambdaQueryWrapper<User>()
-//                .eq(!StringUtils.isEmpty(email), User::getEmail, email)
-//                .eq(!StringUtils.isEmpty(mobile), User::getMobile, mobile)
-//        );
-//        if (count > 0) {
-//            throw new IllegalArgumentException("手机号或邮箱已经被注册");
-//        }
-//
-//        registerParam.check(geetestLib, redisTemplate); // 进行极验的校验
-//        User user = getUser(registerParam); // 构建一个新的用户
-//        return save(user);
-//    }
-//
-//    private User getUser(RegisterParam registerParam) {
-//        User user = new User();
-//        user.setCountryCode(registerParam.getCountryCode());
-//        user.setEmail(registerParam.getEmail());
-//        user.setMobile(registerParam.getMobile());
-//        String encodePwd = new BCryptPasswordEncoder().encode(registerParam.getPassword());
-//        user.setPassword(encodePwd);
-//        user.setPaypassSetting(false);
-//        user.setStatus((byte) 1);
-//        user.setType((byte) 1);
-//        user.setAuthStatus((byte) 0);
-//        user.setLogins(0);
-//        user.setInviteCode(RandomUtil.randomString(6)); // 用户的邀请码
-//        if (!StringUtils.isEmpty(registerParam.getInvitionCode())) {
-//            User userPre = getOne(new LambdaQueryWrapper<User>().eq(User::getInviteCode, registerParam.getInvitionCode()));
-//            if (userPre != null) {
-//                user.setDirectInviteid(String.valueOf(userPre.getId())); // 邀请人的id , 需要查询
-//                user.setInviteRelation(String.valueOf(userPre.getId())); // 邀请人的id , 需要查询
-//            }
-//
-//        }
-//        return user;
-//    }
-//
+
+    /**
+     * 用户的注册
+     *
+     * @param registerParam 注册的表单参数
+     * @return
+     */
+    @Override
+    public boolean register(RegisterParam registerParam) {
+        log.info("用户开始注册{}", JSON.toJSONString(registerParam, true));
+
+        String mobile = registerParam.getMobile();
+        String email = registerParam.getEmail();
+        // 1 简单的校验
+        if (StringUtils.isEmpty(email) && StringUtils.isEmpty(mobile)) {
+            throw new IllegalArgumentException("手机号或邮箱不能同时为空");
+        }
+        // 2 查询校验
+        int count = count(new LambdaQueryWrapper<User>()
+                .eq(!StringUtils.isEmpty(email), User::getEmail, email)
+                .eq(!StringUtils.isEmpty(mobile), User::getMobile, mobile)
+        );
+        if (count > 0) {
+            throw new IllegalArgumentException("手机号或邮箱已经被注册");
+        }
+
+        registerParam.check(geetestLib, redisTemplate); // 进行极验的校验
+        User user = getUser(registerParam); // 构建一个新的用户
+        return save(user);
+    }
+
+    private User getUser(RegisterParam registerParam) {
+        User user = new User();
+        user.setCountryCode(registerParam.getCountryCode());
+        user.setEmail(registerParam.getEmail());
+        user.setMobile(registerParam.getMobile());
+        String encodePwd = new BCryptPasswordEncoder().encode(registerParam.getPassword());
+        user.setPassword(encodePwd);
+        user.setPaypassSetting(false);
+        user.setStatus((byte) 1);
+        user.setType((byte) 1);
+        user.setAuthStatus((byte) 0);
+        user.setLogins(0);
+        user.setInviteCode(RandomUtil.randomString(6)); // 用户的邀请码
+        if (!StringUtils.isEmpty(registerParam.getInvitionCode())) {
+            User userPre = getOne(new LambdaQueryWrapper<User>().eq(User::getInviteCode, registerParam.getInvitionCode()));
+            if (userPre != null) {
+                user.setDirectInviteid(String.valueOf(userPre.getId())); // 邀请人的id , 需要查询
+                user.setInviteRelation(String.valueOf(userPre.getId())); // 邀请人的id , 需要查询
+            }
+
+        }
+        return user;
+    }
+
 //    /**
 //     * 重置登陆密码
 //     *
