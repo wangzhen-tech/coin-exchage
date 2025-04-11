@@ -33,6 +33,7 @@ public class JwtCheckFilter implements GlobalFilter, Ordered {
     private StringRedisTemplate redisTemplate ;
 
     // 通过一个set封装不需要token就可以访问的路径
+    // (/admin/login:管理员登录)   (/user/gt/register:极验) (/user/login:普通用户登录)
     @Value("${no.require.urls:/admin/login,/user/gt/register,/user/login,/user/users/register,/user/sms/sendTo,/user/users/setPassword}")
     private Set<String> noRequireTokenUris ;
 
