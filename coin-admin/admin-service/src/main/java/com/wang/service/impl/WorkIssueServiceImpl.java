@@ -1,20 +1,15 @@
 package com.wang.service.impl;
 
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
 import java.util.List;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wang.domain.WorkIssue;
 import com.wang.mapper.WorkIssueMapper;
 import com.wang.service.WorkIssueService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wang.domain.WorkIssue;
-//import com.wang.dto.UserDto;
-//import com.wang.feign.UserServiceFeign;
-import com.wang.mapper.WorkIssueMapper;
-import com.wang.service.WorkIssueService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;;
+import com.wang.dto.UserDto;
+import com.wang.feign.UserServiceFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -34,8 +29,8 @@ import java.util.stream.Collectors;
 @Service
 public class WorkIssueServiceImpl extends ServiceImpl<WorkIssueMapper, WorkIssue> implements WorkIssueService {
 
-//    @Autowired
-//    private UserServiceFeign userServiceFeign;
+    @Autowired
+    private UserServiceFeign userServiceFeign;
 
     /**
      * 条件分页查询工单列表
@@ -55,37 +50,39 @@ public class WorkIssueServiceImpl extends ServiceImpl<WorkIssueMapper, WorkIssue
                         WorkIssue::getCreated,
                         startTime, endTime + " 23:59:59")
         );
-//        List<WorkIssue> records = pageData.getRecords();// TODO
-//        if (CollectionUtils.isEmpty(records)) {
-//            return pageData;
+        List<WorkIssue> records = pageData.getRecords();// TODO
+        if (CollectionUtils.isEmpty(records)) {
+            return pageData;
+        }
+        // 客服工单的用户名、姓名的数据来源于会员系统，因此远程调用会员系统来查询对应的数据
+        // admin-service通过用户的id，作为消费者远程调用member-service，来查询对应的用户数据
+/*      错误的示范：在循环中使用远程调用，非常不可取；如下
+        for (WorkIssue record : records) {
+            Long userId = record.getUserId();
+            //使用userId->远程调用member-service
+       }
+*/
+        //1 收集Id
+        List<Long> userIds = records.stream().map(WorkIssue::getUserId).collect(Collectors.toList());
+        // 2 远程调用
+//        List<UserDto> basicUsers = userServiceFeign.getBasicUsers(userIds);
+        // 2.1 小技巧: list->map<id,userDto> 这样便于使用id取到对应的数据
+//        if(CollectionUtils.isEmpty(basicUsers)){
+//            return pageData ;
 //        }
-//        // 远程调用member-service
-//        // 错误的示范
-////        for (WorkIssue record : records) {
-////            Long userId = record.getUserId();
-////            // 使用userId->远程调用member-service
-////        }
-//        //1 收集Id
-//        List<Long> userIds = records.stream().map(WorkIssue::getUserId).collect(Collectors.toList());
-//        // 2 远程调用
-////        List<UserDto> basicUsers = userServiceFeign.getBasicUsers(userIds);
-//        // 2.1 小技巧: list->map<id,userDto>
-////        if(CollectionUtils.isEmpty(basicUsers)){
-////            return pageData ;
-////        }
-////
-////        Map<Long, UserDto> idMapUserDtos = basicUsers.stream().
-////                                collect(
-////                                            Collectors.toMap(
-////                                                    userDto -> userDto.getId(),  // key
-////                                                    userDto -> userDto) //value
-////                                );
-//        Map<Long, UserDto> idMapUserDtos = userServiceFeign.getBasicUsers(userIds, null, null);
-//        records.forEach(workIssue -> { // 循环每一个workIssue ,给它里面设置用户的信息 map.get(userId)
-//            UserDto userDto = idMapUserDtos.get(workIssue.getUserId());
-//            workIssue.setUsername(userDto == null ? "测试用户" : userDto.getUsername());
-//            workIssue.setRealName(userDto == null ? "测试用户" : userDto.getRealName());
-//        });
+//
+//        Map<Long, UserDto> idMapUserDtos = basicUsers.stream().
+//                                collect(
+//                                            Collectors.toMap(
+//                                                    userDto -> userDto.getId(),  // key
+//                                                    userDto -> userDto) //value
+//                                );
+        Map<Long, UserDto> idMapUserDtos = userServiceFeign.getBasicUsers(userIds, null, null);
+        records.forEach(workIssue -> { // 循环每一个workIssue ,给它里面设置用户的信息 map.get(userId)
+            UserDto userDto = idMapUserDtos.get(workIssue.getUserId());
+            workIssue.setUsername(userDto == null ? "测试用户" : userDto.getUsername());// 没有用户名，缺省使用“测试用户”
+            workIssue.setRealName(userDto == null ? "测试用户" : userDto.getRealName());
+        });
         return pageData;
     }
 

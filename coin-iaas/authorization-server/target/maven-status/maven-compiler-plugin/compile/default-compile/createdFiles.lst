@@ -1,1 +1,9 @@
-com\wang\App.class
+com\wang\constant\LoginConstant.class
+com\wang\config\ResourceServerConfig.class
+com\wang\config\AuthorizationServerConfig.class
+com\wang\service\impl\UserServiceUserDetailsServiceImpl.class
+com\wang\controller\UserInfoController.class
+com\wang\service\impl\UserServiceUserDetailsServiceImpl$1.class
+com\wang\AuthorizationApplication.class
+com\wang\config\WebSecurityConfig.class
+com\wang\service\impl\UserServiceUserDetailsServiceImpl$2.class

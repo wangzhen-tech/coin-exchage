@@ -1,1 +1,15 @@
-com\wang\App.class
+com\wang\config\swagger\SwaggerAutoConfiguration.class
+com\wang\model\WebLog.class
+com\wang\config\jetcache\JetCacheConfig.class
+com\wang\aspect\WebLogAspect.class
+com\wang\aspect\GlobalExceptionHandler.class
+com\wang\config\redis\RedisConfig.class
+META-INF\spring-configuration-metadata.json
+com\wang\config\swagger\SwaggerProperties.class
+com\wang\CoinCommonApplication.class
+com\wang\config\resource\ResourceServerConfig.class
+com\wang\handler\AutoFillHandler.class
+com\wang\model\R.class
+com\wang\constant\Constants.class
+com\wang\config\jackson\JackConfig.class
+com\wang\config\mybatisplus\MybatisPlusConfig.class

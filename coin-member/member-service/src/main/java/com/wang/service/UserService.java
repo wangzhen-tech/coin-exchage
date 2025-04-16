@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wang.domain.User;
-//import com.wang.dto.UserDto;
+import com.wang.dto.UserDto;
 import com.wang.model.*;
 import java.util.List;
 import java.util.Map;
@@ -118,15 +118,16 @@ public interface UserService extends IService<User> {
 //     * @return
 //     */
 //    List<User> getUserInvites(Long userId);
-//
-//    /**
-//     * 通过用户的Id 批量查询用户的基础信息
-//     *
-//     * @param ids
-//     * @return
-//     */
-////    List<UserDto> getBasicUsers(List<Long> ids);
-//    Map<Long, UserDto> getBasicUsers(List<Long> ids, String userName, String mobile);
+
+    /**
+     * 服务的提供者：提供“通过用户的信息查询用户”的功能
+     * 通过用户的Id 批量查询用户的基础信息
+     *
+     * @param ids
+     * @return
+     */
+//    List<UserDto> getBasicUsers(List<Long> ids);
+    Map<Long, UserDto> getBasicUsers(List<Long> ids, String userName, String mobile);
 
     /**
      * 用户的注册

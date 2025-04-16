@@ -28,9 +28,16 @@
             <artifactId>admin-api</artifactId>
             <version>1.0</version>
         </dependency>
+<!--        admin-service作为消费者，远程调用member-api中的服务-->
+        <dependency>
+            <groupId>com.wang</groupId>
+            <artifactId>member-api</artifactId>
+            <version>1.0</version>
+        </dependency>
 
 
-<!--        notNULL注解-->
+
+        <!--        notNULL注解-->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>

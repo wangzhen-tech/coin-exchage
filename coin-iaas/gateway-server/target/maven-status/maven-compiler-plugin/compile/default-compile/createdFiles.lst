@@ -1,2 +1,4 @@
-com\wang\App.class
+com\wang\config\CorsConfig.class
+com\wang\filter\JwtCheckFilter.class
 com\wang\GatewayServerApplication.class
+com\wang\controller\GatewayFlowRulesController.class

@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wang.domain.User;
 import com.wang.domain.UserAuthAuditRecord;
 import com.wang.domain.UserAuthInfo;
-//import com.wang.dto.UserDto;
-//import com.wang.feign.UserServiceFeign;
+import com.wang.dto.UserDto;
+import com.wang.feign.UserServiceFeign;
 import com.wang.model.*;
 import com.wang.service.UserAuthAuditRecordService;
 import com.wang.service.UserAuthInfoService;
@@ -36,8 +36,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/users")
 @Api(tags = "会员的控制器")
-//public class UserController implements UserServiceFeign {
-public class UserController  {
+public class UserController implements UserServiceFeign { // 实现远程调用接口
+//public class UserController  {
     @Autowired
     private UserService userService;
 
@@ -353,16 +353,17 @@ public class UserController  {
 //        }
 //        return R.fail("重置失败");
 //    }
-//
-//    /**
-//     * 用于admin-service 里面远程调用member-service
-//     *
-//     * @param ids
-//     * @return
-//     */
-//    @Override
-//    public Map<Long, UserDto> getBasicUsers(List<Long> ids, String userName, String mobile) {
-//        Map<Long, UserDto> userDtos = userService.getBasicUsers(ids,  userName,  mobile);
-//        return userDtos;
-//    }
+
+    /**
+     * 服务的提供者：提供“通过用户的信息查询用户”的功能
+     * 用于admin-service 里面远程调用member-service
+     *
+     * @param ids
+     * @return
+     */
+    @Override
+    public Map<Long, UserDto> getBasicUsers(List<Long> ids, String userName, String mobile) {
+        Map<Long, UserDto> userDtos = userService.getBasicUsers(ids,  userName,  mobile);
+        return userDtos;
+    }
 }

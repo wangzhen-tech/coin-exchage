@@ -1,2 +1,4 @@
-D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-iaas\gateway-server\src\main\java\com\wang\GatewayServerApplication.java
-D:\Arikan_Proj\JavaEE\CoinExchange\CoinExchange\coin-iaas\gateway-server\src\main\java\com\wang\App.java
+D:\Arikan_Proj\coin-exchage\coin-iaas\gateway-server\src\main\java\com\wang\config\CorsConfig.java
+D:\Arikan_Proj\coin-exchage\coin-iaas\gateway-server\src\main\java\com\wang\filter\JwtCheckFilter.java
+D:\Arikan_Proj\coin-exchage\coin-iaas\gateway-server\src\main\java\com\wang\controller\GatewayFlowRulesController.java
+D:\Arikan_Proj\coin-exchage\coin-iaas\gateway-server\src\main\java\com\wang\GatewayServerApplication.java

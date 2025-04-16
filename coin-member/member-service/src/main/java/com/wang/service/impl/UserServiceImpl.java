@@ -18,10 +18,10 @@ import com.wang.domain.Sms;
 import com.wang.domain.User;
 import com.wang.domain.UserAuthAuditRecord;
 import com.wang.domain.UserAuthInfo;
-//import com.wang.dto.UserDto;
+import com.wang.dto.UserDto;
 import com.wang.geetest.GeetestLib;
 import com.wang.mapper.UserMapper;
-//import com.wang.mappers.UserDtoMapper;
+import com.wang.mappers.UserDtoMapper;
 import com.wang.model.*;
 import com.wang.service.SmsService;
 import com.wang.service.UserAuthAuditRecordService;
@@ -417,31 +417,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 //    }
 //
 //
-//    /**
-//     * 通过用户的信息查询用户
-//     *
-//     * @param ids      用户的批量查询,用在我们给别人远程调用时批量获取用户的数据
-//     * @param userName 使用用户名查询一系列用户的记录
-//     * @param mobile   使用用户手机查询一系列用户的记录
-//     * @return
-//     */
-//    @Override
-//    public Map<Long, UserDto> getBasicUsers(List<Long> ids, String userName, String mobile) {
-//        if (CollectionUtils.isEmpty(ids) && StringUtils.isEmpty(userName) && StringUtils.isEmpty(mobile)) {
-//            return Collections.emptyMap();
-//        }
-//        List<User> list = list(new LambdaQueryWrapper<User>()
-//                .in(!CollectionUtils.isEmpty(ids), User::getId, ids)
-//                .like(!StringUtils.isEmpty(userName), User::getUsername, userName)
-//                .like(!StringUtils.isEmpty(mobile), User::getMobile, mobile));
-//        if (CollectionUtils.isEmpty(list)) {
-//            return Collections.emptyMap();
-//        }
-//        // 将user->userDto
-//        List<UserDto> userDtos = UserDtoMapper.INSTANCE.convert2Dto(list);
-//        Map<Long, UserDto> userDtoIdMappings = userDtos.stream().collect(Collectors.toMap(UserDto::getId, userDto -> userDto));
-//        return userDtoIdMappings;
-//    }
+    /**
+     * 服务的提供者：提供“通过用户的信息查询用户”的功能
+     *
+     * @param ids      用户的批量查询,用在我们给别人远程调用时批量获取用户的数据
+     * @param userName 使用用户名查询一系列用户的记录
+     * @param mobile   使用用户手机查询一系列用户的记录
+     * @return
+     */
+    @Override
+    public Map<Long, UserDto> getBasicUsers(List<Long> ids, String userName, String mobile) {
+        // 非空校验
+        if (CollectionUtils.isEmpty(ids) && StringUtils.isEmpty(userName) && StringUtils.isEmpty(mobile)) {
+            return Collections.emptyMap();
+        }
+        List<User> list = list(new  LambdaQueryWrapper<User>()
+                .in(!CollectionUtils.isEmpty(ids), User::getId, ids)
+                .like(!StringUtils.isEmpty(userName), User::getUsername, userName)
+                .like(!StringUtils.isEmpty(mobile), User::getMobile, mobile));
+        if (CollectionUtils.isEmpty(list)) {
+            return Collections.emptyMap();
+        }
+        // 将user->userDto
+        List<UserDto> userDtos = UserDtoMapper.INSTANCE.convert2Dto(list);
+        Map<Long, UserDto> userDtoIdMappings = userDtos.stream().collect(Collectors.toMap(UserDto::getId, userDto -> userDto));
+        return userDtoIdMappings;
+    }
 
     /**
      * 用户的注册
