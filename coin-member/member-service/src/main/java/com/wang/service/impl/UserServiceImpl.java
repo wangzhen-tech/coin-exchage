@@ -41,6 +41,7 @@ import org.springframework.util.StringUtils;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
+import cn.hutool.core.bean.BeanUtil;
 /**
  * @Author wangzhen
  * @Description ${description}
@@ -440,7 +441,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         // 将user->userDto
         List<UserDto> userDtos = UserDtoMapper.INSTANCE.convert2Dto(list);
-        Map<Long, UserDto> userDtoIdMappings = userDtos.stream().collect(Collectors.toMap(UserDto::getId, userDto -> userDto));
+        List<UserDto> userDtoList = BeanUtil.copyToList(list, UserDto.class);// 不使用userDtoMapper,这是mapstruct提供的，转换有问题。使用hutool的beanutil
+        System.out.println("hello");
+        Map<Long, UserDto> userDtoIdMappings = userDtoList.stream().collect(Collectors.toMap(UserDto::getId, userDto -> userDto));
         return userDtoIdMappings;
     }
 

@@ -21,10 +21,11 @@ public class OAuth2FeignConfig implements RequestInterceptor {// 通过实现req
 
     /**
      * Called for every request. Add data using methods on the supplied {@link RequestTemplate}.
+     * 译：在每次请求调用时，使用这个模板
      *
      * @param template
      */
-    @Override
+    @Override// 每次收到请求时，获取请求上下文中的token，并将其add到下次的请求中
     public void apply(RequestTemplate template) {
         // 1 我们可以从request的上下文环境里面获取token
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
