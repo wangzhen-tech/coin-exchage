@@ -9,17 +9,16 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.validation.constraints.NotNull;
 
 /**
  * @Author wangzhen
- * @Description ${description}
+ * @Description 台归账手续费等账户
  * @Date 2025/4/17 17:25
  * @Version 1.0
  */
-/**
-    * 平台归账手续费等账户
-    */
-@ApiModel(description="平台归账手续费等账户")
+
+@ApiModel(value="com-bjsxt-domain-AdminAddress")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,7 +27,7 @@ public class AdminAddress {
     /**
      * 编号
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     @ApiModelProperty(value="编号")
     private Long id;
 
@@ -37,6 +36,7 @@ public class AdminAddress {
      */
     @TableField(value = "coin_id")
     @ApiModelProperty(value="币种Id")
+    @NotNull
     private Long coinId;
 
     /**
@@ -63,7 +63,7 @@ public class AdminAddress {
     /**
      * 1:归账(冷钱包地址),2:打款,3:手续费
      */
-    @TableField(value = "`status`")
+    @TableField(value = "status")
     @ApiModelProperty(value="1:归账(冷钱包地址),2:打款,3:手续费")
     private Integer status;
 
@@ -72,5 +72,7 @@ public class AdminAddress {
      */
     @TableField(value = "coin_type")
     @ApiModelProperty(value="类型")
+//    @NotBlank
     private String coinType;
+
 }

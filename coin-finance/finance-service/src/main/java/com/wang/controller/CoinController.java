@@ -109,21 +109,21 @@ public class CoinController  {
     }
 
 
-//    @PostMapping
-//    @ApiOperation(value = "新增我们的币种的信息")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "coin" ,value = "coin的json数据")
-//    })
-//    public R<Coin> save(@RequestBody @Validated  Coin coin){
-//        coin.setStatus((byte)1);
-//        boolean save = coinService.save(coin);
-//        // coin新增成功后,会有Id ,这是mybatis-plus在新增成功后,
-//        // 会自动的进行一个sql语句的查询,查询的结果就是id,之后把id设置给coin
-//        if(save){
-//            return R.ok(coin) ;
-//        }
-//        return R.fail("新增失败") ;
-//    }
+    @PostMapping
+    @ApiOperation(value = "新增我们的币种的信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "coin" ,value = "coin的json数据")
+    })
+    public R<Coin> save(@RequestBody @Validated  Coin coin){
+        coin.setStatus((byte)1);
+        boolean save = coinService.save(coin);
+        // coin新增成功后,会有Id ,这是mybatis-plus在新增成功后,
+        // 会自动的进行一个sql语句的查询,查询的结果就是id,之后把id设置给coin
+        if(save){
+            return R.ok(coin) ;// 新增成功后需要返回币种id和钱包状态，因为钱包需要此信息
+        }
+        return R.fail("新增失败") ;
+    }
 //
 //    @Override
 //    public List<CoinDto> findCoins(List<Long> coinIds) {

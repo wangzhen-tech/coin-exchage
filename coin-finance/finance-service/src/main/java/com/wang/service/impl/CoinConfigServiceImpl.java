@@ -48,7 +48,7 @@ public class CoinConfigServiceImpl extends ServiceImpl<CoinConfigMapper, CoinCon
         }
         coinConfig.setCoinType(coin.getType());
         coinConfig.setName(coin.getName());
-        // 如何是新增/修改呢?
+        // 如何新增/修改？
         CoinConfig config = getById(coinConfig.getId());
         if (config == null) { // 新增操作
             return save(coinConfig);
