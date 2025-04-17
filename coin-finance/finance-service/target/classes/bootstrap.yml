@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: finance-service
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: nacos-server:8848
+      config:
+        file-extension: yml # yaml反而拉取不到nacos中对应的yaml文件，报数据库的数据源配置错误，气奇怪
+#      去 nacos-server 里面拉取 finance-service-dev.yaml finance-service-dev
