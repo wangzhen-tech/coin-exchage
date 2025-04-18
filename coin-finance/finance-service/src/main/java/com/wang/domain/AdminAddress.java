@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
  * @Version 1.0
  */
 
-@ApiModel(value="com-bjsxt-domain-AdminAddress")
+@ApiModel(value="com-wang-domain-AdminAddress")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
  * @Version 1.0
  */
 
-@ApiModel(value = "com-bjsxt-domain-Coin")
+@ApiModel(value = "com-wang-domain-Coin")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

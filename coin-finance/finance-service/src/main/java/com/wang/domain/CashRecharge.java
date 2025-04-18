@@ -20,7 +20,7 @@ import com.baomidou.mybatisplus.annotation.*;
  * @Version 1.0
  */
 
-@ApiModel(value = "com-bjsxt-domain-CashRecharge")
+@ApiModel(value = "com-wang-domain-CashRecharge")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
