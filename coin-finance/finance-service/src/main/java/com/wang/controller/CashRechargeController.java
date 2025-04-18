@@ -71,7 +71,12 @@ public class CashRechargeController {
 //         String[] header = {"ID","用户ID", "用户名", "真实用户名", "充值币种", "充值金额(USDT)", "手续费", "到账金额(CNY)", "充值方式", "充值订单", "参考号", "充值时间","完成时间", "状态","审核备注","审核级数"};
 //        String[] properties = {"id","userId", "username", "realName", "coinName", "num", "fee", "mum", "type", "tradeno", "remark", "created", "lastTime","statusStr","auditRemark","step"};
 
-
+    /**
+     * csv文件的导出，主要分为三步：
+     *    1) 按照分页的参数，先查询出所有的分页数据
+     *    2) 对于在导出时需要特殊处理的列(如日期的格式需要格式化)，定义该列的Processor，在processot中执行处理逻辑
+     *    3) 使用ReportCsvUtils导出数据
+     */
     @GetMapping("/records/export")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "coinId", value = "当前页"),
@@ -88,11 +93,13 @@ public class CashRechargeController {
                               Long userId, String userName, String mobile,
                               Byte status, String numMin, String numMax,
                               String startTime, String endTime) {
+        // 封装Page对象
         Page<CashRecharge> page = new Page<>(1, 10000);
         Page<CashRecharge> pageData = cashRechargeService.findByPage(page, coinId, userId, userName,
                 mobile, status, numMin, numMax, startTime, endTime);
+        // 查询分页数据
         List<CashRecharge> records = pageData.getRecords();
-        if (!CollectionUtils.isEmpty(records)) {
+        if (!CollectionUtils.isEmpty(records)) {// 分页数据不为空才操作
             String[] header = {"ID", "用户ID", "用户名", "真实用户名", "充值币种", "充值金额(USDT)", "手续费", "到账金额(CNY)", "充值方式", "充值订单", "参考号", "充值时间", "完成时间", "状态", "审核备注", "审核级数"};
             String[] properties = {"id", "userId", "username", "realName", "coinName", "num", "fee", "mum", "type", "tradeno", "remark", "created", "lastTime", "status", "auditRemark", "step"};
 
@@ -102,10 +109,9 @@ public class CashRechargeController {
                     return (T) String.valueOf(o);
                 }
             };
-            // 对于金额,需要8位有效数字,金额
+
+            // 对于金额,需要8位有效数字：new一个金额的Adaptor格式化
             DecimalFormat decimalFormat = new DecimalFormat("0.00000000");
-
-
             CellProcessorAdaptor moneyCellProcessorAdaptor = new CellProcessorAdaptor() {
                 @Override
                 public <T> T execute(Object o, CsvContext csvContext) {
@@ -114,7 +120,9 @@ public class CashRechargeController {
                     return (T) numReal;
                 }
             };
-            //      @ApiModelProperty(value = "类型：alipay，支付宝；cai1pay，财易付；bank，银联；")
+
+            // @ApiModelProperty(value = "类型：alipay，支付宝；cai1pay，财易付；bank，银联；")
+            // 支付类型的Adaptor:中英转换：alipay -> 支付宝
             CellProcessorAdaptor typeAdapter = new CellProcessorAdaptor() {
                 @Override
                 public <T> T execute(Object o, CsvContext csvContext) {
@@ -141,6 +149,8 @@ public class CashRechargeController {
                     return (T) typeName;
                 }
             };
+
+            // 日期格式化的Adaptor
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             CellProcessorAdaptor timeCellProcessorAdaptor = new CellProcessorAdaptor() {
                 @Override
@@ -153,7 +163,9 @@ public class CashRechargeController {
                     return (T) dateStr;
                 }
             };
+
             // 0-待审核；1-审核通过；2-拒绝；3-充值成功
+            // 审核状态的Adaptor
             CellProcessorAdaptor statusCellProcessorAdaptor =  new CellProcessorAdaptor(){
                 @Override
                 public <T> T execute(Object o, CsvContext csvContext) {
@@ -181,18 +193,19 @@ public class CashRechargeController {
                 }
             };
 
-//            String[] header = {"ID", "用户ID", "用户名", "真实用户名", "充值币种", "充值金额(USDT)", "手续费", "到账金额(CNY)", "充值方式", "充值订单", "参考号", "充值时间", "完成时间", "状态", "审核备注", "审核级数"};
+            // 对与需要特殊处理的列，在processor中定义处理逻辑；并将每个列的processor封装到一个数组中
             CellProcessor[] PROCESSOR = new CellProcessor[]{
-                    longToStringAdapter,  longToStringAdapter, null, null, null, // "ID", "用户ID", "用户名", "真实用户名", "充值币种",
+                    longToStringAdapter,  longToStringAdapter, null, null, null, // "ID", "用户ID", "用户名"不需要, "真实用户名"不需要, "充值币种"不需要,
                     moneyCellProcessorAdaptor, moneyCellProcessorAdaptor, moneyCellProcessorAdaptor, typeAdapter,  // "充值金额(USDT)", "手续费", "到账金额(CNY)", 充值方式"
-                    null, null ,timeCellProcessorAdaptor , timeCellProcessorAdaptor ,//充值订单", "参考号", "充值时间", "完成时间
-                    statusCellProcessorAdaptor,   null ,null //状态 "审核备注", "审核级数"
+                    null, null ,timeCellProcessorAdaptor , timeCellProcessorAdaptor ,//充值订单"不需要, "参考号"不需要, "充值时间", "完成时间
+                    statusCellProcessorAdaptor,   null ,null //状态 "审核备注"不需要, "审核级数"不需要
 
             };
-            ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
+            ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             try {
-                // 导出csv 文件
+                // 按照对应的参数导出csv文件
+                // header是csv文件中第一行列名，Properties是每一列对应的数据，文件名是导出的文件名，records是数据，PROCESSOR做自定义的数据处理
                 ReportCsvUtils.reportListCsv(requestAttributes.getResponse(), header, properties, "场外交易充值审核.csv", records, PROCESSOR);
             } catch (Exception e) {
                 e.printStackTrace();

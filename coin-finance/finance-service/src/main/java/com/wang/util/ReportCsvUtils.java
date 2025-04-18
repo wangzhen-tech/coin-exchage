@@ -10,11 +10,12 @@ import java.net.URLEncoder;
 import java.util.List;
 /**
  * @Author wangzhen
- * @Description
+ * @Description csv的导出工具类
  * @Date 2025/4/17 21:14
  * @Version 1.0
  */
 public class ReportCsvUtils {
+    // 导出为csv文件，与reportListCsv，导出的是一些基本数据
     public static void reportList(
             HttpServletResponse response,
             String[] header,
@@ -42,7 +43,7 @@ public class ReportCsvUtils {
 
     }
 
-
+    // 导出为csv文件，比reportList多一个参数：PROCESSORS
     public static void reportListCsv(
             HttpServletResponse response,
             String[] header,
