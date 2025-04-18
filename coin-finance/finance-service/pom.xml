@@ -23,12 +23,22 @@
             <artifactId>finance-api</artifactId>
             <version>1.0</version>
         </dependency>
+<!--        远程调用时，需要一下服务作为依赖-->
+        <dependency>
+            <groupId>com.wang</groupId>
+            <artifactId>admin-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.wang</groupId>
+            <artifactId>member-api</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>com.wang</groupId>
             <artifactId>coin-common</artifactId>
             <version>1.0</version>
         </dependency>
-
 
     </dependencies>
 
