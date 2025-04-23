@@ -243,14 +243,15 @@ public class CashRechargeController {
 
 
 
-//    @ApiOperation(value = "现金的充值审核")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "cashRechargeAuditRecord" ,value = "现金的充值审核")
-//    })
-//    @PostMapping("/cashRechargeUpdateStatus")
-//    public R cashRechargeUpdateStatus(@RequestBody  CashRechargeAuditRecord cashRechargeAuditRecord){
-//        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        boolean isOk =  cashRechargeService.cashRechargeAudit(userId,cashRechargeAuditRecord) ;
-//        return isOk ? R.ok():R.fail("审核失败") ;
-//    }
+    @ApiOperation(value = "现金的充值审核")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cashRechargeAuditRecord" ,value = "现金的充值审核")
+    })
+    @PostMapping("/cashRechargeUpdateStatus")
+    public R cashRechargeUpdateStatus(@RequestBody  CashRechargeAuditRecord cashRechargeAuditRecord){
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        // 审核人id，审核数据
+        boolean isOk =  cashRechargeService.cashRechargeAudit(userId,cashRechargeAuditRecord) ;
+        return isOk ? R.ok():R.fail("审核失败") ;
+    }
 }

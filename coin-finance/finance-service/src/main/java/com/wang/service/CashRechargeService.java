@@ -57,6 +57,6 @@ public interface CashRechargeService extends IService<CashRecharge> {
      * @param cashRechargeAuditRecord  审核的数据
      * @return 是否审核成功
      */
-//    boolean cashRechargeAudit(Long userId, CashRechargeAuditRecord cashRechargeAuditRecord);
+    boolean cashRechargeAudit(Long userId, CashRechargeAuditRecord cashRechargeAuditRecord);
 
 }

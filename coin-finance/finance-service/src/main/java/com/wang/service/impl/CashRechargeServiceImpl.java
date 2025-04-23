@@ -60,6 +60,7 @@ public class CashRechargeServiceImpl extends ServiceImpl<CashRechargeMapper, Cas
 //    @Autowired
 //    private Snowflake snowflake;
 
+    // jetCache提供的锁：参数列表(锁的名称，过期时间，时间单位，缓存类型：BOTH表示内存和redis中都会存在)
     @CreateCache(name = "CASH_RECHARGE_LOCK:", expire = 100, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.BOTH)
     private Cache<String, String> cache;
 
@@ -242,61 +243,66 @@ public class CashRechargeServiceImpl extends ServiceImpl<CashRechargeMapper, Cas
 //            throw new IllegalArgumentException("充值数量太小");
 //        }
 //    }
-//
-//
-//    /**
-//     * 现金的充值审核
-//     *
-//     * @param userId                  审核人
-//     * @param cashRechargeAuditRecord 审核的数据
-//     * @return 是否审核成功
-//     */
-//    @Override
-//    public boolean cashRechargeAudit(Long userId, CashRechargeAuditRecord cashRechargeAuditRecord) {
-//        //1 当一个员工审核时,另一个员工不能在审核
-//        //CASH_RECHARGE_LOCK:1231123
-//        boolean tryLockAndRun = cache.tryLockAndRun(cashRechargeAuditRecord.getId() + "", 300, TimeUnit.SECONDS, () -> {
-//            Long rechargeId = cashRechargeAuditRecord.getId();
-//            CashRecharge cashRecharge = getById(rechargeId);
-//            if (cashRecharge == null) {
-//                throw new IllegalArgumentException("充值记录不存在");
-//            }
-//            Byte status = cashRecharge.getStatus();
-//            if (status == 1) {
-//                throw new IllegalArgumentException("充值记录审核已经通过");
-//            }
-//            CashRechargeAuditRecord cashRechargeAuditRecordDb = new CashRechargeAuditRecord();
-//            cashRechargeAuditRecordDb.setAuditUserId(userId);
-//            cashRechargeAuditRecordDb.setStatus(cashRechargeAuditRecord.getStatus());
-//            cashRechargeAuditRecordDb.setRemark(cashRechargeAuditRecord.getRemark());
-//            Integer step = cashRecharge.getStep() + 1;
-//            cashRechargeAuditRecordDb.setStep(step.byteValue());
-//            // 2 保存审核记录
-//
-//            int insert = cashRechargeAuditRecordMapper.insert(cashRechargeAuditRecordDb);
-//
-//            if (insert == 0) {
-//                throw new IllegalArgumentException("审核记录保存失败");
-//            }
-//            cashRecharge.setStatus(cashRechargeAuditRecord.getStatus());
-//            cashRecharge.setAuditRemark(cashRechargeAuditRecord.getRemark());
-//            cashRecharge.setStep(step.byteValue());
-//            //管理员没有通过审核
-//            if (cashRechargeAuditRecord.getStatus() == 2) { // 拒绝
-//                updateById(cashRecharge);
-//            } else {  // 管理员通过审核 ,给用户的账户充值
-//
-//                // 用户的余额增加
-//                Boolean isOk = accountService.transferAccountAmount(userId,
-//                        cashRecharge.getUserId(), cashRecharge.getCoinId(), cashRecharge.getId(), cashRecharge.getNum(), cashRecharge.getFee(),
-//                        "充值", "recharge_into",(byte)1);
-//                if (isOk) {
-//                    cashRecharge.setLastTime(new Date()); // 设置完成时间
-//                    updateById(cashRecharge);
-//                }
-//            }
-//        });
-//        return tryLockAndRun;
-//    }
+
+
+    /**
+     * 现金的充值审核
+     *
+     * @param userId                  审核人
+     * @param cashRechargeAuditRecord 审核的数据
+     * @return 是否审核成功
+     */
+    @Override
+    public boolean cashRechargeAudit(Long userId, CashRechargeAuditRecord cashRechargeAuditRecord) {
+        // 当一个员工审核时,另一个员工不能在审核：对员工id加锁控制
+        //CASH_RECHARGE_LOCK:1231123
+        // tryLockAndRun(锁对象，释放时间，时间单位，业务逻辑) 试获取锁并运行，运行完自动释放，避免手动忘记释放的情况
+        boolean tryLockAndRun = cache.tryLockAndRun(cashRechargeAuditRecord.getId() + "", 300, TimeUnit.SECONDS, () -> {
+            Long rechargeId = cashRechargeAuditRecord.getId();
+            // 数据校验：对充值信息做校验
+            CashRecharge cashRecharge = getById(rechargeId);
+            if (cashRecharge == null) {
+                throw new IllegalArgumentException("充值记录不存在");
+            }
+            Byte status = cashRecharge.getStatus();
+            if (status == 1) {
+                throw new IllegalArgumentException("充值记录审核已经通过");
+            }
+
+            // 1 创建审核记录
+            // 1.1 构建本次的审核记录
+            CashRechargeAuditRecord cashRechargeAuditRecordDb = new CashRechargeAuditRecord();
+            cashRechargeAuditRecordDb.setAuditUserId(userId);
+            cashRechargeAuditRecordDb.setStatus(cashRechargeAuditRecord.getStatus());
+            cashRechargeAuditRecordDb.setRemark(cashRechargeAuditRecord.getRemark());
+            Integer step = cashRecharge.getStep() + 1;
+            cashRechargeAuditRecordDb.setStep(step.byteValue());
+            // 1.2 保存本次审核记录
+            int insert = cashRechargeAuditRecordMapper.insert(cashRechargeAuditRecordDb);
+            if (insert == 0) {
+                throw new IllegalArgumentException("审核记录保存失败");
+            }
+
+            // 2 执行对审核通过和审核拒绝的处理
+            cashRecharge.setStatus(cashRechargeAuditRecord.getStatus());
+            cashRecharge.setAuditRemark(cashRechargeAuditRecord.getRemark());
+            cashRecharge.setStep(step.byteValue());
+            // 审核拒绝
+            if (cashRechargeAuditRecord.getStatus() == 2) {
+                updateById(cashRecharge);
+            } else {  // 审核通过 ,给用户的账户充值
+                // 更新账户信息：给管理员userId给用户的的coinId币种+num些钱，手续费是Fee
+                Boolean isOk = accountService.transferAccountAmount(userId,
+                        cashRecharge.getUserId(), cashRecharge.getCoinId(), cashRecharge.getId(), cashRecharge.getNum(), cashRecharge.getFee(),
+                        "充值", "recharge_into",(byte)1);
+                if (isOk) {
+                    cashRecharge.setLastTime(new Date()); // 设置完成时间
+                    // 更新充值记录
+                    updateById(cashRecharge);
+                }
+            }
+        });
+        return tryLockAndRun;
+    }
 
 }
