@@ -309,50 +309,50 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
 
-//    /**
-//     * 给用户扣减钱
-//     *
-//     * @param adminId      操作的人
-//     * @param userId       用户的id
-//     * @param coinId       币种的id
-//     * @param orderNum     订单的编号
-//     * @param num          扣减的余额
-//     * @param fee          费用
-//     * @param remark       备注
-//     * @param businessType 业务类型
-//     * @param direction    方向
-//     * @return
-//     */
-//    @Override
-//    public Boolean decreaseAccountAmount(Long adminId, Long userId, Long coinId, Long orderNum, BigDecimal num, BigDecimal fee, String remark, String businessType, byte direction) {
-//        Account coinAccount = getCoinAccount(coinId, userId);
-//        if (coinAccount == null) {
-//            throw new IllegalArgumentException("账户不存在");
-//        }
-//        AccountDetail accountDetail = new AccountDetail();
-//        accountDetail.setUserId(userId);
-//        accountDetail.setCoinId(coinId);
-//        accountDetail.setAmount(num);
-//        accountDetail.setFee(fee);
-//        accountDetail.setAccountId(coinAccount.getId());
-//        accountDetail.setRefAccountId(coinAccount.getId());
-//        accountDetail.setRemark(remark);
-//        accountDetail.setBusinessType(businessType);
-//        accountDetail.setDirection(direction);
-//        boolean save = accountDetailService.save(accountDetail);
-//        if (save) { // 新增了流水记录
-//            BigDecimal balanceAmount = coinAccount.getBalanceAmount();
-//            BigDecimal result = balanceAmount.add(num.multiply(BigDecimal.valueOf(-1)));
-//            if (result.compareTo(BigDecimal.ONE) > 0) {
-//                coinAccount.setBalanceAmount(result);
-//                return updateById(coinAccount);
-//            } else {
-//                throw new IllegalArgumentException("余额不足");
-//            }
-//        }
-//        return false;
-//    }
-//
+    /**
+     * 给用户扣减钱
+     *
+     * @param adminId      操作的人
+     * @param userId       用户的id
+     * @param coinId       币种的id
+     * @param orderNum     订单的编号
+     * @param num          扣减的余额
+     * @param fee          费用
+     * @param remark       备注
+     * @param businessType 业务类型
+     * @param direction    方向
+     * @return
+     */
+    @Override
+    public Boolean decreaseAccountAmount(Long adminId, Long userId, Long coinId, Long orderNum, BigDecimal num, BigDecimal fee, String remark, String businessType, byte direction) {
+        Account coinAccount = getCoinAccount(coinId, userId);
+        if (coinAccount == null) {
+            throw new IllegalArgumentException("账户不存在");
+        }
+        AccountDetail accountDetail = new AccountDetail();
+        accountDetail.setUserId(userId);
+        accountDetail.setCoinId(coinId);
+        accountDetail.setAmount(num);
+        accountDetail.setFee(fee);
+        accountDetail.setAccountId(coinAccount.getId());
+        accountDetail.setRefAccountId(coinAccount.getId());
+        accountDetail.setRemark(remark);
+        accountDetail.setBusinessType(businessType);
+        accountDetail.setDirection(direction);
+        boolean save = accountDetailService.save(accountDetail);
+        if (save) { // 新增了流水记录
+            BigDecimal balanceAmount = coinAccount.getBalanceAmount();
+            BigDecimal result = balanceAmount.add(num.multiply(BigDecimal.valueOf(-1)));
+            if (result.compareTo(BigDecimal.ONE) > 0) {
+                coinAccount.setBalanceAmount(result);
+                return updateById(coinAccount);
+            } else {
+                throw new IllegalArgumentException("余额不足");
+            }
+        }
+        return false;
+    }
+
 //    @Override
 //    public void transferBuyAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId) {
 //        Account fromAccount = getCoinAccount(coinId, fromUserId);

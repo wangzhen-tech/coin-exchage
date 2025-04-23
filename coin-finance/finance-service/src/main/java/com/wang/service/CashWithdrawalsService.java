@@ -43,13 +43,13 @@ public interface CashWithdrawalsService extends IService<CashWithdrawals> {
 //     * @return
 //     */
 //    boolean sell(Long userId, CashSellParam cashSellParam);
-//
-//
-//    /**
-//     * 审核提现记录
-//     * @param userId
-//     * @param cashWithdrawAuditRecord
-//     * @return
-//     */
-//    boolean updateWithdrawalsStatus(Long userId, CashWithdrawAuditRecord cashWithdrawAuditRecord);
+
+
+    /**
+     * 审核提现记录
+     * @param userId
+     * @param cashWithdrawAuditRecord
+     * @return
+     */
+    boolean updateWithdrawalsStatus(Long userId, CashWithdrawAuditRecord cashWithdrawAuditRecord);
 }

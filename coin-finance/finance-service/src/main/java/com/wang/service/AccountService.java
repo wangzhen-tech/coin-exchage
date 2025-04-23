@@ -77,7 +77,7 @@ public interface AccountService extends IService<Account> {
      * @param direction  方向
      * @return
      */
-//    Boolean decreaseAccountAmount(Long adminId, Long userId, Long coinId, Long orderNum ,BigDecimal num, BigDecimal fee,String remark, String businessType, byte direction);
+    Boolean decreaseAccountAmount(Long adminId, Long userId, Long coinId, Long orderNum ,BigDecimal num, BigDecimal fee,String remark, String businessType, byte direction);
 
     /**
      *

@@ -193,14 +193,15 @@ public class CashWithdrawalsController {
 //        }
 //        return R.fail("提交申请失败");
 //    }
-//
-//
-//
-//    @PostMapping("/updateWithdrawalsStatus")
-//    public R updateWithdrawalsStatus(@RequestBody CashWithdrawAuditRecord cashWithdrawAuditRecord){
-//        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        boolean isOk =  cashWithdrawalsService.updateWithdrawalsStatus(userId ,cashWithdrawAuditRecord) ;
-//        return isOk ? R.ok():R.fail("审核失败") ;
-//    }
+
+
+
+    @PostMapping("/updateWithdrawalsStatus")
+    // 后台-财务-场外交易提现审核
+    public R updateWithdrawalsStatus(@RequestBody CashWithdrawAuditRecord cashWithdrawAuditRecord){
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        boolean isOk =  cashWithdrawalsService.updateWithdrawalsStatus(userId ,cashWithdrawAuditRecord) ;
+        return isOk ? R.ok():R.fail("审核失败") ;
+    }
 
 }

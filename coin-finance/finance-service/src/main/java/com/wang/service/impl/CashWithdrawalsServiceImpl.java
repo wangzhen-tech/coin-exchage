@@ -292,54 +292,54 @@ public class CashWithdrawalsServiceImpl extends ServiceImpl<CashWithdrawalsMappe
 //            throw new IllegalArgumentException("检查提现的金额");
 //        }
 //    }
-//
-//
-//    /**
-//     * 审核提现记录
-//     *
-//     * @param userId
-//     * @param cashWithdrawAuditRecord
-//     * @return
-//     */
-//    @Override
-//    public boolean updateWithdrawalsStatus(Long userId, CashWithdrawAuditRecord cashWithdrawAuditRecord) {
-//        // 1 使用锁锁住
-//        boolean isOk = lock.tryLockAndRun(cashWithdrawAuditRecord.getId() + "", 300, TimeUnit.SECONDS, () -> {
-//            CashWithdrawals cashWithdrawals = getById(cashWithdrawAuditRecord.getId());
-//            if (cashWithdrawals == null) {
-//                throw new IllegalArgumentException("现金的审核记录不存在");
-//            }
-//
-//            // 2 添加一个审核的记录
-//            CashWithdrawAuditRecord cashWithdrawAuditRecordNew = new CashWithdrawAuditRecord();
-//            cashWithdrawAuditRecordNew.setAuditUserId(userId);
-//            cashWithdrawAuditRecordNew.setRemark(cashWithdrawAuditRecord.getRemark());
-//            cashWithdrawAuditRecordNew.setCreated(new Date());
-//            cashWithdrawAuditRecordNew.setStatus(cashWithdrawAuditRecord.getStatus());
-//            Integer step = cashWithdrawals.getStep() + 1;
-//            cashWithdrawAuditRecordNew.setStep(step.byteValue());
-//            cashWithdrawAuditRecordNew.setOrderId(cashWithdrawals.getId());
-//
-//            // 记录保存成功
-//            int count = cashWithdrawAuditRecordMapper.insert(cashWithdrawAuditRecordNew);
-//            if (count > 0) {
-//                cashWithdrawals.setStatus(cashWithdrawAuditRecord.getStatus());
-//                cashWithdrawals.setRemark(cashWithdrawAuditRecord.getRemark());
-//                cashWithdrawals.setLastTime(new Date());
-//                cashWithdrawals.setAccountId(userId); //
-//                cashWithdrawals.setStep(step.byteValue());
-//                boolean updateById = updateById(cashWithdrawals);   // 审核拒绝
-//                if (updateById) {
-//                    // 审核通过 withdrawals_out
-//                    Boolean isPass = accountService.decreaseAccountAmount(
-//                            userId, cashWithdrawals.getUserId(), cashWithdrawals.getCoinId(),
-//                            cashWithdrawals.getId(), cashWithdrawals.getNum(), cashWithdrawals.getFee(),
-//                            cashWithdrawals.getRemark(), "withdrawals_out", (byte) 2
-//                    );
-//                }
-//            }
-//        });
-//
-//        return isOk;
-//    }
+
+
+    /**
+     * 审核“提现记录"
+     *
+     * @param userId
+     * @param cashWithdrawAuditRecord
+     * @return
+     */
+    @Override
+    public boolean updateWithdrawalsStatus(Long userId, CashWithdrawAuditRecord cashWithdrawAuditRecord) {
+        // 1 使用锁锁住
+        boolean isOk = lock.tryLockAndRun(cashWithdrawAuditRecord.getId() + "", 300, TimeUnit.SECONDS, () -> {
+            CashWithdrawals cashWithdrawals = getById(cashWithdrawAuditRecord.getId());
+            if (cashWithdrawals == null) {
+                throw new IllegalArgumentException("现金的审核记录不存在");
+            }
+
+            // 2 添加一个审核的记录
+            CashWithdrawAuditRecord cashWithdrawAuditRecordNew = new CashWithdrawAuditRecord();
+            cashWithdrawAuditRecordNew.setAuditUserId(userId);
+            cashWithdrawAuditRecordNew.setRemark(cashWithdrawAuditRecord.getRemark());
+            cashWithdrawAuditRecordNew.setCreated(new Date());
+            cashWithdrawAuditRecordNew.setStatus(cashWithdrawAuditRecord.getStatus());
+            Integer step = cashWithdrawals.getStep() + 1;
+            cashWithdrawAuditRecordNew.setStep(step.byteValue());
+            cashWithdrawAuditRecordNew.setOrderId(cashWithdrawals.getId());
+
+            // 记录保存成功
+            int count = cashWithdrawAuditRecordMapper.insert(cashWithdrawAuditRecordNew);
+            if (count > 0) {
+                cashWithdrawals.setStatus(cashWithdrawAuditRecord.getStatus());
+                cashWithdrawals.setRemark(cashWithdrawAuditRecord.getRemark());
+                cashWithdrawals.setLastTime(new Date());
+                cashWithdrawals.setAccountId(userId); //
+                cashWithdrawals.setStep(step.byteValue());
+                boolean updateById = updateById(cashWithdrawals);   // 审核拒绝
+                if (updateById) {
+                    // 审核通过 withdrawals_out
+                    Boolean isPass = accountService.decreaseAccountAmount(
+                            userId, cashWithdrawals.getUserId(), cashWithdrawals.getCoinId(),
+                            cashWithdrawals.getId(), cashWithdrawals.getNum(), cashWithdrawals.getFee(),
+                            cashWithdrawals.getRemark(), "withdrawals_out", (byte) 2
+                    );
+                }
+            }
+        });
+
+        return isOk;
+    }
 }
