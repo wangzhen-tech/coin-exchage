@@ -77,7 +77,7 @@ public class CashRechargeController {
      *    2) 对于在导出时需要特殊处理的列(如日期的格式需要格式化)，定义该列的Processor，在processot中执行处理逻辑
      *    3) 使用ReportCsvUtils导出数据
      */
-    @GetMapping("/records/export")
+    @GetMapping("/export") // TODO 路径修改
     @ApiImplicitParams({
             @ApiImplicitParam(name = "coinId", value = "当前页"),
             @ApiImplicitParam(name = "userId", value = "用户的ID"),
