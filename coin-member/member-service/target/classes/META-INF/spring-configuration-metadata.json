@@ -4,6 +4,11 @@
       "name": "geetest",
       "type": "com.wang.config.GeetestProperties",
       "sourceType": "com.wang.config.GeetestProperties"
+    },
+    {
+      "name": "identify",
+      "type": "com.wang.config.IdProperties",
+      "sourceType": "com.wang.config.IdProperties"
     }
   ],
   "properties": [
@@ -18,6 +23,30 @@
       "type": "java.lang.String",
       "description": "极验的key",
       "sourceType": "com.wang.config.GeetestProperties"
+    },
+    {
+      "name": "identify.app-code",
+      "type": "java.lang.String",
+      "description": "你购买的appCode",
+      "sourceType": "com.wang.config.IdProperties"
+    },
+    {
+      "name": "identify.app-key",
+      "type": "java.lang.String",
+      "description": "你购买的appKey",
+      "sourceType": "com.wang.config.IdProperties"
+    },
+    {
+      "name": "identify.app-secret",
+      "type": "java.lang.String",
+      "description": "你购买的appSecret",
+      "sourceType": "com.wang.config.IdProperties"
+    },
+    {
+      "name": "identify.url",
+      "type": "java.lang.String",
+      "description": "身份认证的URL地址  \/\/ https:\/\/idcert.market.alicloudapi.com\/idcard?idCard=%s&name=%s",
+      "sourceType": "com.wang.config.IdProperties"
     }
   ],
   "hints": []

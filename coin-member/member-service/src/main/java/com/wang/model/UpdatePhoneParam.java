@@ -1,0 +1,35 @@
+package com.wang.model;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import javax.validation.constraints.NotBlank;
+
+/**
+ * @Author wangzhen
+ * @Description
+ *      {"countryCode":"+86","newMobilePhone":"15827293118",
+ *      "validateCode":"111111","oldValidateCode":"111111"}
+ * @Date 2025/4/29 16:59
+ * @Version 1.0
+ */
+@Data
+@ApiModel(value = "修改手机号")
+public class UpdatePhoneParam {
+    @ApiModelProperty(value = "国家的Code")
+    @NotBlank
+    private String countryCode ;
+
+    @ApiModelProperty(value = "新的手机号")
+    @NotBlank
+    private String newMobilePhone ;
+
+    @ApiModelProperty(value = "新手机号的验证码")
+    @NotBlank
+    private String validateCode ;
+
+    @ApiModelProperty(value = "旧手机号的验证码")
+    @NotBlank
+    private String oldValidateCode ;
+
+}

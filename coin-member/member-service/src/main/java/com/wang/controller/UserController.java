@@ -211,124 +211,124 @@ public class UserController implements UserServiceFeign { // 实现远程调用�
         userService.updateUserAuthStatus(id, authStatus, authCode, remark);
         return R.ok();
     }
-//
-//
-//    @GetMapping("/current/info")
-//    @ApiOperation(value = "获取当前登录用户对象的信息")
-//    public R<User> currentUserInfo() {
-//        String idStr = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-//        User user = userService.getById(Long.valueOf(idStr));
-//        user.setPassword("****");
-//        user.setPaypassword("***");
-//        user.setAccessKeyId("****");
-//        user.setAccessKeySecret("******");
-//        return R.ok(user);
-//    }
-//
-//
-//    @PostMapping("/authAccount")
-//    @ApiOperation(value = "用户的实名认证")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "userAuthForm", value = "userAuthFormjson数据")
-//    })
-//    public R identifyCheck(@RequestBody UserAuthForm userAuthForm) {
-//        String idStr = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-//        boolean isOk = userService.identifyVerify(Long.valueOf(idStr), userAuthForm);
-//        if (isOk) {
-//            return R.ok();
-//        }
-//        return R.fail("认证失败");
-//    }
-//
-//
-//    @PostMapping("/authUser")
-//    @ApiOperation(value = "用户进行高级认证")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "imgs", value = "用户的图片地址")
-//    })
-//    public R authUser(@RequestBody String[] imgs) {
-//        String idStr = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-//        userService.authUser(Long.valueOf(idStr), Arrays.asList(imgs));
-//        return R.ok();
-//    }
-//
-//
-//    @PostMapping("/updatePhone")
-//    @ApiOperation(value = "修改手机号")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "updatePhoneParam", value = "updatePhoneParam 的json数据")
-//    })
-//    public R updatePhone(@RequestBody UpdatePhoneParam updatePhoneParam) {
-//        String idStr = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-//        boolean isOk = userService.updatePhone(Long.valueOf(idStr), updatePhoneParam);
-//        if (isOk) {
-//            return R.ok();
-//        }
-//        return R.fail("修改失败");
-//    }
-//
-//
-//    @GetMapping("/checkTel")
-//    @ApiOperation(value = "检查新的手机号是否可用,如可用,则给该新手机发送验证码")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "mobile", value = "新的手机号"),
-//            @ApiImplicitParam(name = "countryCode", value = "手机号的区域")
-//    })
-//    public R checkNewPhone(@RequestParam(required = true) String mobile, @RequestParam(required = true) String countryCode) {
-//        boolean isOk = userService.checkNewPhone(mobile, countryCode);
-//        return isOk ? R.ok() : R.fail("新的手机号校验失败");
-//    }
-//
-//
-//    @PostMapping("/updateLoginPassword")
-//    @ApiOperation(value = "修改用户的登录密码")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "updateLoginParam", value = "修改用户的登录密码")
-//    })
-//    public R updateLoginPwd(@RequestBody @Validated UpdateLoginParam updateLoginParam) {
-//        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        boolean isOk = userService.updateUserLoginPwd(userId, updateLoginParam);
-//        if (isOk) {
-//            return R.ok();
-//        }
-//        return R.fail("修改失败");
-//    }
-//
-//    @PostMapping("/updatePayPassword")
-//    @ApiOperation(value = "修改用户的交易密码")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "updateLoginParam", value = "修改用户的交易密码")
-//    })
-//    public R updatePayPwd(@RequestBody @Validated UpdateLoginParam updateLoginParam) {
-//        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        boolean isOk = userService.updateUserPayPwd(userId, updateLoginParam);
-//        if (isOk) {
-//            return R.ok();
-//        }
-//        return R.fail("修改失败");
-//    }
-//
-//
-//    @PostMapping("/setPayPassword")
-//    @ApiOperation(value = "重新设置交易密码")
-//    public R setPayPassword(@RequestBody @Validated UnsetPayPasswordParam unsetPayPasswordParam) {
-//        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        boolean isOk = userService.unsetPayPassword(userId, unsetPayPasswordParam);
-//        if (isOk) {
-//            return R.ok();
-//        }
-//        return R.fail("重置失败");
-//    }
-//
-//
-//    @GetMapping("/invites")
-//    @ApiOperation(value = "用户的邀请列表")
-//    public R<List<User>> getUserInvites() {
-//        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        List<User> users = userService.getUserInvites(userId);
-//        return R.ok(users);
-//    }
-//
+
+
+    @GetMapping("/current/info")
+    @ApiOperation(value = "获取当前登录用户对象的信息")
+    public R<User> currentUserInfo() {
+        String idStr = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        User user = userService.getById(Long.valueOf(idStr));
+        user.setPassword("****");
+        user.setPaypassword("***");
+        user.setAccessKeyId("****");
+        user.setAccessKeySecret("******");
+        return R.ok(user);
+    }
+
+
+    @PostMapping("/authAccount")
+    @ApiOperation(value = "用户的实名认证")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userAuthForm", value = "userAuthFormjson数据")
+    })
+    public R identifyCheck(@RequestBody UserAuthForm userAuthForm) {
+        String idStr = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        boolean isOk = userService.identifyVerify(Long.valueOf(idStr), userAuthForm);
+        if (isOk) {
+            return R.ok();
+        }
+        return R.fail("认证失败");
+    }
+
+
+    @PostMapping("/authUser")
+    @ApiOperation(value = "用户进行高级认证")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "imgs", value = "用户的图片地址")
+    })
+    public R authUser(@RequestBody String[] imgs) {
+        String idStr = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        userService.authUser(Long.valueOf(idStr), Arrays.asList(imgs));
+        return R.ok();
+    }
+
+
+    @PostMapping("/updatePhone")
+    @ApiOperation(value = "修改手机号")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "updatePhoneParam", value = "updatePhoneParam 的json数据")
+    })
+    public R updatePhone(@RequestBody UpdatePhoneParam updatePhoneParam) {
+        String idStr = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        boolean isOk = userService.updatePhone(Long.valueOf(idStr), updatePhoneParam);
+        if (isOk) {
+            return R.ok();
+        }
+        return R.fail("修改失败");
+    }
+
+
+    @GetMapping("/checkTel")
+    @ApiOperation(value = "检查新的手机号是否可用,如可用,则给该新手机发送验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "mobile", value = "新的手机号"),
+            @ApiImplicitParam(name = "countryCode", value = "手机号的区域")
+    })
+    public R checkNewPhone(@RequestParam(required = true) String mobile, @RequestParam(required = true) String countryCode) {
+        boolean isOk = userService.checkNewPhone(mobile, countryCode);
+        return isOk ? R.ok() : R.fail("新的手机号校验失败");
+    }
+
+
+    @PostMapping("/updateLoginPassword")
+    @ApiOperation(value = "修改用户的登录密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "updateLoginParam", value = "修改用户的登录密码")
+    })
+    public R updateLoginPwd(@RequestBody @Validated UpdateLoginParam updateLoginParam) {
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        boolean isOk = userService.updateUserLoginPwd(userId, updateLoginParam);
+        if (isOk) {
+            return R.ok();
+        }
+        return R.fail("修改失败");
+    }
+
+    @PostMapping("/updatePayPassword")
+    @ApiOperation(value = "修改用户的交易密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "updateLoginParam", value = "修改用户的交易密码")
+    })
+    public R updatePayPwd(@RequestBody @Validated UpdateLoginParam updateLoginParam) {
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        boolean isOk = userService.updateUserPayPwd(userId, updateLoginParam);
+        if (isOk) {
+            return R.ok();
+        }
+        return R.fail("修改失败");
+    }
+
+
+    @PostMapping("/setPayPassword")
+    @ApiOperation(value = "重新设置交易密码")
+    public R setPayPassword(@RequestBody @Validated UnsetPayPasswordParam unsetPayPasswordParam) {
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        boolean isOk = userService.unsetPayPassword(userId, unsetPayPasswordParam);
+        if (isOk) {
+            return R.ok();
+        }
+        return R.fail("重置失败");
+    }
+
+
+    @GetMapping("/invites")
+    @ApiOperation(value = "用户的邀请列表")
+    public R<List<User>> getUserInvites() {
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        List<User> users = userService.getUserInvites(userId);
+        return R.ok(users);
+    }
+
 
     @PostMapping("/register")
     @ApiOperation(value = "用户的注册")
@@ -340,19 +340,19 @@ public class UserController implements UserServiceFeign { // 实现远程调用�
         return R.fail("注册失败");
     }
 
-//
-//    @PostMapping("/setPassword")
-//    @ApiOperation(value = "用户重置密码")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "unSetPasswordParam", value = "unSetPasswordParam json")
-//    })
-//    public R unsetPassword(@RequestBody @Validated UnSetPasswordParam unSetPasswordParam) {
-//        boolean isOk = userService.unsetLoginPwd(unSetPasswordParam);
-//        if (isOk) {
-//            return R.ok();
-//        }
-//        return R.fail("重置失败");
-//    }
+
+    @PostMapping("/setPassword")
+    @ApiOperation(value = "用户重置密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "unSetPasswordParam", value = "unSetPasswordParam json")
+    })
+    public R unsetPassword(@RequestBody @Validated UnSetPasswordParam unSetPasswordParam) {
+        boolean isOk = userService.unsetLoginPwd(unSetPasswordParam);
+        if (isOk) {
+            return R.ok();
+        }
+        return R.fail("重置失败");
+    }
 
     /**
      * 服务的提供者：提供“通过用户的信息查询用户”的功能
