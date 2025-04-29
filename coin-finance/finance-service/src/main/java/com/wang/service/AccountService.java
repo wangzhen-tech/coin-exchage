@@ -34,7 +34,7 @@ public interface AccountService extends IService<Account> {
      * @param coinName  货币的名称
      * @return
      */
-//    Account findByUserAndCoin(Long userId, String coinName);
+    Account findByUserAndCoin(Long userId, String coinName);
 
     /**
      * 暂时锁定用户的资产

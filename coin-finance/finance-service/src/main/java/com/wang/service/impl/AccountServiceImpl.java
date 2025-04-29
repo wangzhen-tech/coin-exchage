@@ -9,13 +9,13 @@ import com.wang.service.AccountService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wang.domain.AccountDetail;
 import com.wang.domain.Coin;
-//import com.wang.domain.Config;
+import com.wang.domain.Config;
 //import com.wang.dto.MarketDto;
 //import com.wang.feign.MarketServiceFeign;
 //import com.wang.mappers.AccountVoMappers;
 import com.wang.service.AccountDetailService;
 import com.wang.service.CoinService;
-//import com.wang.service.ConfigService;
+import com.wang.service.ConfigService;
 //import com.wang.vo.AccountVo;
 //import com.wang.vo.SymbolAssetVo;
 //import com.wang.vo.UserTotalAccountVo;
@@ -40,46 +40,47 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
     @Autowired
     private CoinService coinService;
-//
-//    @Autowired
-//    private ConfigService configService;
-//
+
+    @Autowired
+    private ConfigService configService;
+
+
     @Autowired
     private AccountDetailService accountDetailService;
 //
 //    @Autowired
 //    private MarketServiceFeign marketServiceFeign;
-//
-//
-//    /**
-//     * 查询某个用户的货币资产
-//     *
-//     * @param userId   用户的id
-//     * @param coinName 货币的名称
-//     * @return
-//     */
-//    @Override
-//    public Account findByUserAndCoin(Long userId, String coinName) {
-//        Coin coin = coinService.getCoinByCoinName(coinName);
-//        if (coin == null) {
-//            throw new IllegalArgumentException("货币不存在");
-//        }
-//        Account account = getOne(new LambdaQueryWrapper<Account>()
-//                .eq(Account::getUserId, userId)
-//                .eq(Account::getCoinId, coin.getId())
-//        );
-//        if (account == null) {
-//            throw new IllegalArgumentException("该资产不存在");
-//        }
-//
-//        Config sellRateConfig = configService.getConfigByCode("USDT2CNY");
-//        account.setSellRate(new BigDecimal(sellRateConfig.getValue())); // 出售的费率
-//
-//        Config setBuyRateConfig = configService.getConfigByCode("CNY2USDT");
-//        account.setBuyRate(new BigDecimal(setBuyRateConfig.getValue())); // 买进来的费率
-//
-//        return account;
-//    }
+
+
+    /**
+     * 查询某个用户的货币资产
+     *
+     * @param userId   用户的id
+     * @param coinName 货币的名称
+     * @return
+     */
+    @Override
+    public Account findByUserAndCoin(Long userId, String coinName) {
+        Coin coin = coinService.getCoinByCoinName(coinName);
+        if (coin == null) {
+            throw new IllegalArgumentException("货币不存在");
+        }
+        Account account = getOne(new LambdaQueryWrapper<Account>()
+                .eq(Account::getUserId, userId)// 用户id
+                .eq(Account::getCoinId, coin.getId())// 货币id
+        );
+        if (account == null) {
+            throw new IllegalArgumentException("该资产不存在");
+        }
+
+        Config sellRateConfig = configService.getConfigByCode("USDT2CNY");
+        account.setSellRate(new BigDecimal(sellRateConfig.getValue())); // 出售时的费率
+
+        Config setBuyRateConfig = configService.getConfigByCode("CNY2USDT");
+        account.setBuyRate(new BigDecimal(setBuyRateConfig.getValue())); // 购入时的费率
+
+        return account;
+    }
 //
 //    /**
 //     * 暂时锁定用户的资产
