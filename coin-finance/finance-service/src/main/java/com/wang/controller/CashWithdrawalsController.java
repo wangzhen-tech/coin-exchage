@@ -178,21 +178,21 @@ public class CashWithdrawalsController {
 //        Page<CashWithdrawals> cashWithdrawalsPage = cashWithdrawalsService.findCashWithdrawals(page, userId, status);
 //        return R.ok(cashWithdrawalsPage);
 //    }
-//
-//
-//    @PostMapping("/sell")
-//    @ApiOperation(value = "GCN的卖出操作")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "", value = "")
-//    })
-//    public R<Object> sell(@RequestBody @Validated CashSellParam cashSellParam) {
-//        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        boolean isOk = cashWithdrawalsService.sell(userId, cashSellParam);
-//        if (isOk) {
-//            return R.ok("提交申请成功");
-//        }
-//        return R.fail("提交申请失败");
-//    }
+
+
+    @PostMapping("/sell")
+    @ApiOperation(value = "GCN的卖出操作")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "", value = "")
+    })
+    public R<Object> sell(@RequestBody @Validated CashSellParam cashSellParam) {
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        boolean isOk = cashWithdrawalsService.sell(userId, cashSellParam);
+        if (isOk) {
+            return R.ok("提交申请成功");
+        }
+        return R.fail("提交申请失败");
+    }
 
 
 

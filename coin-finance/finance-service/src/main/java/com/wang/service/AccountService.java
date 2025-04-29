@@ -45,7 +45,7 @@ public interface AccountService extends IService<Account> {
      * @param orderId  订单的Id
      * @param fee  本次操作的手续费
      */
-//    void lockUserAmount(Long userId, Long coinId, BigDecimal mum, String type, Long orderId, BigDecimal fee);
+    void lockUserAmount(Long userId, Long coinId, BigDecimal mum, String type, Long orderId, BigDecimal fee);
 
     /**
      * 计算用户的总的资产
