@@ -48,7 +48,7 @@ public interface CashRechargeService extends IService<CashRecharge> {
      * @param cashParam  现金参数
      * @return
      */
-//    CashTradeVo buy(Long userId, CashParam cashParam);
+    CashTradeVo buy(Long userId, CashParam cashParam);
 
 
     /**

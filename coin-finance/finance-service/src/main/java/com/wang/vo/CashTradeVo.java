@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 /**
  * @Author wangzhen
- * @Description
+ * @Description 场外交易-记录审核详情的vo对象
  * @Date 2025/4/17 21:19
  * @Version 1.0
  */

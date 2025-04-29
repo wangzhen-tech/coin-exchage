@@ -20,12 +20,13 @@
     <dependencies>
         <dependency>
             <groupId>com.wang</groupId>
-            <artifactId>coin-common</artifactId>
+            <artifactId>admin-api</artifactId>
             <version>1.0</version>
         </dependency>
+
         <dependency>
             <groupId>com.wang</groupId>
-            <artifactId>admin-api</artifactId>
+            <artifactId>coin-common</artifactId>
             <version>1.0</version>
         </dependency>
 <!--        admin-service作为消费者，远程调用member-api中的服务-->
@@ -34,8 +35,12 @@
             <artifactId>member-api</artifactId>
             <version>1.0</version>
         </dependency>
-
-
+<!--hutool工具包-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.20</version>
+        </dependency>
 
         <!--        notNULL注解-->
         <dependency>

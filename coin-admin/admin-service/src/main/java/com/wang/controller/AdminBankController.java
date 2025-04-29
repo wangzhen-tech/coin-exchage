@@ -2,8 +2,8 @@ package com.wang.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wang.domain.AdminBank;
-//import com.wang.dto.AdminBankDto;
-//import com.wang.feign.AdminBankServiceFeign;
+import com.wang.dto.AdminBankDto;
+import com.wang.feign.AdminBankServiceFeign;
 import com.wang.model.R;
 import com.wang.service.AdminBankService;
 import io.swagger.annotations.Api;
@@ -25,8 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/adminBanks")
 @Api(tags = "公司银行卡的配置")
-//public class AdminBankController  implements AdminBankServiceFeign {
-public class AdminBankController{
+public class AdminBankController  implements AdminBankServiceFeign {
     @Autowired
     private AdminBankService adminBankService;
 
@@ -91,9 +90,10 @@ public class AdminBankController{
         return R.fail("状态修改失败") ;
     }
 
-//    @Override
-//    public List<AdminBankDto> getAllAdminBanks() {
-//        List<AdminBankDto> adminBankDtos = adminBankService.getAllAdminBanks() ;
-//        return adminBankDtos;
-//    }
+    // 远程调用接口的实现
+    @Override
+    public List<AdminBankDto> getAllAdminBanks() {
+        List<AdminBankDto> adminBankDtos = adminBankService.getAllAdminBanks() ;
+        return adminBankDtos;
+    }
 }

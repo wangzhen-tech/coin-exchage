@@ -230,16 +230,16 @@ public class CashRechargeController {
     }
 
 
-//    @PostMapping("/buy")
-//    @ApiOperation(value = "GCN的充值操作")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "cashParam", value = "现金交易的参数")
-//    })
-//    public R<CashTradeVo> buy(@RequestBody @Validated CashParam cashParam) {
-//        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        CashTradeVo cashTradeVo = cashRechargeService.buy(userId, cashParam);
-//        return R.ok(cashTradeVo);
-//    }
+    @PostMapping("/buy")
+    @ApiOperation(value = "GCN的充值操作")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cashParam", value = "现金交易的参数")
+    })
+    public R<CashTradeVo> buy(@RequestBody @Validated CashParam cashParam) {
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        CashTradeVo cashTradeVo = cashRechargeService.buy(userId, cashParam);
+        return R.ok(cashTradeVo);
+    }
 
 
 
