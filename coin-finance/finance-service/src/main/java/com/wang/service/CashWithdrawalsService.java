@@ -27,14 +27,14 @@ public interface CashWithdrawalsService extends IService<CashWithdrawals> {
      */
     Page<CashWithdrawals> findByPage(Page<CashWithdrawals> page, Long userId, String userName, String mobile, Byte status, String numMin, String numMax, String startTime, String endTime);
 
-//    /**
-//     * 查询用户的提现记录
-//     * @param page
-//     * @param userId
-//     * @param status
-//     * @return
-//     */
-//    Page<CashWithdrawals> findCashWithdrawals(Page<CashWithdrawals> page, Long userId, Byte status);
+    /**
+     * 查询用户的提现记录
+     * @param page
+     * @param userId
+     * @param status
+     * @return
+     */
+    Page<CashWithdrawals> findCashWithdrawals(Page<CashWithdrawals> page, Long userId, Byte status);
 
     /**
      * GCN的卖出操作

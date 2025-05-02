@@ -123,22 +123,22 @@ public class CashWithdrawalsServiceImpl extends ServiceImpl<CashWithdrawalsMappe
         return pageDate;
     }
 
-//    /**
-//     * 查询用户的提现记录
-//     *
-//     * @param page
-//     * @param userId
-//     * @param status
-//     * @return
-//     */
-//    @Override
-//    public Page<CashWithdrawals> findCashWithdrawals(Page<CashWithdrawals> page, Long userId, Byte status) {
-//        return page(page, new LambdaQueryWrapper<CashWithdrawals>()
-//                .eq(CashWithdrawals::getUserId, userId)
-//                .eq(status != null, CashWithdrawals::getStatus, status));
-//    }
-//
-//
+    /**
+     * 查询用户的提现记录
+     *
+     * @param page
+     * @param userId
+     * @param status
+     * @return
+     */
+    @Override
+    public Page<CashWithdrawals> findCashWithdrawals(Page<CashWithdrawals> page, Long userId, Byte status) {
+        return page(page, new LambdaQueryWrapper<CashWithdrawals>()
+                .eq(CashWithdrawals::getUserId, userId)
+                .eq(status != null, CashWithdrawals::getStatus, status));
+    }
+
+
 //    -------------------------------------------  START ----------------------------------------------------
     /**
      * GCN的卖出操作
@@ -191,7 +191,7 @@ public class CashWithdrawalsServiceImpl extends ServiceImpl<CashWithdrawalsMappe
         cashWithdrawals.setRemark(remark);
         boolean save = save(cashWithdrawals);
         if (save) { //
-            // 扣减总资产--account-->accountDetail
+            // 扣减总资产：account表 调动--> accountDetail表
             accountService.lockUserAmount(userId, cashWithdrawals.getCoinId(), cashWithdrawals.getMum(), "withdrawals_out", cashWithdrawals.getId(), cashWithdrawals.getFee());
         }
         return save;
