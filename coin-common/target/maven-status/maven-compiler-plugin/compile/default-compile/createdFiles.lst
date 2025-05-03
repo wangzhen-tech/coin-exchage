@@ -11,6 +11,7 @@ META-INF\spring-configuration-metadata.json
 com\wang\config\swagger\SwaggerProperties.class
 com\wang\domain\Config.class
 com\wang\CoinCommonApplication.class
+com\wang\dto\MergeDepthDto.class
 com\wang\config\resource\ResourceServerConfig.class
 com\wang\handler\AutoFillHandler.class
 com\wang\model\R.class
@@ -18,3 +19,4 @@ com\wang\config\fegin\OAuth2FeignConfig.class
 com\wang\constant\Constants.class
 com\wang\config\jackson\JackConfig.class
 com\wang\config\mybatisplus\MybatisPlusConfig.class
+com\wang\dto\CreateKLineDto.class

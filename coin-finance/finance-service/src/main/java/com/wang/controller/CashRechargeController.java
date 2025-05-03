@@ -235,7 +235,7 @@ public class CashRechargeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cashParam", value = "现金交易的参数")
     })
-    public R<CashTradeVo> buy(@RequestBody @Validated CashParam cashParam) {
+    public R<CashTradeVo> buy(@RequestBody @Validated CashParam cashParam) {// GCN的买入
         Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         CashTradeVo cashTradeVo = cashRechargeService.buy(userId, cashParam);
         return R.ok(cashTradeVo);

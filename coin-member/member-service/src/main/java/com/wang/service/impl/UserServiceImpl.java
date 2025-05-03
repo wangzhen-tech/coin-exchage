@@ -523,8 +523,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     public static void main(String[] args) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String encode = bCryptPasswordEncoder.encode("c4ca4238a0b923820dcc509a6f75849b");// 我们在网页上的MD5(LTD12345)
-        // $2a$10$ST0HQ4hZCRCMLGA8dDA96e7wzDMnBRR1rSTrD2z/LLVgivdArzF42-> 修改我们的数据库密码->替换为现在这个值
-        System.out.println(encode);
+//         我们在网页上的MD5(LTD12345)
+//        String encode = bCryptPasswordEncoder.encode("c4ca4238a0b923820dcc509a6f75849b");
+//         $2a$10$ST0HQ4hZCRCMLGA8dDA96e7wzDMnBRR1rSTrD2z/LLVgivdArzF42-> 修改我们的数据库密码->替换为现在这个值
+
+        // 123456aaa的md5再次加密
+        String encode = bCryptPasswordEncoder.encode("93a9e5bb1d598a453606e890f72bd393");
+        System.out.println(encode);// $2a$10$hmNirRJQgT/DEuVRTWlH8ezg.k/qA.mxGX1uMM3zZ7tsV.3f7qQ1q
     }
 }
