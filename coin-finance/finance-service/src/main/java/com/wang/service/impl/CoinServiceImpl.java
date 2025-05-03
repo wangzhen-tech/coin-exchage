@@ -1,5 +1,6 @@
 package com.wang.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,7 +9,7 @@ import com.wang.mapper.CoinMapper;
 import com.wang.service.CoinService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-//import com.wang.dto.CoinDto;
+import com.wang.dto.CoinDto;
 //import com.wang.mappers.CoinMappersDto;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -86,13 +87,15 @@ public class CoinServiceImpl extends ServiceImpl<CoinMapper, Coin> implements Co
      * @param coinIds
      * @return
      */
-//    @Override
-//    public List<CoinDto> findList(List<Long> coinIds) {
-//        List<Coin> coins = super.listByIds(coinIds);
-//        if(CollectionUtils.isEmpty(coinIds)){
-//            return Collections.emptyList() ;
-//        }
+    @Override
+    public List<CoinDto> findList(List<Long> coinIds) {
+        List<Coin> coins = super.listByIds(coinIds);
+        if(CollectionUtils.isEmpty(coinIds)){
+            return Collections.emptyList() ;
+        }
+        // 用hutool工具包替换mapstruct
+        List<CoinDto> coinDtos = BeanUtil.copyToList(coins, CoinDto.class);
 //        List<CoinDto> coinDtos = CoinMappersDto.INSTANCE.toConvertDto(coins);
-//        return coinDtos;
-//    }
+        return coinDtos;
+    }
 }

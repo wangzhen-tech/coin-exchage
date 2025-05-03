@@ -18,12 +18,17 @@
     </properties>
 
     <dependencies>
+        <!--        远程调用时，需要一下服务作为依赖-->
+        <dependency>
+            <groupId>com.wang</groupId>
+            <artifactId>coin-common</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>com.wang</groupId>
             <artifactId>finance-api</artifactId>
             <version>1.0</version>
         </dependency>
-<!--        远程调用时，需要一下服务作为依赖-->
         <dependency>
             <groupId>com.wang</groupId>
             <artifactId>admin-api</artifactId>
@@ -36,14 +41,21 @@
         </dependency>
         <dependency>
             <groupId>com.wang</groupId>
-            <artifactId>coin-common</artifactId>
+            <artifactId>exchange-api</artifactId>
             <version>1.0</version>
+            <scope>compile</scope>
         </dependency>
 <!--        csv的导出工具类-->
         <dependency>
             <groupId>net.sf.supercsv</groupId>
             <artifactId>super-csv</artifactId>
             <version>${csv.version}</version>
+        </dependency>
+<!--        hultool工具类-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.20</version>
         </dependency>
     </dependencies>
 

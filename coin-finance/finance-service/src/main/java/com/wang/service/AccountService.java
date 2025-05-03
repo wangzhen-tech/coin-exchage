@@ -2,8 +2,8 @@ package com.wang.service;
 
 import com.wang.domain.Account;
 import com.baomidou.mybatisplus.extension.service.IService;
-//import com.wang.vo.SymbolAssetVo;
-//import com.wang.vo.UserTotalAccountVo;
+import com.wang.vo.SymbolAssetVo;
+import com.wang.vo.UserTotalAccountVo;
 import java.math.BigDecimal;
 
 /**
@@ -52,7 +52,7 @@ public interface AccountService extends IService<Account> {
      * @param userId
      * @return
      */
-//    UserTotalAccountVo getUserTotalAccount(Long userId);
+    UserTotalAccountVo getUserTotalAccount(Long userId);
 
     /**
      * 统计用户交易对的资产
@@ -60,7 +60,7 @@ public interface AccountService extends IService<Account> {
      * @param userId   用户的Id
      * @return
      */
-//    SymbolAssetVo getSymbolAssert(String symbol, Long userId);
+    SymbolAssetVo getSymbolAssert(String symbol, Long userId);
 
 
 
@@ -88,7 +88,7 @@ public interface AccountService extends IService<Account> {
      * @param businessType
      * @param orderId
      */
-//    void transferBuyAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId);
+    void transferBuyAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId);
 
     /**
      *
@@ -99,6 +99,6 @@ public interface AccountService extends IService<Account> {
      * @param businessType
      * @param orderId
      */
-//    void transferSellAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId);
+    void transferSellAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId);
 
 }

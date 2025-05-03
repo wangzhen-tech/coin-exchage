@@ -3,7 +3,7 @@ package com.wang.service;
 import com.wang.domain.Coin;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-//import com.wang.dto.CoinDto;
+import com.wang.dto.CoinDto;
 import java.util.List;
 /**
  * @Author wangzhen
@@ -51,5 +51,5 @@ public interface CoinService extends IService<Coin> {
      * @param coinIds
      * @return
      */
-//    List<CoinDto> findList(List<Long> coinIds);
+    List<CoinDto> findList(List<Long> coinIds);
 }

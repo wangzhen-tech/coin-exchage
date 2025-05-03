@@ -1,11 +1,11 @@
 package com.wang.controller;
 
 import com.wang.domain.Account;
-//import com.wang.feign.AccountServiceFeign;
+import com.wang.feign.AccountServiceFeign;
 import com.wang.model.R;
 import com.wang.service.AccountService;
-//import com.wang.vo.SymbolAssetVo;
-//import com.wang.vo.UserTotalAccountVo;
+import com.wang.vo.SymbolAssetVo;
+import com.wang.vo.UserTotalAccountVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -27,8 +27,7 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("/account")
 @Api(tags = "资产服务的控制器")
-//public class AccountController implements AccountServiceFeign {
-public class AccountController {
+public class AccountController implements AccountServiceFeign {
     @Autowired
     private AccountService accountService;
 
@@ -43,67 +42,67 @@ public class AccountController {
         Account account = accountService.findByUserAndCoin(userId, coinName);
         return R.ok(account);
     }
-//
-//    @GetMapping("/total")
-//    @ApiOperation(value = "计算用户的总资产")
-//    public R<UserTotalAccountVo> total() {
-//        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        UserTotalAccountVo userTotalAccountVo = accountService.getUserTotalAccount(userId);
-//        return R.ok(userTotalAccountVo);
-//    }
-//
-//
-//    @GetMapping("/asset/{symbol}")
-//    @ApiOperation(value = "交易货币的资产")
-//    public R<SymbolAssetVo> getSymbolAssert(@PathVariable("symbol") String symbol) {
-//        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        SymbolAssetVo symbolAssetVo = accountService.getSymbolAssert(symbol, userId);
-//        return R.ok(symbolAssetVo);
-//    }
-//
-//    /**
-//     * 锁定用户的余额
-//     *
-//     * @param userId  用户的id
-//     * @param coinId  币种的id
-//     * @param mum     锁定的数量
-//     * @param type    业务类型
-//     * @param orderId 订单编号
-//     * @param fee
-//     */
-//    @Override
-//    public void lockUserAmount(Long userId, Long coinId, BigDecimal mum, String type, Long orderId, BigDecimal fee) {
-//        accountService.lockUserAmount(userId, coinId, mum, type, orderId, fee);
-//    }
-//
-//    /**
-//     * 划转买入的账户余额
-//     *
-//     * @param fromUserId
-//     * @param toUserId
-//     * @param coinId
-//     * @param amount
-//     * @param businessType
-//     * @param orderId
-//     */
-//    @Override
-//    public void transferBuyAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId) {
-//        accountService.transferBuyAmount(fromUserId, toUserId, coinId, amount, businessType, orderId);
-//    }
-//
-//    /**
-//     * 划转出售的成功的账户余额
-//     *
-//     * @param fromUserId
-//     * @param toUserId
-//     * @param coinId
-//     * @param amount
-//     * @param businessType
-//     * @param orderId
-//     */
-//    @Override
-//    public void transferSellAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId) {
-//        accountService.transferSellAmount(fromUserId, toUserId, coinId, amount, businessType, orderId);
-//    }
+
+    @GetMapping("/total")
+    @ApiOperation(value = "计算用户的总资产")
+    public R<UserTotalAccountVo> total() {
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        UserTotalAccountVo userTotalAccountVo = accountService.getUserTotalAccount(userId);
+        return R.ok(userTotalAccountVo);
+    }
+
+
+    @GetMapping("/asset/{symbol}")
+    @ApiOperation(value = "交易货币的资产")
+    public R<SymbolAssetVo> getSymbolAssert(@PathVariable("symbol") String symbol) {
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        SymbolAssetVo symbolAssetVo = accountService.getSymbolAssert(symbol, userId);
+        return R.ok(symbolAssetVo);
+    }
+
+    /**
+     * 锁定用户的余额
+     *
+     * @param userId  用户的id
+     * @param coinId  币种的id
+     * @param mum     锁定的数量
+     * @param type    业务类型
+     * @param orderId 订单编号
+     * @param fee
+     */
+    @Override
+    public void lockUserAmount(Long userId, Long coinId, BigDecimal mum, String type, Long orderId, BigDecimal fee) {
+        accountService.lockUserAmount(userId, coinId, mum, type, orderId, fee);
+    }
+
+    /**
+     * 划转买入的账户余额
+     *
+     * @param fromUserId
+     * @param toUserId
+     * @param coinId
+     * @param amount
+     * @param businessType
+     * @param orderId
+     */
+    @Override
+    public void transferBuyAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId) {
+        accountService.transferBuyAmount(fromUserId, toUserId, coinId, amount, businessType, orderId);
+    }
+
+    /**
+     * 划转出售的成功的账户余额
+     *
+     * @param fromUserId
+     * @param toUserId
+     * @param coinId
+     * @param amount
+     * @param businessType
+     * @param orderId
+     */
+    @Override
+    public void transferSellAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId) {
+        accountService.transferSellAmount(fromUserId, toUserId, coinId, amount, businessType, orderId);
+    }
 
 }

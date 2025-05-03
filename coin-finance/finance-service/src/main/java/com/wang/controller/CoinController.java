@@ -2,8 +2,8 @@ package com.wang.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wang.domain.Coin;
-//import com.wang.dto.CoinDto;
-//import com.wang.feign.CoinServiceFeign;
+import com.wang.dto.CoinDto;
+import com.wang.feign.CoinServiceFeign;
 import com.wang.model.R;
 import com.wang.service.CoinService;
 import io.swagger.annotations.Api;
@@ -25,8 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/coins")
 @Api(tags = "数字货币的数据接口")
-//public class CoinController implements CoinServiceFeign {
-public class CoinController  {
+public class CoinController implements CoinServiceFeign {
     @Autowired
     private CoinService coinService ;
 
@@ -124,11 +123,11 @@ public class CoinController  {
         }
         return R.fail("新增失败") ;
     }
-//
-//    @Override
-//    public List<CoinDto> findCoins(List<Long> coinIds) {
-//        List<CoinDto> coinDtos =  coinService.findList(coinIds) ;
-//        return coinDtos;
-//    }
+
+    @Override
+    public List<CoinDto> findCoins(List<Long> coinIds) {
+        List<CoinDto> coinDtos =  coinService.findList(coinIds) ;
+        return coinDtos;
+    }
 
 }
