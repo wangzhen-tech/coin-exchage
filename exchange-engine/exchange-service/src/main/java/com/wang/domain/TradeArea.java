@@ -10,17 +10,15 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import com.baomidou.mybatisplus.annotation.*;
+import javax.validation.constraints.NotBlank;
 /**
  * @Author wangzhen
- * @Description ${description}
+ * @Description 后台系统-币币交易参数-交易区域
  * @Date 2025/5/4 16:53
  * @Version 1.0
  */
-/**
-    * 交易区
-    */
-@ApiModel(description="交易区")
+@ApiModel(value="com-wang-domain-TradeArea")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,15 +27,16 @@ public class TradeArea {
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     @ApiModelProperty(value="主键")
     private Long id;
 
     /**
      * 交易区名称
      */
-    @TableField(value = "`name`")
+    @TableField(value = "name")
     @ApiModelProperty(value="交易区名称")
+    @NotBlank
     private String name;
 
     /**
@@ -45,12 +44,13 @@ public class TradeArea {
      */
     @TableField(value = "code")
     @ApiModelProperty(value="交易区代码")
+    @NotBlank
     private String code;
 
     /**
      * 类型：1-数字货币交易；2-创新交易使用；
      */
-    @TableField(value = "`type`")
+    @TableField(value = "type")
     @ApiModelProperty(value="类型：1-数字货币交易；2-创新交易使用；")
     private Byte type;
 
@@ -78,7 +78,7 @@ public class TradeArea {
     /**
      * 状态
      */
-    @TableField(value = "`status`")
+    @TableField(value = "status")
     @ApiModelProperty(value="状态")
     private Byte status;
 
@@ -92,14 +92,14 @@ public class TradeArea {
     /**
      * 修改时间
      */
-    @TableField(value = "last_update_time")
+    @TableField(value = "last_update_time",fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value="修改时间")
     private Date lastUpdateTime;
 
     /**
      * 创建时间
      */
-    @TableField(value = "created")
+    @TableField(value = "created",fill=FieldFill.INSERT)
     @ApiModelProperty(value="创建时间")
     private Date created;
 }
