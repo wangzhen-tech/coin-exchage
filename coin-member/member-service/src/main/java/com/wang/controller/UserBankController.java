@@ -1,11 +1,11 @@
 package com.wang.controller;
 
-
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wang.domain.UserBank;
-//import com.wang.dto.UserBankDto;
-//import com.wang.feign.UserBankServiceFeign;
+import com.wang.dto.UserBankDto;
+import com.wang.feign.UserBankServiceFeign;
 //import com.wang.mappers.UserBankDtoMapper;
 import com.wang.model.R;
 import com.wang.service.UserBankService;
@@ -27,8 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/userBanks")
 @Api(tags = "会员的银行卡管理")
-//public class UserBankController implements UserBankServiceFeign {
-public class UserBankController {
+public class UserBankController implements UserBankServiceFeign {
     @Autowired
     private UserBankService userBankService ;
 
@@ -99,10 +98,11 @@ public class UserBankController {
         return R.fail("绑定失败") ;
     }
 
-//    @Override
-//    public UserBankDto getUserBankInfo(Long userId) {
-//        UserBank currentUserBank = userBankService.getCurrentUserBank(userId);
+    @Override
+    public UserBankDto getUserBankInfo(Long userId) {
+        UserBank currentUserBank = userBankService.getCurrentUserBank(userId);
+        UserBankDto userBankDto = BeanUtil.copyProperties(currentUserBank, UserBankDto.class);
 //        UserBankDto userBankDto = UserBankDtoMapper.INSTANCE.toConvertDto(currentUserBank);
-//        return userBankDto ;
-//    }
+        return userBankDto ;
+    }
 }

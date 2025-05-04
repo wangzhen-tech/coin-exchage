@@ -63,4 +63,19 @@ public class GlobalExceptionHandler {
         }
         return R.fail(bindException.getMessage()) ;
     }
+
+//    /**
+//     * 4 非法参数异常处理
+//     */
+//    @ExceptionHandler(value = IllegalArgumentException.class)
+//    public R handlerArgumentException(IllegalArgumentException illegalArgumentException){
+//        return R.fail("参数错误：" + illegalArgumentException.getMessage());
+//    }
+//
+//    // 兜底处理：所有未明确指定的异常
+//    @ExceptionHandler(Exception.class)
+//    public R<Void> handleException(Exception e) {
+//        e.printStackTrace(); // 可选日志
+//        return R.fail("系统错误：" + e.getMessage());
+//    }
 }
