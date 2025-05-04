@@ -1,6 +1,5 @@
 package com.wang.dto;
 
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,7 +7,7 @@ import java.math.BigDecimal;
 
 /**
  * @Author wangzhen
- * @Description
+ * @Description coin的RPC传输对象
  * @Date 2025/5/3 16:04
  * @Version 1.0
  */

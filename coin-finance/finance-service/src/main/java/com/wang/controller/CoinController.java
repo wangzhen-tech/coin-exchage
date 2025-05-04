@@ -124,6 +124,7 @@ public class CoinController implements CoinServiceFeign {
         return R.fail("新增失败") ;
     }
 
+    // 远程调用接口实现
     @Override
     public List<CoinDto> findCoins(List<Long> coinIds) {
         List<CoinDto> coinDtos =  coinService.findList(coinIds) ;

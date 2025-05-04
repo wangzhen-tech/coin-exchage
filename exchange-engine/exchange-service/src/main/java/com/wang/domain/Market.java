@@ -11,17 +11,18 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 
 /**
  * @Author wangzhen
- * @Description ${description}
+ * @Description 交易对配置信息
  * @Date 2025/5/4 16:53
  * @Version 1.0
  */
-/**
-    * 交易对配置信息
-    */
-@ApiModel(description="交易对配置信息")
+@ApiModel(value="com-wang-domain-Market")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,14 +31,14 @@ public class Market {
     /**
      * 市场ID
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     @ApiModelProperty(value="市场ID")
     private Long id;
 
     /**
      * 类型：1-数字货币；2：创新交易
      */
-    @TableField(value = "`type`")
+    @TableField(value = "type")
     @ApiModelProperty(value="类型：1-数字货币；2：创新交易")
     private Byte type;
 
@@ -46,6 +47,7 @@ public class Market {
      */
     @TableField(value = "trade_area_id")
     @ApiModelProperty(value="交易区域ID")
+    @NotNull
     private Long tradeAreaId;
 
     /**
@@ -53,6 +55,7 @@ public class Market {
      */
     @TableField(value = "sell_coin_id")
     @ApiModelProperty(value="卖方市场ID")
+    @NotBlank
     private Long sellCoinId;
 
     /**
@@ -60,6 +63,7 @@ public class Market {
      */
     @TableField(value = "buy_coin_id")
     @ApiModelProperty(value="买方币种ID")
+    @NotNull
     private Long buyCoinId;
 
     /**
@@ -67,12 +71,13 @@ public class Market {
      */
     @TableField(value = "symbol")
     @ApiModelProperty(value="交易对标识")
+    @NotNull
     private String symbol;
 
     /**
      * 名称
      */
-    @TableField(value = "`name`")
+    @TableField(value = "name")
     @ApiModelProperty(value="名称")
     private String name;
 
@@ -95,6 +100,7 @@ public class Market {
      */
     @TableField(value = "open_price")
     @ApiModelProperty(value="开盘价格")
+    @NotNull
     private BigDecimal openPrice;
 
     /**
@@ -102,6 +108,7 @@ public class Market {
      */
     @TableField(value = "fee_buy")
     @ApiModelProperty(value="买入手续费率")
+    @NotNull
     private BigDecimal feeBuy;
 
     /**
@@ -109,6 +116,7 @@ public class Market {
      */
     @TableField(value = "fee_sell")
     @ApiModelProperty(value="卖出手续费率")
+    @NotNull
     private BigDecimal feeSell;
 
     /**
@@ -123,6 +131,7 @@ public class Market {
      */
     @TableField(value = "num_min")
     @ApiModelProperty(value="单笔最小委托量")
+    @NotNull
     private BigDecimal numMin;
 
     /**
@@ -130,6 +139,7 @@ public class Market {
      */
     @TableField(value = "num_max")
     @ApiModelProperty(value="单笔最大委托量")
+    @NotNull
     private BigDecimal numMax;
 
     /**
@@ -151,6 +161,7 @@ public class Market {
      */
     @TableField(value = "price_scale")
     @ApiModelProperty(value="价格小数位")
+    @NotNull
     private Byte priceScale;
 
     /**
@@ -179,6 +190,7 @@ public class Market {
      */
     @TableField(value = "merge_depth")
     @ApiModelProperty(value="合并深度（格式：4,3,2）4:表示为0.0001；3：表示为0.001")
+    @NotNull
     private String mergeDepth;
 
     /**
@@ -186,6 +198,7 @@ public class Market {
      */
     @TableField(value = "trade_time")
     @ApiModelProperty(value="交易时间")
+    @NotNull
     private String tradeTime;
 
     /**
@@ -193,6 +206,7 @@ public class Market {
      */
     @TableField(value = "trade_week")
     @ApiModelProperty(value="交易周期")
+    @NotNull
     private String tradeWeek;
 
     /**
@@ -204,12 +218,12 @@ public class Market {
 
     /**
      * 状态
-0禁用
-1启用
+     0禁用
+     1启用
      */
-    @TableField(value = "`status`")
+    @TableField(value = "status")
     @ApiModelProperty(value="状态,0禁用,1启用")
-    private Boolean status;
+    private Integer status;
 
     /**
      * 福汇API交易对
@@ -235,14 +249,14 @@ public class Market {
     /**
      * 更新时间
      */
-    @TableField(value = "last_update_time")
+    @TableField(value = "last_update_time",fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value="更新时间")
     private Date lastUpdateTime;
 
     /**
      * 创建时间
      */
-    @TableField(value = "created")
+    @TableField(value = "created",fill = FieldFill.INSERT)
     @ApiModelProperty(value="创建时间")
     private Date created;
 }
