@@ -26,7 +26,7 @@ import java.util.TreeMap;
  */
 @RestController
 //public class MatchController implements OrderBooksFeignClient {
-public class MatchController {
+public class MatchController  {
 
 //    @Autowired
 //    private EventHandler<OrderEvent>[] eventHandlers;
@@ -44,14 +44,15 @@ public class MatchController {
 //        return null;
 //    }
 
-    /**
-     * 查询该交易对的盘口数据
-     * key :sell:asks   value: List<DepthItemVo>
-     * key:buy:bids    value:List<DepthItemVo>
-     *
-     * @param symbol
-     * @return
-     */
+//    // 远程调用接口实现
+//    /**
+//     * 查询该交易对的盘口数据
+//     * key :sell:asks   value: List<DepthItemVo>
+//     * key:buy:bids    value:List<DepthItemVo>
+//     *
+//     * @param symbol
+//     * @return
+//     */
 //    @Override
 //    public Map<String, List<DepthItemVo>> querySymbolDepth(String symbol) {
 //        for (EventHandler<OrderEvent> eventHandler : eventHandlers) {

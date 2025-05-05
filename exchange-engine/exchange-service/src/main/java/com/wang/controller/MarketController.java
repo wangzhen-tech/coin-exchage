@@ -117,13 +117,13 @@ public class MarketController implements MarketServiceFeign {
         return R.ok(marketService.list());
     }
 
-//
-//    @ApiOperation(value = "通过的交易对以及深度查询当前的市场的深度数据")
-//    @GetMapping("/depth/{symbol}/{dept}")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "symbol", value = "交易对"),
-//            @ApiImplicitParam(name = "dept", value = "深度类型"),
-//    })
+
+    @ApiOperation(value = "通过的交易对以及深度查询当前的市场的深度数据")// 用户前台-币币交易-盘口
+    @GetMapping("/depth/{symbol}/{dept}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "symbol", value = "交易对"),
+            @ApiImplicitParam(name = "dept", value = "深度类型"),
+    })
     public R<DepthsVo> findDeptVosSymbol(@PathVariable("symbol") String symbol, String dept) {
         // 交易市场
         Market market = marketService.getMarkerBySymbol(symbol);
@@ -136,18 +136,19 @@ public class MarketController implements MarketServiceFeign {
             depthsVo.setAsks(depthMap.get("asks"));
             depthsVo.setBids(depthMap.get("bids"));
         }
-        return R.ok(depthsVo);
 
+        return R.ok(depthsVo);
     }
-//
-//    @ApiOperation(value = "查询成交记录")
-//    @GetMapping("/trades/{symbol}")
-//    public R<List<TurnoverOrder>> findSymbolTurnoverOrder(@PathVariable("symbol") String symbol) {
-//        List<TurnoverOrder> turnoverOrders = turnoverOrderService.findBySymbol(symbol);
-//        return R.ok(turnoverOrders);
-//    }
-//
-//
+
+
+    @ApiOperation(value = "查询成交记录")// 用户前台-币币交易-成交板块
+    @GetMapping("/trades/{symbol}")
+    public R<List<TurnoverOrder>> findSymbolTurnoverOrder(@PathVariable("symbol") String symbol) {
+        List<TurnoverOrder> turnoverOrders = turnoverOrderService.findBySymbol(symbol);
+        return R.ok(turnoverOrders);
+    }
+
+
 //    /**
 //     * K 线的查询
 //     *

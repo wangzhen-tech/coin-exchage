@@ -78,7 +78,7 @@ public class TurnoverOrderServiceImpl extends ServiceImpl<TurnoverOrderMapper, T
                         .eq(TurnoverOrder::getSymbol, symbol)
                         .orderByDesc(TurnoverOrder::getCreated)
                         .eq(TurnoverOrder::getStatus,1)
-                        .last("limit 60")
+                        .last("limit 60")// 限制查询60条数据，避免过多冗余
         );
         return turnoverOrders;
     }
