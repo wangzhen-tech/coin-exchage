@@ -37,7 +37,6 @@ import java.util.Map;
 @RequestMapping("/users")
 @Api(tags = "会员的控制器")
 public class UserController implements UserServiceFeign { // 实现远程调用接口
-//public class UserController  {
     @Autowired
     private UserService userService;
 

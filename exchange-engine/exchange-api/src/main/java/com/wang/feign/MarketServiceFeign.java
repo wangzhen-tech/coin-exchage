@@ -46,8 +46,8 @@ public interface MarketServiceFeign {
      * @param value
      * @return
      */
-    @GetMapping("/depthData/{symbol}/{type}")
-    String depthData(@PathVariable("symbol") String symbol, @PathVariable("type") int value);
+//    @GetMapping("/depthData/{symbol}/{type}")
+//    String depthData(@PathVariable("symbol") String symbol, @PathVariable("type") int value);
 
     /**
      * 使用市场的ids 查询该市场的交易趋势
@@ -55,8 +55,8 @@ public interface MarketServiceFeign {
      * @param marketIds
      * @return
      */
-    @GetMapping("/queryMarketsByIds")
-    List<TradeMarketDto> queryMarkesByIds(@RequestParam("marketIds") String marketIds);
+//    @GetMapping("/queryMarketsByIds")
+//    List<TradeMarketDto> queryMarkesByIds(@RequestParam("marketIds") String marketIds);
 
     /**
      * 通过交易对查询所有的交易数据
@@ -64,8 +64,8 @@ public interface MarketServiceFeign {
      * @param symbol
      * @return
      */
-    @GetMapping("/trades")
-    String trades(@RequestParam("symbol") String symbol);
+//    @GetMapping("/trades")
+//    String trades(@RequestParam("symbol") String symbol);
 
 
     /**
@@ -74,6 +74,6 @@ public interface MarketServiceFeign {
      * @param symbol 交易对
      * @return
      */
-    @GetMapping(value = "/refresh_24hour")
-    void refresh24hour(@RequestParam("symbol") String symbol);
+//    @GetMapping(value = "/refresh_24hour")
+//    void refresh24hour(@RequestParam("symbol") String symbol);
 }

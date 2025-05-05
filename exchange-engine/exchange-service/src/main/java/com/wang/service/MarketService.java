@@ -50,13 +50,13 @@ public interface MarketService extends IService<Market>{
      * @param sellCoinId
      * @return
      */
-//    MarketDto findByCoinId(Long buyCoinId, Long sellCoinId);
+    MarketDto findByCoinId(Long buyCoinId, Long sellCoinId);
 
     /**
      * 查询所有的市场数据
      * @return
      */
-//    List<MarketDto> queryAllMarkets();
+    List<MarketDto> queryAllMarkets();
 
 
     /**

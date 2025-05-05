@@ -43,7 +43,7 @@ public interface EntrustOrderService extends IService<EntrustOrder>{
      * @param userId
      * @return
      */
-//    Page<TradeEntrustOrderVo> getEntrustOrder(Page<EntrustOrder> page, String symbol, Long userId);
+    Page<TradeEntrustOrderVo> getEntrustOrder(Page<EntrustOrder> page, String symbol, Long userId);
 
     /**
      * 创建一个新的委托大

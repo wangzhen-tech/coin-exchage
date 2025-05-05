@@ -1,5 +1,6 @@
 package com.wang.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wang.domain.Market;
@@ -123,37 +124,40 @@ public class MarketServiceImpl extends ServiceImpl<MarketMapper, Market> impleme
         return getOne(new LambdaQueryWrapper<Market>().eq(Market::getSymbol, symbol));
     }
 
-//    /**
-//     * 使用报价货币和基础货币查询市场
-//     *
-//     * @param buyCoinId
-//     * @param sellCoinId
-//     * @return
-//     */
-//    @Override
-//    public MarketDto findByCoinId(Long buyCoinId, Long sellCoinId) {
-//        LambdaQueryWrapper<Market> eq = new LambdaQueryWrapper<Market>()
-//                .eq(Market::getBuyCoinId, buyCoinId)
-//                .eq(Market::getSellCoinId, sellCoinId)
-//                .eq(Market::getStatus, 1);
-//        Market one = getOne(eq);
-//        if (one == null) {
-//            return null;
-//        }
+    /**
+     * 使用报价货币和基础货币查询市场
+     *
+     * @param buyCoinId
+     * @param sellCoinId
+     * @return
+     */
+    @Override
+    public MarketDto findByCoinId(Long buyCoinId, Long sellCoinId) {
+        LambdaQueryWrapper<Market> eq = new LambdaQueryWrapper<Market>()
+                .eq(Market::getBuyCoinId, buyCoinId)
+                .eq(Market::getSellCoinId, sellCoinId)
+                .eq(Market::getStatus, 1);
+        Market one = getOne(eq);
+        if (one == null) {
+            return null;
+        }
+        MarketDto marketDto = BeanUtil.copyProperties(one, MarketDto.class);
 //        MarketDto marketDto = MarketDtoMappers.INSTANCE.toConvertDto(one);
-//        return marketDto;
-//    }
-//
-//    /**
-//     * 查询所有的市场数据
-//     *
-//     * @return
-//     */
-//    @Override
-//    public List<MarketDto> queryAllMarkets() {
-//        List<Market> list = list(new LambdaQueryWrapper<Market>().eq(Market::getStatus, 1));
+        return marketDto;
+    }
+
+    /**
+     * 查询所有的市场数据
+     *
+     * @return
+     */
+    @Override
+    public List<MarketDto> queryAllMarkets() {
+        List<Market> list = list(new LambdaQueryWrapper<Market>().eq(Market::getStatus, 1));
+        List<MarketDto> marketDtos = BeanUtil.copyToList(list, MarketDto.class);
 //        return MarketDtoMappers.INSTANCE.toConvertDto(list);
-//    }
+        return marketDtos;
+    }
 
     @Override
     public List<Market> queryByAreaId(Long id) {

@@ -1,21 +1,22 @@
 package com.wang.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wang.constant.Constants;
-//import com.wang.domain.DepthItemVo;
+import com.wang.domain.DepthItemVo;
 import com.wang.domain.Market;
 import com.wang.domain.TurnoverOrder;
 import com.wang.dto.MarketDto;
 import com.wang.dto.TradeMarketDto;
 import com.wang.feign.MarketServiceFeign;
-//import com.wang.feign.OrderBooksFeignClient;
+import com.wang.feign.OrderBooksFeignClient;
 //import com.wang.mappers.MarketDtoMappers;
 import com.wang.model.R;
 import com.wang.service.MarketService;
 import com.wang.service.TurnoverOrderService;
-//import com.wang.vo.DepthsVo;
+import com.wang.vo.DepthsVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,7 +27,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,19 +40,18 @@ import java.util.Map;
 @RestController
 @RequestMapping("/markets")
 @Api(tags = "交易市场的控制器")
-//public class MarketController implements MarketServiceFeign {
-public class MarketController  {
+public class MarketController implements MarketServiceFeign {
     @Autowired
     private MarketService marketService;
 
     @Autowired
     private TurnoverOrderService turnoverOrderService;
 
-//    @Autowired
-////    private OrderBooksFeignClient orderBooksFeignClient;
-//
-//    @Autowired
-//    private StringRedisTemplate redisTemplate;
+    @Autowired
+    private OrderBooksFeignClient orderBooksFeignClient;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @GetMapping
     @ApiOperation(value = "交易市场的分页查询")
@@ -125,21 +124,21 @@ public class MarketController  {
 //            @ApiImplicitParam(name = "symbol", value = "交易对"),
 //            @ApiImplicitParam(name = "dept", value = "深度类型"),
 //    })
-//    public R<DepthsVo> findDeptVosSymbol(@PathVariable("symbol") String symbol, String dept) {
-//        // 交易市场
-//        Market market = marketService.getMarkerBySymbol(symbol);
-//
-//        DepthsVo depthsVo = new DepthsVo();
-//        depthsVo.setCnyPrice(market.getOpenPrice()); // CNY的价格
-//        depthsVo.setPrice(market.getOpenPrice()); // GCN的价格
-//        Map<String, List<DepthItemVo>> depthMap = orderBooksFeignClient.querySymbolDepth(symbol);
-//        if (!CollectionUtils.isEmpty(depthMap)) {
-//            depthsVo.setAsks(depthMap.get("asks"));
-//            depthsVo.setBids(depthMap.get("bids"));
-//        }
-//        return R.ok(depthsVo);
-//
-//    }
+    public R<DepthsVo> findDeptVosSymbol(@PathVariable("symbol") String symbol, String dept) {
+        // 交易市场
+        Market market = marketService.getMarkerBySymbol(symbol);
+
+        DepthsVo depthsVo = new DepthsVo();
+        depthsVo.setCnyPrice(market.getOpenPrice()); // CNY的价格
+        depthsVo.setPrice(market.getOpenPrice()); // GCN的价格
+        Map<String, List<DepthItemVo>> depthMap = orderBooksFeignClient.querySymbolDepth(symbol);
+        if (!CollectionUtils.isEmpty(depthMap)) {
+            depthsVo.setAsks(depthMap.get("asks"));
+            depthsVo.setBids(depthMap.get("bids"));
+        }
+        return R.ok(depthsVo);
+
+    }
 //
 //    @ApiOperation(value = "查询成交记录")
 //    @GetMapping("/trades/{symbol}")
@@ -179,37 +178,39 @@ public class MarketController  {
 //
 //        return null;
 //    }
-//
-//    /**
-//     * 使用报价货币 以及 出售的货币的iD
-//     *
-//     * @param buyCoinId
-//     * @param sellCoinId
-//     * @return
-//     */
-//    @Override
-//    public MarketDto findByCoinId(Long buyCoinId, Long sellCoinId) {
-//        MarketDto marketDto = marketService.findByCoinId(buyCoinId, sellCoinId);
-//        return marketDto;
-//    }
-//
-//    @Override
-//    public MarketDto findBySymbol(String symbol) {
-//        Market markerBySymbol = marketService.getMarkerBySymbol(symbol);
+
+    // ---------------------------------------- 远程调用方法实现 ---------------------------------------
+    /**
+     * 使用报价货币 以及 出售的货币的iD
+     *
+     * @param buyCoinId
+     * @param sellCoinId
+     * @return
+     */
+    @Override
+    public MarketDto findByCoinId(Long buyCoinId, Long sellCoinId) {
+        MarketDto marketDto = marketService.findByCoinId(buyCoinId, sellCoinId);
+        return marketDto;
+    }
+
+    @Override
+    public MarketDto findBySymbol(String symbol) {
+        Market markerBySymbol = marketService.getMarkerBySymbol(symbol);
+        MarketDto marketDto = BeanUtil.copyProperties(markerBySymbol, MarketDto.class);
 //        return MarketDtoMappers.INSTANCE.toConvertDto(markerBySymbol);
-//    }
-//
-//
-//    /**
-//     * 查询所有的交易市场
-//     *
-//     * @return
-//     */
-//    @Override
-//    public List<MarketDto> tradeMarkets() {
-//        return marketService.queryAllMarkets();
-//    }
-//
+        return marketDto ;
+    }
+
+    /**
+     * 查询所有的交易市场
+     *
+     * @return
+     */
+    @Override
+    public List<MarketDto> tradeMarkets() {
+        return marketService.queryAllMarkets();
+    }
+
 //    /**
 //     * 查询该交易对下的盘口数据
 //     *
