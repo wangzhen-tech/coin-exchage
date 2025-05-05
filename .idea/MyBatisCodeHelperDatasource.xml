@@ -264,6 +264,16 @@
                 </TableGenerateConfig>
               </value>
             </entry>
+            <entry key="coin-exchange:entrust_order">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="EntrustOrder" />
+                  <option name="moduleName" value="exchange-service" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
             <entry key="coin-exchange:forex_account">
               <value>
                 <TableGenerateConfig>

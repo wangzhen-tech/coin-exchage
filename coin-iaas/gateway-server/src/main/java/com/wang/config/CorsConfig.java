@@ -18,8 +18,11 @@ public class CorsConfig {
 
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedHeader("*");// 允许所有的请求头
-        corsConfiguration.addAllowedOrigin("*");// 允许所有的域
         corsConfiguration.addAllowedMethod("*");// 允许所有的方法
+        corsConfiguration.addAllowedOrigin("*");// 允许所有的域
+        // 对于markets请求不能发出的问题，修改跨域配置
+//        corsConfiguration.addAllowedOrigin("http://localhost:8081"); // 替换掉 *
+//        corsConfiguration.setAllowCredentials(true);                 // 必须明确允许携带凭证
 
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         // register(对哪些路径进行跨域, 跨域的配置是什么)
