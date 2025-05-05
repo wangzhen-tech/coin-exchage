@@ -4,7 +4,7 @@ import com.wang.domain.TradeArea;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wang.dto.TradeAreaDto;
-//import com.wang.vo.TradeAreaMarketVo;
+import com.wang.vo.TradeAreaMarketVo;
 import java.util.List;
 
 /**
@@ -39,7 +39,7 @@ public interface TradeAreaService extends IService<TradeArea>{
      * 查询所有的交易区域以及市场
      * @return
      */
-//    List<TradeAreaMarketVo> findTradeAreaMarket();
+    List<TradeAreaMarketVo> findTradeAreaMarket();
 
 
     /**
@@ -47,13 +47,13 @@ public interface TradeAreaService extends IService<TradeArea>{
      * @param userId
      * @return
      */
-//    List<TradeAreaMarketVo> getUserFavoriteMarkets(Long userId);
+    List<TradeAreaMarketVo> getUserFavoriteMarkets(Long userId);
 
     /**
      * 查询所有的交易区域和交易区域下的市场
      * @return
      */
-//    List<TradeAreaDto> findAllTradeAreaAndMarket();
+    List<TradeAreaDto> findAllTradeAreaAndMarket();
 
 
 }

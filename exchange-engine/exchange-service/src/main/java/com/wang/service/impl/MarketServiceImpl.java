@@ -97,32 +97,32 @@ public class MarketServiceImpl extends ServiceImpl<MarketMapper, Market> impleme
     }
 
 
-//    /**
-//     * 使用交易区域的id 查询该区域下的市场
-//     *
-//     * @param id 区域的Id
-//     * @return
-//     */
-//    @Override
-//    public List<Market> getMarkersByTradeAreaId(Long id) {
-//        return list(new LambdaQueryWrapper<Market>()
-//                .eq(Market::getTradeAreaId, id)
-//                .eq(Market::getStatus, 1)
-//                .orderByAsc(Market::getSort)
-//        );
-//    }
-//
-//    /**
-//     * 使用交易对查询市场
-//     *
-//     * @param symbol
-//     * @return
-//     */
-//    @Override
-//    public Market getMarkerBySymbol(String symbol) {
-//        return getOne(new LambdaQueryWrapper<Market>().eq(Market::getSymbol, symbol));
-//    }
-//
+    /**
+     * 使用交易区域的id 查询该区域下的市场
+     *
+     * @param id 区域的Id
+     * @return
+     */
+    @Override
+    public List<Market> getMarkersByTradeAreaId(Long id) {
+        return list(new LambdaQueryWrapper<Market>()
+                .eq(Market::getTradeAreaId, id)
+                .eq(Market::getStatus, 1)
+                .orderByAsc(Market::getSort)
+        );
+    }
+
+    /**
+     * 使用交易对查询市场
+     *
+     * @param symbol
+     * @return
+     */
+    @Override
+    public Market getMarkerBySymbol(String symbol) {
+        return getOne(new LambdaQueryWrapper<Market>().eq(Market::getSymbol, symbol));
+    }
+
 //    /**
 //     * 使用报价货币和基础货币查询市场
 //     *
@@ -154,9 +154,9 @@ public class MarketServiceImpl extends ServiceImpl<MarketMapper, Market> impleme
 //        List<Market> list = list(new LambdaQueryWrapper<Market>().eq(Market::getStatus, 1));
 //        return MarketDtoMappers.INSTANCE.toConvertDto(list);
 //    }
-//
-//    @Override
-//    public List<Market> queryByAreaId(Long id) {
-//        return null;
-//    }
+
+    @Override
+    public List<Market> queryByAreaId(Long id) {
+        return null;
+    }
 }

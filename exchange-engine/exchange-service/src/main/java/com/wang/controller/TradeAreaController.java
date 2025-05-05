@@ -3,10 +3,10 @@ package com.wang.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wang.domain.TradeArea;
 import com.wang.dto.TradeAreaDto;
-//import com.wang.feign.TradingAreaServiceClient;
+import com.wang.feign.TradingAreaServiceClient;
 import com.wang.model.R;
 import com.wang.service.TradeAreaService;
-//import com.wang.vo.TradeAreaMarketVo;
+import com.wang.vo.TradeAreaMarketVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -27,8 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tradeAreas") //tradeAreas
 @Api(tags = "交易区域的数据接口")
-//public class TradeAreaController implements TradingAreaServiceClient {
-public class TradeAreaController {
+public class TradeAreaController implements TradingAreaServiceClient {
     @Autowired
     private TradeAreaService tradeAreaService;
 
@@ -102,32 +101,32 @@ public class TradeAreaController {
         List<TradeArea> tradeAreas = tradeAreaService.findAll(status);
         return R.ok(tradeAreas);
     }
-//
-//
-//    @GetMapping("/markets")
-//    @ApiOperation(value = "查询交易区域,以及区域下的市场")
-//    public R<List<TradeAreaMarketVo>> getTradeAreaMarkets(){
-//        List<TradeAreaMarketVo> tradeAreaMarketVos =  tradeAreaService.findTradeAreaMarket();
-//        return R.ok(tradeAreaMarketVos) ;
-//    }
-//
-//    @GetMapping("/market/favorite")
-//    @ApiOperation(value = "用户收藏的交易市场")
-//    public R<List<TradeAreaMarketVo>> getUserFavoriteMarkets(){
-//        Long userId =  Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        List<TradeAreaMarketVo> tradeAreaMarketVos =  tradeAreaService.getUserFavoriteMarkets(userId) ;
-//        return R.ok(tradeAreaMarketVos) ;
-//    }
-//
-//    /**
-//     * 所有的交易区域
-//     *
-//     * @return
-//     */
-//    @Override
-//    public List<TradeAreaDto> tradeAreas() {
-//        List<TradeAreaDto> tradeAreaDtoList =  tradeAreaService.findAllTradeAreaAndMarket();
-//        return tradeAreaDtoList ;
-//    }
+
+
+    @GetMapping("/markets")
+    @ApiOperation(value = "查询首页交易区域,以及区域下的市场")
+    public R<List<TradeAreaMarketVo>> getTradeAreaMarkets(){
+        List<TradeAreaMarketVo> tradeAreaMarketVos =  tradeAreaService.findTradeAreaMarket();
+        return R.ok(tradeAreaMarketVos) ;
+    }
+
+    @GetMapping("/market/favorite")
+    @ApiOperation(value = "用户收藏的交易市场")
+    public R<List<TradeAreaMarketVo>> getUserFavoriteMarkets(){
+        Long userId =  Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        List<TradeAreaMarketVo> tradeAreaMarketVos =  tradeAreaService.getUserFavoriteMarkets(userId) ;
+        return R.ok(tradeAreaMarketVos) ;
+    }
+
+    /**
+     * 所有的交易区域
+     *
+     * @return
+     */
+    @Override
+    public List<TradeAreaDto> tradeAreas() {
+        List<TradeAreaDto> tradeAreaDtoList =  tradeAreaService.findAllTradeAreaAndMarket();
+        return tradeAreaDtoList ;
+    }
 
 }

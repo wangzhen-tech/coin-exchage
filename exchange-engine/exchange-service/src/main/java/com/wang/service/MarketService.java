@@ -34,7 +34,7 @@ public interface MarketService extends IService<Market>{
      *      区域的Id
      * @return
      */
-//    List<Market> getMarkersByTradeAreaId(Long id);
+    List<Market> getMarkersByTradeAreaId(Long id);
 
 
     /**
@@ -42,7 +42,7 @@ public interface MarketService extends IService<Market>{
      * @param symbol
      * @return
      */
-//    Market getMarkerBySymbol(String symbol);
+    Market getMarkerBySymbol(String symbol);
 
     /**
      * 使用报价货币和基础货币查询市场
@@ -64,5 +64,5 @@ public interface MarketService extends IService<Market>{
      * @param id
      * @return
      */
-//    List<Market> queryByAreaId(Long id);
+    List<Market> queryByAreaId(Long id);
 }
