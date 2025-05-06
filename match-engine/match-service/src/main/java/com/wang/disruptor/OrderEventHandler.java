@@ -3,8 +3,8 @@ package com.wang.disruptor;
 import com.lmax.disruptor.EventHandler;
 //import com.wang.match.MatchServiceFactory;
 //import com.wang.match.MatchStrategy;
-//import com.wang.model.Order;
-//import com.wang.model.OrderBooks;
+import com.wang.model.Order;
+import com.wang.model.OrderBooks;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,14 +20,14 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 public class OrderEventHandler implements EventHandler<OrderEvent> {
-//    private OrderBooks orderBooks;
-//
-//    private String symbol ;
-//
-//    public OrderEventHandler(OrderBooks orderBooks) {
-//        this.orderBooks = orderBooks;
-//        this.symbol =  this.orderBooks.getSymbol() ;
-//    }
+    private OrderBooks orderBooks;
+
+    private String symbol ;
+
+    public OrderEventHandler(OrderBooks orderBooks) {
+        this.orderBooks = orderBooks;
+        this.symbol =  this.orderBooks.getSymbol() ;
+    }
 
     /**
      * 接收到了某个消息
