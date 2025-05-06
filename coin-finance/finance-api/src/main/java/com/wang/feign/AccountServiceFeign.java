@@ -21,13 +21,19 @@ public interface AccountServiceFeign {
      * 锁定用户的余额
      * @param userId  用户的id
      * @param coinId  币种的id
-     * @param mum  锁定的数量
-     * @param type  业务类型
+     * @param mum     锁定的数量
+     * @param type    业务类型
      * @param orderId  订单编号
-     * @param fee  手续费
+     * @param fee     手续费
      */
     @PostMapping("/lockUserAmount")
-    void lockUserAmount(@RequestParam("userId") Long userId, @RequestParam("coinId")  Long coinId, @RequestParam("mum") BigDecimal mum, @RequestParam("type")String type, @RequestParam("orderId") Long orderId, @RequestParam("fee") BigDecimal fee);
+    void lockUserAmount(
+            @RequestParam("userId") Long userId,
+            @RequestParam("coinId")  Long coinId,
+            @RequestParam("mum") BigDecimal mum,
+            @RequestParam("type")String type,
+            @RequestParam(name = "orderId", required = false) Long orderId,// orderId在前边传值为mull，先容忍这个null，避免直接报400
+            @RequestParam("fee") BigDecimal fee);
 
 
     /**

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 /**
  * @Author wangzhen
- * @Description
+ * @Description 委托单对象
  * @Date 2025/5/5 19:32
  * @Version 1.0
  */

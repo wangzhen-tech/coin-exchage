@@ -70,16 +70,16 @@ public class EntrustOrderController {
     }
 
 
-//    @PostMapping
-//    @ApiOperation(value = "委托单的下单操作")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "orderParam",value = "orderParam json数据")
-//    })
-//    public R createEntrustOrder(@RequestBody  OrderParam orderParam){
-//        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()) ;
-//        Boolean isOk = entrustOrderService.createEntrustOrder(userId,orderParam) ;
-//        return isOk ? R.ok() :R.fail("创建失败") ;
-//    }
+    @PostMapping
+    @ApiOperation(value = "委托单的下单操作")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "orderParam",value = "orderParam json数据")
+    })
+    public R createEntrustOrder(@RequestBody  OrderParam orderParam){
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()) ;
+        Boolean isOk = entrustOrderService.createEntrustOrder(userId,orderParam) ;
+        return isOk ? R.ok() :R.fail("创建失败") ;
+    }
 //
 //
 //    @ApiOperation(value = "委托单的取消操作")

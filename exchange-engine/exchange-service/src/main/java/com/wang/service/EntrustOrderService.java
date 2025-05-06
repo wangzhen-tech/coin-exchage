@@ -51,7 +51,7 @@ public interface EntrustOrderService extends IService<EntrustOrder>{
      * @param orderParam  委托单的数据
      * @return
      */
-//    Boolean createEntrustOrder(Long userId, OrderParam orderParam);
+    Boolean createEntrustOrder(Long userId, OrderParam orderParam);
 
 
     /**

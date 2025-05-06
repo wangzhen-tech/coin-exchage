@@ -1,6 +1,8 @@
 package com.wang.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -75,7 +77,7 @@ public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, Ent
         );
     }
 
-
+    // -----------------------------------------  查询历史委托单 Start ----------------------------------------
     /**
      * 获取用户的历史委托记录
      *
@@ -189,93 +191,97 @@ public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, Ent
         tradeEntrustOrderVo.setDealAvgPrice(dealAvgPrice); // 成交的评价价格
         return tradeEntrustOrderVo;
     }
+    // -----------------------------------------  查询历史委托单 End ----------------------------------------
 
 
-//    /**
-//     * 创建一个新的委托单
-//     *
-//     * @param userId     用户的id
-//     * @param orderParam 委托单的数据
-//     * @return
-//     */
-//    @Transactional
-//    @Override
-//    public Boolean createEntrustOrder(Long userId, OrderParam orderParam) {
-//        // 1 层层校验
-//        @NotBlank String symbol = orderParam.getSymbol();
-//        Market markerBySymbol = marketService.getMarkerBySymbol(symbol);
-//        if (markerBySymbol == null) {
-//            throw new IllegalArgumentException("您购买的交易对不存在");
-//        }
-//
-//        BigDecimal price = orderParam.getPrice().setScale(markerBySymbol.getPriceScale(), RoundingMode.HALF_UP);
-//        BigDecimal volume = orderParam.getVolume().setScale(markerBySymbol.getNumScale(), RoundingMode.HALF_UP);
-//
-//        // 计算成交额度
-//        BigDecimal mum = price.multiply(volume);
-//
-//        // 交易数量的交易
-//        @NotNull BigDecimal numMax = markerBySymbol.getNumMax();
-//        @NotNull BigDecimal numMin = markerBySymbol.getNumMin();
-//        if (volume.compareTo(numMax) > 0 || volume.compareTo(numMin) < 0) {
-//            throw new IllegalArgumentException("交易的数量不在范围内");
-//        }
-//
-//        // 校验交易额
-//        BigDecimal tradeMin = markerBySymbol.getTradeMin();
-//        BigDecimal tradeMax = markerBySymbol.getTradeMax();
-//
-//        if (mum.compareTo(tradeMin) < 0 || mum.compareTo(tradeMax) > 0) {
-//            throw new IllegalArgumentException("交易的额度不在范围内");
-//        }
-//        // 计算手续费
-//        BigDecimal fee = BigDecimal.ZERO;
-//        BigDecimal feeRate = BigDecimal.ZERO;
-//        @NotNull Integer type = orderParam.getType();
-//        if (type == 1) { // 买入 buy
-//            feeRate = markerBySymbol.getFeeBuy();
-//            fee = mum.multiply(markerBySymbol.getFeeBuy());
-//        } else { // 卖出 sell
-//            feeRate = markerBySymbol.getFeeSell();
-//            fee = mum.multiply(markerBySymbol.getFeeSell());
-//        }
-//        EntrustOrder entrustOrder = new EntrustOrder();
-//        entrustOrder.setUserId(userId);
-//        entrustOrder.setAmount(mum);
-//        entrustOrder.setType(orderParam.getType().byteValue());
-//        entrustOrder.setPrice(price);
-//        entrustOrder.setVolume(volume);
-//        entrustOrder.setFee(fee);
-//        entrustOrder.setCreated(new Date());
-//        entrustOrder.setStatus((byte) 0);
-//        entrustOrder.setMarketId(markerBySymbol.getId());
-//        entrustOrder.setMarketName(markerBySymbol.getName());
-//        entrustOrder.setMarketType(markerBySymbol.getType());
-//        entrustOrder.setSymbol(markerBySymbol.getSymbol());
-//        entrustOrder.setFeeRate(feeRate);
-//        entrustOrder.setDeal(BigDecimal.ZERO);
-//        entrustOrder.setFreeze(entrustOrder.getAmount().add(entrustOrder.getFee())); // 冻结余额
-//
-//        boolean save = save(entrustOrder);
-//        if (save) {
-//            // 用户余额的扣减
-//            @NotNull Long coinId = null;
-//            if (type == 1) { // 购买操作
-//                coinId = markerBySymbol.getBuyCoinId();
-//
-//            } else {
-//                coinId = markerBySymbol.getSellCoinId();
-//            }
+    /**
+     * 创建一个新的委托单
+     *
+     * @param userId     用户的id
+     * @param orderParam 委托单的数据
+     * @return
+     */
+    @Transactional
+    @Override
+    public Boolean createEntrustOrder(Long userId, OrderParam orderParam) {
+        // 1 层层校验
+        @NotBlank String symbol = orderParam.getSymbol(); // 1.1判断交易对是否存在
+        Market markerBySymbol = marketService.getMarkerBySymbol(symbol);
+        if (markerBySymbol == null) {
+            throw new IllegalArgumentException("您购买的交易对不存在");
+        }
+
+        // 解析本次委托单的价格和数量
+        BigDecimal price = orderParam.getPrice().setScale(markerBySymbol.getPriceScale(), RoundingMode.HALF_UP);
+        BigDecimal volume = orderParam.getVolume().setScale(markerBySymbol.getNumScale(), RoundingMode.HALF_UP);
+        // 计算成交额度 = 价格 * 数量
+        BigDecimal mum = price.multiply(volume);
+
+        // 1.2 校验交易数量，判断是否符合该交易对的限制
+        @NotNull BigDecimal numMax = markerBySymbol.getNumMax();
+        @NotNull BigDecimal numMin = markerBySymbol.getNumMin();
+        if (volume.compareTo(numMax) > 0 || volume.compareTo(numMin) < 0) {
+            throw new IllegalArgumentException("交易的数量不在范围内(过于少或过于多)");
+        }
+
+        // 1.3校验交易额
+        BigDecimal tradeMin = markerBySymbol.getTradeMin();
+        BigDecimal tradeMax = markerBySymbol.getTradeMax();
+        if (mum.compareTo(tradeMin) < 0 || mum.compareTo(tradeMax) > 0) {
+            throw new IllegalArgumentException("交易的额度不在范围内");
+        }
+
+        // 2 计算手续费 交易额*费率
+        BigDecimal fee = BigDecimal.ZERO;
+        BigDecimal feeRate = BigDecimal.ZERO;
+        @NotNull Integer type = orderParam.getType();
+        if (type == 1) { // 买入 buy
+            feeRate = markerBySymbol.getFeeBuy();
+            fee = mum.multiply(markerBySymbol.getFeeBuy());
+        } else { // 卖出 sell
+            feeRate = markerBySymbol.getFeeSell();
+            fee = mum.multiply(markerBySymbol.getFeeSell());
+        }
+        // 3 构建委托单
+        EntrustOrder entrustOrder = new EntrustOrder();
+        Snowflake snowflake = IdUtil.getSnowflake();// 雪花算法生成id
+        entrustOrder.setId(snowflake.nextId()); // 填充订单id，防止远程调用缺少订单id参数而爆400
+        entrustOrder.setUserId(userId);
+        entrustOrder.setAmount(mum);
+        entrustOrder.setType(orderParam.getType().byteValue());
+        entrustOrder.setPrice(price);
+        entrustOrder.setVolume(volume);
+        entrustOrder.setFee(fee);
+        entrustOrder.setCreated(new Date());
+        entrustOrder.setStatus((byte) 0);
+        entrustOrder.setMarketId(markerBySymbol.getId());
+        entrustOrder.setMarketName(markerBySymbol.getName());
+        entrustOrder.setMarketType(markerBySymbol.getType());
+        entrustOrder.setSymbol(markerBySymbol.getSymbol());
+        entrustOrder.setFeeRate(feeRate);
+        entrustOrder.setDeal(BigDecimal.ZERO);
+        entrustOrder.setFreeze(entrustOrder.getAmount().add(entrustOrder.getFee())); // 冻结余额
+
+        boolean save = save(entrustOrder);
+        if (save) {// 执行对用户余额的扣减
+            @NotNull Long coinId = null;
+            if (type == 1) { // 购买操作
+                coinId = markerBySymbol.getBuyCoinId();
+            } else {
+                coinId = markerBySymbol.getSellCoinId();
+            }
 //            if (entrustOrder.getType() == (byte) 1) {
 //                accountServiceFeign.lockUserAmount(userId, coinId, entrustOrder.getFreeze(), "trade_create", entrustOrder.getId(), fee);
 //            }
+            accountServiceFeign.lockUserAmount(userId, coinId, entrustOrder.getFreeze(), "trade_create", entrustOrder.getId(), fee);
+
 //            // 发送到撮合系统里面
 //            MessageBuilder<EntrustOrder> entrustOrderMessageBuilder = MessageBuilder.withPayload(entrustOrder).setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
 //
 //            source.outputMessage().send(entrustOrderMessageBuilder.build());
-//        }
-//        return save;
-//    }
+        }
+        return save;
+    }
 
 //    /**
 //     * 更新我们的委托单的数据

@@ -12,10 +12,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.math.BigDecimal;
 
 /**
@@ -60,6 +58,7 @@ public class AccountController implements AccountServiceFeign {
         return R.ok(symbolAssetVo);
     }
 
+    // 远程调用接口实现
     /**
      * 锁定用户的余额
      *
@@ -75,16 +74,16 @@ public class AccountController implements AccountServiceFeign {
         accountService.lockUserAmount(userId, coinId, mum, type, orderId, fee);
     }
 
-    /**
-     * 划转买入的账户余额
-     *
-     * @param fromUserId
-     * @param toUserId
-     * @param coinId
-     * @param amount
-     * @param businessType
-     * @param orderId
-     */
+        /**
+         * 划转买入的账户余额
+         *
+         * @param fromUserId
+         * @param toUserId
+         * @param coinId
+         * @param amount
+         * @param businessType
+         * @param orderId
+         */
     @Override
     public void transferBuyAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId) {
         accountService.transferBuyAmount(fromUserId, toUserId, coinId, amount, businessType, orderId);
