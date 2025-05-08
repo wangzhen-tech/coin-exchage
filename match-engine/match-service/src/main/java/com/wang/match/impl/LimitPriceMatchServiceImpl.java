@@ -34,7 +34,7 @@ public class LimitPriceMatchServiceImpl implements MatchService, InitializingBea
     private Source source;
 
     /**
-     * 进行订单的撮合交易
+     * 进行订单的撮合交易，核心中的核心
      *
      * @param orderBooks
      * @param order
@@ -48,42 +48,37 @@ public class LimitPriceMatchServiceImpl implements MatchService, InitializingBea
             return; // 取消单的操作
         }
 
-
         // 1 进行数据的校验
         if (order.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             return;
         }
-        // 2 获取一个挂单队列
+        // 2 获取对向的挂单队列：如买的时候必须要知道卖单的情况才能买
         Iterator<Map.Entry<BigDecimal, MergeOrder>> markerQueueIterator = null;
-        if (order.getOrderDirection() == OrderDirection.BUY) {
+        if (order.getOrderDirection() == OrderDirection.BUY) {// 买方向 -> 获取委托单中方向为卖出的订单
             markerQueueIterator = orderBooks.getCurrentLimitPriceIterator(OrderDirection.SELL);
-        } else {
+        } else {// 卖方向 -> 获取委托单中方向为买的订单
             markerQueueIterator = orderBooks.getCurrentLimitPriceIterator(OrderDirection.BUY);
         }
 
-
-        // 是否退出循环
-        boolean exitLoop = false;
-
-        // 已经完成的订单
-        List<Order> completedOrders = new ArrayList<>();
-        // 产生的交易记录
-        List<ExchangeTrade> exchangeTrades = new ArrayList<>();
-
-        // 3 循环我们的队列
+        boolean exitLoop = false;// 循环退出标记
+        List<Order> completedOrders = new ArrayList<>();// 已经完成的订单
+        List<ExchangeTrade> exchangeTrades = new ArrayList<>(); // 产生的交易记录
+        // 3 循环对向委托单队列
         while (markerQueueIterator.hasNext() && !exitLoop) {
+            // 获取当前迭代到的信息
             Map.Entry<BigDecimal, MergeOrder> markerOrderEntry = markerQueueIterator.next();
             BigDecimal markerPrice = markerOrderEntry.getKey();
             MergeOrder markerMergeOrder = markerOrderEntry.getValue();
-            // 我花10 块钱买东西 ,别人的东西如果大于10 块 ,我就买不了
+
+            // 判断当前交易能否继续进行
             if (order.getOrderDirection() == OrderDirection.BUY && order.getPrice().compareTo(markerPrice) < 0) {
-                break;
+                break;// 买入时：买入价格 -卖出价格 < 0 ,即买不了，退出
+            }
+            if (order.getOrderDirection() == OrderDirection.SELL && order.getPrice().compareTo(markerPrice) > 0) {
+                break;// 卖出时：卖出价格 - 购买价格 > 0, 即不能卖，退出
             }
 
-            // 我出售一个东西 10 ,结果有个人花5块钱
-            if (order.getOrderDirection() == OrderDirection.SELL && order.getPrice().compareTo(markerPrice) > 0) {
-                break;
-            }
+            // 循环该价格下按时间排序的所有订单
             Iterator<Order> markerIterator = markerMergeOrder.iterator();
             while (markerIterator.hasNext()) {
                 Order marker = markerIterator.next();
@@ -103,33 +98,31 @@ public class LimitPriceMatchServiceImpl implements MatchService, InitializingBea
 
             }
 
-            if (markerMergeOrder.size() == 0) { // MergeOrder 已经吃完了
+            if (markerMergeOrder.size() == 0) { // 该价格下的所有MergeOrder已经吃完了
                 markerQueueIterator.remove(); // 将该MergeOrder 从树上移除掉
             }
 
         }
 
-        // 4 若我们的订单没有完成
+        // 4 若我们的订单没有完成 -> 会进入盘口中向用户展示
         if (order.getAmount().compareTo(order.getTradedAmount()) > 0) {
-            orderBooks.addOrder(order);
+            orderBooks.addOrder(order);//只能继续加入委托单账本
         }
 
-        if (exchangeTrades.size() > 0) {
-            // 5 发送交易记录
+        if (exchangeTrades.size() > 0) {// 5 发送交易记录（只有不为空才发送消息）
             handlerExchangeTrades(exchangeTrades);
 
         }
         if (completedOrders.size() > 0) {
-
-            // 6 发送已经成交的交易记录
-            completedOrders(completedOrders);
+            completedOrders(completedOrders);// 6 发送已经成交的交易记录
+//            sendTradePlateData(tradePlate); 存疑 盘口数据的发送
         }
 
 
     }
 
     /**
-     * 进行委托单的匹配撮合交易
+     * 核心：进行委托单的匹配撮合交易
      *
      * @param taker  吃单
      * @param marker 挂单
@@ -137,15 +130,10 @@ public class LimitPriceMatchServiceImpl implements MatchService, InitializingBea
      */
     private ExchangeTrade processMath(Order taker, Order marker, OrderBooks orderBooks) {
         // 1 定义交易的变量
-        // 成交的价格
-        BigDecimal dealPrice = marker.getPrice();
-        // 成交的数量
-        BigDecimal turnoverAmount = BigDecimal.ZERO;
-        // 本次需要的数量
-        BigDecimal needAmount = calcTradeAmount(taker); // 10  20
-        // 本次提供给你的数量
-        BigDecimal providerAmount = calcTradeAmount(marker); // 20 10
-
+        BigDecimal dealPrice = marker.getPrice();// 成交的价格
+        BigDecimal turnoverAmount = BigDecimal.ZERO;// 成交的数量
+        BigDecimal needAmount = calcTradeAmount(taker); // 本次需要的数量 10  20，由calcTradeAmount计算得出
+        BigDecimal providerAmount = calcTradeAmount(marker);// 本次提供的数量 20 10
 
         turnoverAmount = needAmount.compareTo(providerAmount) <= 0 ? needAmount : providerAmount;
 
@@ -164,7 +152,6 @@ public class LimitPriceMatchServiceImpl implements MatchService, InitializingBea
         marker.setTurnover(markerTurnover);
 
         ExchangeTrade exchangeTrade = new ExchangeTrade();
-
         exchangeTrade.setAmount(turnoverAmount); // 设置购买的数量
         exchangeTrade.setPrice(dealPrice);  // 设置购买的价格
         exchangeTrade.setTime(System.currentTimeMillis()); // 设置成交的时间
@@ -177,18 +164,16 @@ public class LimitPriceMatchServiceImpl implements MatchService, InitializingBea
         exchangeTrade.setSellTurnover(marker.getTurnover()); // 设置卖方的交易额
 
         /**
-         * 处理盘口:
+         * 更新盘口数据:
          *  我们的委托单肯定是: 将挂单的数据做了一部分消耗
          */
         if (marker.getOrderDirection() == OrderDirection.BUY) {
-            // 减少挂单的数据量
-            orderBooks.getBuyTradePlate().remove(marker, turnoverAmount);
+            orderBooks.getBuyTradePlate().remove(marker, turnoverAmount);// 减少挂单的数据量
         } else {
             orderBooks.getSellTradePlate().remove(marker, turnoverAmount);
         }
 
         return exchangeTrade;
-
     }
 
     /**
@@ -198,9 +183,7 @@ public class LimitPriceMatchServiceImpl implements MatchService, InitializingBea
      * @return
      */
     private BigDecimal calcTradeAmount(Order order) {
-
         return order.getAmount().subtract(order.getTradedAmount());
-
     }
 
     /**
@@ -209,10 +192,12 @@ public class LimitPriceMatchServiceImpl implements MatchService, InitializingBea
      * @param tradePlate
      */
     private void sendTradePlateData(TradePlate tradePlate) {
+        // 设置消息载荷
         Message<TradePlate> message = MessageBuilder
                 .withPayload(tradePlate)
                 .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON)
                 .build();
+        // 发送消息
         source.plateOut().send(message);
     }
 

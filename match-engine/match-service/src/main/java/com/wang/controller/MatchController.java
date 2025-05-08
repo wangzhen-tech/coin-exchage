@@ -45,7 +45,7 @@ public class MatchController implements OrderBooksFeignClient {
 
     // 远程调用接口实现
     /**
-     * 查询该交易对的盘口数据
+     * 查询交易对的盘口数据
      * key :sell:asks   value: List<DepthItemVo>
      * key:buy:bids    value:List<DepthItemVo>
      *
@@ -54,9 +54,9 @@ public class MatchController implements OrderBooksFeignClient {
      */
     @Override
     public Map<String, List<DepthItemVo>> querySymbolDepth(String symbol) {
-        for (EventHandler<OrderEvent> eventHandler : eventHandlers) {
+        for (EventHandler<OrderEvent> eventHandler : eventHandlers) {// 循环交易对
             OrderEventHandler orderEventHandler = (OrderEventHandler) eventHandler;
-            if (orderEventHandler.getSymbol().equals(symbol)) {
+            if (orderEventHandler.getSymbol().equals(symbol)) {// 交易对名称相同时就去查
                 HashMap<String, List<DepthItemVo>> deptMap = new HashMap<>();
                 deptMap.put("asks", orderEventHandler.getOrderBooks().getSellTradePlate().getItems());
                 deptMap.put("bids", orderEventHandler.getOrderBooks().getBuyTradePlate().getItems());

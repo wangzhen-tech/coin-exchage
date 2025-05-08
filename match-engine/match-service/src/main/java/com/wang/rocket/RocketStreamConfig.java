@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
  * @Version 1.0
  */
 @Configuration
-@EnableBinding(value = {Sink.class,Source.class}) //
+@EnableBinding(value = {Sink.class,Source.class})
+//启用SpringCloud Stream的消息通道绑定功能。指定要绑定的消息通道接口有两个：Sink.class 和 Source.class。即消息输入和输出通道
+// 会将sink和source中的方法自动注册为bean
 public class RocketStreamConfig {
 }

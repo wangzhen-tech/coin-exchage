@@ -123,7 +123,7 @@ public class MarketController implements MarketServiceFeign {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "symbol", value = "交易对"),
             @ApiImplicitParam(name = "dept", value = "深度类型"),
-    })
+    })// 盘口数据来源于撮合系统的委托单账本，账本记录了买方向和卖方向的改单。所以需要远程调用
     public R<DepthsVo> findDeptVosSymbol(@PathVariable("symbol") String symbol, String dept) {
         // 交易市场
         Market market = marketService.getMarkerBySymbol(symbol);

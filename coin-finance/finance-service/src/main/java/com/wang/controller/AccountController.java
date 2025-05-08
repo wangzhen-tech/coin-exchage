@@ -103,5 +103,4 @@ public class AccountController implements AccountServiceFeign {
     public void transferSellAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId) {
         accountService.transferSellAmount(fromUserId, toUserId, coinId, amount, businessType, orderId);
     }
-
 }

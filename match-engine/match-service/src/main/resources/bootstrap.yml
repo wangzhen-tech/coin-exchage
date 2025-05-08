@@ -9,7 +9,7 @@ spring:
       config:
         file-extension: yaml
     stream:
-      bindings:
+      bindings: # 通道绑定配置
         order_in: {destination: order_in, content-type: application/plain, group: order-group, consumer.maxAttempts: 1}
         trade_plate_out: {destination: trade_plate_out, content-type: application/plain}
         completed_orders_out: {destination: completed_orders_out, content-type: application/plain}
@@ -32,3 +32,13 @@ spring:
       FOFTGCN:
         coinScale: 8
         baseCoinScale: 8
+
+#        配置概述
+#    stream:
+#      bindings: # 通道绑定配置
+#        通道名:
+#          destination: <RocketMQ Topic 名>
+#          content-type: <内容类型>
+#          group: <消费组名>（仅限 input）
+#如下：简写模式
+# order_in: {destination: order_in, content-type: application/plain, group: order-group, consumer.maxAttempts: 1}

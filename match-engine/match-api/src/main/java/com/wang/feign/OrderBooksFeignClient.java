@@ -18,9 +18,9 @@ import java.util.Map;
 public interface OrderBooksFeignClient {
 
     /**
-     * 查询该交易对的盘口数据
-     * key :sell:asks   value: List<DepthItemVo>
-     * key:buy:bids    value:List<DepthItemVo>
+     * 使用交易对查询该交易对的盘口数据
+     * key :sell: 专业名词asks   value: List<DepthItemVo>
+     * key : buy: 专业名词bids    value:List<DepthItemVo>
      * @param symbol
      * @return
      */
