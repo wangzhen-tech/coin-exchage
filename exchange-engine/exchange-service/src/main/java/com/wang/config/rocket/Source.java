@@ -10,6 +10,6 @@ import org.springframework.messaging.MessageChannel;
  * @Version 1.0
  */
 public interface Source {
-    @Output("order_out")
+    @Output("order_out")//逻辑通道名称。在配置文件中，order_out 会对应到一个具体的 RocketMQ topic
     MessageChannel outputMessage() ;
 }

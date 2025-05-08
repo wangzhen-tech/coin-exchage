@@ -13,6 +13,7 @@ import com.wang.model.Order;
 public class BeanUtils {
     /**
      * 将EntrustOrder 转化为我们的Order
+     * 因为订单消息发送过来时将EntrustOrder格式，我们需要的是Order
      * @param entrustOrder
      * @return
      */

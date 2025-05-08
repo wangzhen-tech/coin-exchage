@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 /**
  * @Author wangzhen
- * @Description 交易的盘口数据,以后前端可以查询该数据
+ * @Description 交易的盘口数据,以后前端可以查询该数据。同样也是撮合引擎撮合一次，就产生一个记录。
  * @Date 2025/5/6 21:03
  * @Version 1.0
  */

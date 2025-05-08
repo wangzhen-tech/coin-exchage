@@ -46,7 +46,7 @@ public interface EntrustOrderService extends IService<EntrustOrder>{
     Page<TradeEntrustOrderVo> getEntrustOrder(Page<EntrustOrder> page, String symbol, Long userId);
 
     /**
-     * 创建一个新的委托大
+     * 创建一个新的委托单
      * @param userId  用户的id
      * @param orderParam  委托单的数据
      * @return
@@ -58,17 +58,17 @@ public interface EntrustOrderService extends IService<EntrustOrder>{
      * 更新我们的委托单的数据
      * @param exchangeTrade
      */
-//    void doMatch(ExchangeTrade exchangeTrade);
+    void doMatch(ExchangeTrade exchangeTrade);
 
     /**
      * 将数据投递到MQ 里面
      * @param orderId
      */
-//    void cancleEntrustOrder(Long orderId);
+    void cancleEntrustOrder(Long orderId);
 
     /**
      * 数据库里面委托单的取消
      * @param orderId
      */
-//    void cancleEntrustOrderToDb(String orderId);
+    void cancleEntrustOrderToDb(String orderId);
 }

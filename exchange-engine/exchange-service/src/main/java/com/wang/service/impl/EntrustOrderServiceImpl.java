@@ -53,8 +53,8 @@ public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, Ent
     @Autowired
     private AccountServiceFeign accountServiceFeign;
 
-//    @Autowired
-//    private Source source;
+    @Autowired
+    private Source source;
 
     /**
      * 分页查询委托单
@@ -270,163 +270,168 @@ public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, Ent
             } else {
                 coinId = markerBySymbol.getSellCoinId();
             }
-//            if (entrustOrder.getType() == (byte) 1) {
-//                accountServiceFeign.lockUserAmount(userId, coinId, entrustOrder.getFreeze(), "trade_create", entrustOrder.getId(), fee);
-//            }
-            accountServiceFeign.lockUserAmount(userId, coinId, entrustOrder.getFreeze(), "trade_create", entrustOrder.getId(), fee);
+            if (entrustOrder.getType() == (byte) 1) {
+                accountServiceFeign.lockUserAmount(userId, coinId, entrustOrder.getFreeze(), "trade_create", entrustOrder.getId(), fee);
+            }
+//            accountServiceFeign.lockUserAmount(userId, coinId, entrustOrder.getFreeze(), "trade_create", entrustOrder.getId(), fee);
 
-//            // 发送到撮合系统里面
-//            MessageBuilder<EntrustOrder> entrustOrderMessageBuilder = MessageBuilder.withPayload(entrustOrder).setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
-//
-//            source.outputMessage().send(entrustOrderMessageBuilder.build());
+            // 构建消息并发送到撮合系统里面：以JSON格式封装成消息，并通过SpringCloud Stream的输出通道发送到消息队列中
+            MessageBuilder<EntrustOrder> entrustOrderMessageBuilder
+                    = MessageBuilder.withPayload(entrustOrder).setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
+                    //               载荷：订单的内容
+
+
+            // 从source接口中获取输出通道outputMessage()，该输出通道已经绑定了具体的topic。
+            //然后调用send()方法将消息发出，SpringCloud Stream 会把它路由到配置的RocketMQ Topic。
+            source.outputMessage().send(entrustOrderMessageBuilder.build());
         }
         return save;
     }
 
-//    /**
-//     * 更新我们的委托单的数据
-//     *
-//     * @param exchangeTrade
-//     */
-//    @Override
-//    @Transactional
-//    public void doMatch(ExchangeTrade exchangeTrade) {
-//        String sellOrderId = exchangeTrade.getSellOrderId();
-//        String buyOrderId = exchangeTrade.getBuyOrderId();
-//        EntrustOrder sellOrder = getById(sellOrderId);
-//        EntrustOrder buyOrder = getById(buyOrderId);
-//        Long marketId = sellOrder.getMarketId();
-//        Market market = marketService.getById(marketId);
-//
-//
-//        // 1 新增成交记录
-//        addTurnOverOrderRecord(sellOrder, buyOrder, market, exchangeTrade);
-//        // 2 更新委托单
-//        updateEntrustOrder(sellOrder, buyOrder, exchangeTrade);
-//        // 3 余额的返还
-//        rollBackAccount(sellOrder, buyOrder, exchangeTrade, market);
-//    }
-//
-//
-//    /**
-//     * 添加成交记录
-//     *
-//     * @param
-//     */
-//    private void addTurnOverOrderRecord(EntrustOrder sellOrder, EntrustOrder buyOrder, Market market, ExchangeTrade exchangeTrade) {
-//
-//
-//        // 出售订单的成交记录
-//        TurnoverOrder sellTurnoverOrder = new TurnoverOrder();
-//        sellTurnoverOrder.setSellOrderId(sellOrder.getId());
-//        sellTurnoverOrder.setBuyCoinId(buyOrder.getId());
-//        sellTurnoverOrder.setBuyVolume(exchangeTrade.getAmount());
-//        sellTurnoverOrder.setAmount(exchangeTrade.getSellTurnover());
-//
-//        sellTurnoverOrder.setBuyCoinId(market.getBuyCoinId());
-//        sellTurnoverOrder.setSellCoinId(market.getSellCoinId());
-//        sellTurnoverOrder.setCreated(new Date());
-//        sellTurnoverOrder.setBuyUserId(buyOrder.getUserId());
-//        sellTurnoverOrder.setSellUserId(sellOrder.getUserId());
-//        sellTurnoverOrder.setPrice(exchangeTrade.getPrice());
-//        sellTurnoverOrder.setBuyPrice(buyOrder.getPrice());
-//        sellTurnoverOrder.setTradeType(2);
-//        turnoverOrderService.save(sellTurnoverOrder);
-//
-//        // 买方数据的成交记录
-//        TurnoverOrder buyTurnoverOrder = new TurnoverOrder();
-//        buyTurnoverOrder.setBuyOrderId(buyOrder.getId());
-//        buyTurnoverOrder.setSellOrderId(sellOrder.getId());
-//        buyTurnoverOrder.setAmount(exchangeTrade.getBuyTurnover());
-//        buyTurnoverOrder.setBuyVolume(exchangeTrade.getAmount());
-//        buyTurnoverOrder.setSellUserId(sellOrder.getUserId());
-//        buyTurnoverOrder.setBuyUserId(buyOrder.getUserId());
-//        buyTurnoverOrder.setSellCoinId(market.getSellCoinId());
-//        buyTurnoverOrder.setBuyCoinId(market.getBuyCoinId());
-//        buyTurnoverOrder.setCreated(new Date());
-//        sellTurnoverOrder.setTradeType(1);
-//        turnoverOrderService.save(sellTurnoverOrder);
-//    }
-//
-//    /**
-//     * 更新委托单记录
-//     *
-//     * @param exchangeTrade
-//     */
-//
-//    private void updateEntrustOrder(EntrustOrder sellOrder, EntrustOrder buyOrder, ExchangeTrade exchangeTrade) {
-//
-//        /**
-//         * 已经成交的数量
-//         */
-//        sellOrder.setDeal(exchangeTrade.getAmount());
-//        buyOrder.setDeal(exchangeTrade.getAmount());
-//        BigDecimal volume = sellOrder.getVolume(); // 总的数量
-//        BigDecimal amount = exchangeTrade.getAmount(); // 本次成交的数量
-//
-//        if (amount.compareTo(volume) == 0) { // 交易完成
-//            // 状态(已经完成)
-//            sellOrder.setStatus((byte) 1);
-//        }
-//        BigDecimal buyOrderVolume = buyOrder.getVolume();
-//        if (buyOrderVolume.compareTo(volume) == 0) { // 交易完成
-//            // 状态(已经完成)
-//            buyOrder.setStatus((byte) 1);
-//        }
-//
-//        // 更新委托单
-//        updateById(sellOrder);
-//        updateById(buyOrder);
-//    }
-//
-//
-//    /**
-//     * 返回账户的余额
-//     *
-//     * @param exchangeTrade
-//     */
-//    private void rollBackAccount(EntrustOrder sellOrder, EntrustOrder buyOrder, ExchangeTrade exchangeTrade, Market market) {
-//        accountServiceFeign.transferBuyAmount(buyOrder.getUserId(),     // 买单用户ID
-//                sellOrder.getUserId(),                          // 卖单用户ID
-//                market.getBuyCoinId(),                           // 买单支付币种
-//                exchangeTrade.getBuyTurnover(),                      // 买单成交金额
-//                "币币交易",
-//                Long.valueOf(exchangeTrade.getBuyOrderId()));
-//
-//        // 出售单需要
-//        accountServiceFeign.transferSellAmount(sellOrder.getUserId(),    // 卖单用户ID
-//                sellOrder.getUserId(),                           // 买单用户ID
-//                market.getSellCoinId(),                          // 卖单支付币种
-//                exchangeTrade.getSellTurnover(),                                      // 卖单成交数量
-//                "币币交易",                        // 业务类型：币币交易撮合成交
-//                Long.valueOf(exchangeTrade.getSellOrderId()));                         // 成交订单ID
-//    }
-//
-//    @Override
-//    public void cancleEntrustOrder(Long orderId) {
-//        // 取消委托单
-//        // 1 将该委托单从撮合引擎里面的委托单账本里面移除
-//        EntrustOrder entrustOrder = new EntrustOrder();
-//        entrustOrder.setStatus((byte) 2);
-//        entrustOrder.setId(orderId);
-//        Message<EntrustOrder> message = MessageBuilder.withPayload(entrustOrder).setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build();
-//        source.outputMessage().send(message);
-//
-//    }
-//
-//    /**
-//     * 数据库里面委托单的取消
-//     *
-//     * @param orderId
-//     */
-//    @Override
-//    public void cancleEntrustOrderToDb(String orderId) {
-//        // 2 数据库的操作
-//        if (StringUtils.hasText(orderId)) {
-//            Long orderIdVal = Long.valueOf(orderId);
-//            EntrustOrder entrustOrder = getById(orderId);
-//            entrustOrder.setStatus((byte) 2);
-//            updateById(entrustOrder);
-//        }
-//    }
+    /**
+     * 更新我们的委托单的数据
+     *
+     * @param exchangeTrade
+     */
+    @Override
+    @Transactional
+    public void doMatch(ExchangeTrade exchangeTrade) {
+        String sellOrderId = exchangeTrade.getSellOrderId();
+        String buyOrderId = exchangeTrade.getBuyOrderId();
+        EntrustOrder sellOrder = getById(sellOrderId);
+        EntrustOrder buyOrder = getById(buyOrderId);
+        Long marketId = sellOrder.getMarketId();
+        Market market = marketService.getById(marketId);
+
+
+        // 1 新增成交记录
+        addTurnOverOrderRecord(sellOrder, buyOrder, market, exchangeTrade);
+        // 2 更新委托单
+        updateEntrustOrder(sellOrder, buyOrder, exchangeTrade);
+        // 3 余额的返还
+        rollBackAccount(sellOrder, buyOrder, exchangeTrade, market);
+    }
+
+
+    /**
+     * 添加成交记录
+     *
+     * @param
+     */
+    private void addTurnOverOrderRecord(EntrustOrder sellOrder, EntrustOrder buyOrder, Market market, ExchangeTrade exchangeTrade) {
+
+
+        // 出售订单的成交记录
+        TurnoverOrder sellTurnoverOrder = new TurnoverOrder();
+        sellTurnoverOrder.setSellOrderId(sellOrder.getId());
+        sellTurnoverOrder.setBuyCoinId(buyOrder.getId());
+        sellTurnoverOrder.setBuyVolume(exchangeTrade.getAmount());
+        sellTurnoverOrder.setAmount(exchangeTrade.getSellTurnover());
+
+        sellTurnoverOrder.setBuyCoinId(market.getBuyCoinId());
+        sellTurnoverOrder.setSellCoinId(market.getSellCoinId());
+        sellTurnoverOrder.setCreated(new Date());
+        sellTurnoverOrder.setBuyUserId(buyOrder.getUserId());
+        sellTurnoverOrder.setSellUserId(sellOrder.getUserId());
+        sellTurnoverOrder.setPrice(exchangeTrade.getPrice());
+        sellTurnoverOrder.setBuyPrice(buyOrder.getPrice());
+        sellTurnoverOrder.setTradeType(2);
+        turnoverOrderService.save(sellTurnoverOrder);
+
+        // 买方数据的成交记录
+        TurnoverOrder buyTurnoverOrder = new TurnoverOrder();
+        buyTurnoverOrder.setBuyOrderId(buyOrder.getId());
+        buyTurnoverOrder.setSellOrderId(sellOrder.getId());
+        buyTurnoverOrder.setAmount(exchangeTrade.getBuyTurnover());
+        buyTurnoverOrder.setBuyVolume(exchangeTrade.getAmount());
+        buyTurnoverOrder.setSellUserId(sellOrder.getUserId());
+        buyTurnoverOrder.setBuyUserId(buyOrder.getUserId());
+        buyTurnoverOrder.setSellCoinId(market.getSellCoinId());
+        buyTurnoverOrder.setBuyCoinId(market.getBuyCoinId());
+        buyTurnoverOrder.setCreated(new Date());
+        sellTurnoverOrder.setTradeType(1);
+        turnoverOrderService.save(sellTurnoverOrder);
+    }
+
+    /**
+     * 更新委托单记录
+     *
+     * @param exchangeTrade
+     */
+
+    private void updateEntrustOrder(EntrustOrder sellOrder, EntrustOrder buyOrder, ExchangeTrade exchangeTrade) {
+
+        /**
+         * 已经成交的数量
+         */
+        sellOrder.setDeal(exchangeTrade.getAmount());
+        buyOrder.setDeal(exchangeTrade.getAmount());
+        BigDecimal volume = sellOrder.getVolume(); // 总的数量
+        BigDecimal amount = exchangeTrade.getAmount(); // 本次成交的数量
+
+        if (amount.compareTo(volume) == 0) { // 交易完成
+            // 状态(已经完成)
+            sellOrder.setStatus((byte) 1);
+        }
+        BigDecimal buyOrderVolume = buyOrder.getVolume();
+        if (buyOrderVolume.compareTo(volume) == 0) { // 交易完成
+            // 状态(已经完成)
+            buyOrder.setStatus((byte) 1);
+        }
+
+        // 更新委托单
+        updateById(sellOrder);
+        updateById(buyOrder);
+    }
+
+
+    /**
+     * 返回账户的余额
+     *
+     * @param exchangeTrade
+     */
+    private void rollBackAccount(EntrustOrder sellOrder, EntrustOrder buyOrder, ExchangeTrade exchangeTrade, Market market) {
+        accountServiceFeign.transferBuyAmount(buyOrder.getUserId(),     // 买单用户ID
+                sellOrder.getUserId(),                          // 卖单用户ID
+                market.getBuyCoinId(),                           // 买单支付币种
+                exchangeTrade.getBuyTurnover(),                      // 买单成交金额
+                "币币交易",
+                Long.valueOf(exchangeTrade.getBuyOrderId()));
+
+        // 出售单需要
+        accountServiceFeign.transferSellAmount(sellOrder.getUserId(),    // 卖单用户ID
+                sellOrder.getUserId(),                           // 买单用户ID
+                market.getSellCoinId(),                          // 卖单支付币种
+                exchangeTrade.getSellTurnover(),                                      // 卖单成交数量
+                "币币交易",                        // 业务类型：币币交易撮合成交
+                Long.valueOf(exchangeTrade.getSellOrderId()));                         // 成交订单ID
+    }
+
+    @Override
+    public void cancleEntrustOrder(Long orderId) {
+        // 取消委托单
+        // 1 将该委托单从撮合引擎里面的委托单账本里面移除
+        EntrustOrder entrustOrder = new EntrustOrder();
+        entrustOrder.setStatus((byte) 2);
+        entrustOrder.setId(orderId);
+        Message<EntrustOrder> message = MessageBuilder.withPayload(entrustOrder).setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build();
+        source.outputMessage().send(message);
+
+    }
+
+    /**
+     * 数据库里面委托单的取消
+     *
+     * @param orderId
+     */
+    @Override
+    public void cancleEntrustOrderToDb(String orderId) {
+        // 2 数据库的操作
+        if (StringUtils.hasText(orderId)) {
+            Long orderIdVal = Long.valueOf(orderId);
+            EntrustOrder entrustOrder = getById(orderId);
+            entrustOrder.setStatus((byte) 2);
+            updateById(entrustOrder);
+        }
+    }
 }

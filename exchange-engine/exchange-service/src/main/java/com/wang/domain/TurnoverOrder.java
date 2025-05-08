@@ -11,7 +11,7 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import lombok.experimental.Accessors;
 /**
  * @Author wangzhen
  * @Description ${description}
@@ -26,8 +26,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "turnover_order")
+@Accessors(chain = true)
 public class TurnoverOrder {
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     @ApiModelProperty(value="")
     private Long id;
 
@@ -50,7 +51,7 @@ public class TurnoverOrder {
      */
     @TableField(value = "trade_type")
     @ApiModelProperty(value="交易类型:1 买 2卖")
-    private Boolean tradeType;
+    private int tradeType;
 
     /**
      * 交易对标识符
@@ -209,7 +210,7 @@ public class TurnoverOrder {
     /**
      * 状态0待成交，1已成交，2撤销，3.异常
      */
-    @TableField(value = "`status`")
+    @TableField(value = "status")
     @ApiModelProperty(value="状态0待成交，1已成交，2撤销，3.异常")
     private Boolean status;
 

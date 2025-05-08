@@ -47,7 +47,7 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.20</version>
         </dependency>
-        <!--        spring-cloud-stream-rocketmq-->
+        <!--        spring-cloud-stream-rocketmq 在交易系统中发送消息大消息队列-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-stream-binder-rocketmq</artifactId>

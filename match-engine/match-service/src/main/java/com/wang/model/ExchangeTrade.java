@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 /**
  * @Author wangzhen
- * @Description 成交记录 -- 只要成交一次,就产生一个记录
+ * @Description 成交记录 -- 撮合引擎只要成交一次,就产生一个记录。这个数据放在redis中，加快读取速度
  * @Date 2025/5/6 21:04
  * @Version 1.0
  */
