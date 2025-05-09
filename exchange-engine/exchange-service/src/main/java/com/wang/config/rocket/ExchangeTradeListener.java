@@ -20,24 +20,23 @@ import java.util.List;
 @Component
 @Slf4j
 public class ExchangeTradeListener {
-
     @Autowired
     private EntrustOrderService entrustOrderService ;
 
-//    @Transactional
-//    @StreamListener("exchange_trade_in")// 表示监听 "order_in" 通道的消息。
-//    public void receiveExchangeTrade(List<ExchangeTrade> exchangeTrades){
-//        // 接受到消息之后之后的处理逻辑
-//        if (CollectionUtils.isEmpty(exchangeTrades)){
-//            return;
-//        }
-//        for (ExchangeTrade exchangeTrade : exchangeTrades) {
-//            if (exchangeTrade != null) {
-//                //  交易完成后,去更新我们的数据库
-//                entrustOrderService.doMatch(exchangeTrade);
-//            }
-//        }
-//    }
+    @Transactional
+    @StreamListener("exchange_trade_in")// 表示监听 "exchange_trade_in" 通道的消息。
+    public void receiveExchangeTrade(List<ExchangeTrade> exchangeTrades){
+        // 接受到消息之后之后的处理逻辑
+
+        if (CollectionUtils.isEmpty(exchangeTrades)){
+            return;
+        }
+        for (ExchangeTrade exchangeTrade : exchangeTrades) {
+            if (exchangeTrade != null) {// 交易完成后,去更新我们的数据库
+                entrustOrderService.doMatch(exchangeTrade);
+            }
+        }
+    }
 
 
 //    @Transactional

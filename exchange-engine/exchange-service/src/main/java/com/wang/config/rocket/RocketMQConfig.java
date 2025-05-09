@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * @Version 1.0
  */
 @Configuration// 放入容器中管理
-@EnableBinding(value = Source.class)
+//@EnableBinding(value = Source.class) // ???
+@EnableBinding(value = {Sink.class,Source.class})  //???
 public class RocketMQConfig {
 }

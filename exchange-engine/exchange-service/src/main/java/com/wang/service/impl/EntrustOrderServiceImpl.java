@@ -1,6 +1,5 @@
 package com.wang.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -43,7 +42,6 @@ import java.util.List;
  */
 @Service
 public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, EntrustOrder> implements EntrustOrderService {
-
     @Autowired
     private MarketService marketService;
 
@@ -288,6 +286,7 @@ public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, Ent
         return save;
     }
 
+    // --------------------------------- Start --------------------------------------------
     /**
      * 更新我们的委托单的数据
      *
@@ -303,7 +302,6 @@ public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, Ent
         Long marketId = sellOrder.getMarketId();
         Market market = marketService.getById(marketId);
 
-
         // 1 新增成交记录
         addTurnOverOrderRecord(sellOrder, buyOrder, market, exchangeTrade);
         // 2 更新委托单
@@ -313,14 +311,8 @@ public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, Ent
     }
 
 
-    /**
-     * 添加成交记录
-     *
-     * @param
-     */
+    // 工具方法：添加成交记录
     private void addTurnOverOrderRecord(EntrustOrder sellOrder, EntrustOrder buyOrder, Market market, ExchangeTrade exchangeTrade) {
-
-
         // 出售订单的成交记录
         TurnoverOrder sellTurnoverOrder = new TurnoverOrder();
         sellTurnoverOrder.setSellOrderId(sellOrder.getId());
@@ -353,17 +345,9 @@ public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, Ent
         turnoverOrderService.save(sellTurnoverOrder);
     }
 
-    /**
-     * 更新委托单记录
-     *
-     * @param exchangeTrade
-     */
-
+    // 工具方法：更新委托单记录
     private void updateEntrustOrder(EntrustOrder sellOrder, EntrustOrder buyOrder, ExchangeTrade exchangeTrade) {
-
-        /**
-         * 已经成交的数量
-         */
+        // 已经成交的数量
         sellOrder.setDeal(exchangeTrade.getAmount());
         buyOrder.setDeal(exchangeTrade.getAmount());
         BigDecimal volume = sellOrder.getVolume(); // 总的数量
@@ -384,12 +368,7 @@ public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, Ent
         updateById(buyOrder);
     }
 
-
-    /**
-     * 返回账户的余额
-     *
-     * @param exchangeTrade
-     */
+    // 工具方法：返回账户的余额
     private void rollBackAccount(EntrustOrder sellOrder, EntrustOrder buyOrder, ExchangeTrade exchangeTrade, Market market) {
         accountServiceFeign.transferBuyAmount(buyOrder.getUserId(),     // 买单用户ID
                 sellOrder.getUserId(),                          // 卖单用户ID
@@ -406,6 +385,7 @@ public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, Ent
                 "币币交易",                        // 业务类型：币币交易撮合成交
                 Long.valueOf(exchangeTrade.getSellOrderId()));                         // 成交订单ID
     }
+    // --------------------------------- End --------------------------------------------
 
     @Override
     public void cancleEntrustOrder(Long orderId) {
